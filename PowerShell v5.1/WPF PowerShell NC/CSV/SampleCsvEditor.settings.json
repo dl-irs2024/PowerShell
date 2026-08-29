@@ -1,0 +1,15 @@
+﻿{
+    "UseBanding":  true,
+    "FilePaths":  [
+                      "C:\\Users\\YMJNB\\OneDrive - Internal Revenue Service\\Documents\\PowerShell 2025\\PowerShell v5.1\\WPF PowerShell NC\\CSV\\Sample-CSV\\addresses_international.csv",
+                      "C:\\Users\\YMJNB\\OneDrive - Internal Revenue Service\\Documents\\PowerShell 2025\\PowerShell v5.1\\WPF PowerShell NC\\CSV\\Sample-CSV\\population_by_country.csv"
+                  ],
+    "MainWindowState":  "Maximized",
+    "MainWindowTop":  232,
+    "MainWindowHeight":  737.33333333333326,
+    "PreviewRowLimit":  500,
+    "EditorZoom":  12,
+    "MainWindowLeft":  0,
+    "MainWindowWidth":  1297.3333333333333,
+    "PreviewZoom":  17
+}
