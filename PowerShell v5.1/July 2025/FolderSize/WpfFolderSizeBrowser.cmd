@@ -1,0 +1,1 @@
+powershell.exe -NoLogo -NoProfile -WindowStyle Hidden -File "WpfFolderSizeBrowser.CURVER.ps1"
