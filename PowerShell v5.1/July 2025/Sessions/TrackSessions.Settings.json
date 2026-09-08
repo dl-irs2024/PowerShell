@@ -1,0 +1,639 @@
+﻿{
+    "SchemaVersion":  "1.0",
+    "MiniWindow":  {
+                       "Left":  924,
+                       "Top":  414.67
+                   },
+    "Layout":  {
+                   "BottomPaneHeight":  143,
+                   "WindowLeft":  null,
+                   "WindowTop":  null,
+                   "WindowWidth":  null,
+                   "WindowHeight":  null
+               },
+    "Tracking":  {
+                     "SharedPath":  "",
+                     "Machines":  [
+                                      {
+                                          "ShortName":  "PAWS 66",
+                                          "FQDN":  "mtb012vp0030366.ds.irsnet.gov",
+                                          "Comment":  "66  used by SharePoint and Power Platform"
+                                      },
+                                      {
+                                          "ShortName":  "PAWS002 67",
+                                          "FQDN":  "",
+                                          "Comment":  "Preset PAWS machine"
+                                      },
+                                      {
+                                          "ShortName":  "PAWS003 68",
+                                          "FQDN":  "",
+                                          "Comment":  "Preset PAWS machine"
+                                      }
+                                  ]
+                 },
+    "StartupTrace":  {
+                         "Enabled":  true,
+                         "Events":  [
+                                        {
+                                            "TimestampUtc":  "2026-09-03T19:52:00.065Z",
+                                            "Event":  "Simulation.Enabled",
+                                            "Detail":  "Activity Grid simulator started."
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-03T20:15:23.867Z",
+                                            "Event":  "Main.Closed",
+                                            "Detail":  "Main window closed"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-04T15:43:43.069Z",
+                                            "Event":  "Script.Start",
+                                            "Detail":  "PID=584;SettingsPath=C:\\Users\\YMJNB\\OneDrive - Internal Revenue Service\\Documents\\PowerShell 2025\\PowerShell v5.1\\July 2025\\Sessions\\TrackSessions.Settings.json"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-04T15:44:21.327Z",
+                                            "Event":  "Before.ShowDialog",
+                                            "Detail":  "Entering modal loop"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-04T15:44:33.152Z",
+                                            "Event":  "Main.SourceInitialized",
+                                            "Detail":  ""
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-04T15:45:04.274Z",
+                                            "Event":  "Main.Loaded",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-04T15:45:15.108Z",
+                                            "Event":  "Main.ContentRendered",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-04T15:45:59.253Z",
+                                            "Event":  "Simulation.Enabled",
+                                            "Detail":  "Activity Grid simulator started."
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-04T15:47:19.027Z",
+                                            "Event":  "Script.Start",
+                                            "Detail":  "PID=44480;SettingsPath=C:\\Users\\YMJNB\\OneDrive - Internal Revenue Service\\Documents\\PowerShell 2025\\PowerShell v5.1\\July 2025\\Sessions\\TrackSessions.Settings.json"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-04T15:48:12.083Z",
+                                            "Event":  "Before.ShowDialog",
+                                            "Detail":  "Entering modal loop"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-04T15:48:18.856Z",
+                                            "Event":  "Main.SourceInitialized",
+                                            "Detail":  ""
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-04T15:48:34.112Z",
+                                            "Event":  "Main.Loaded",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-04T15:48:37.739Z",
+                                            "Event":  "Main.ContentRendered",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-04T15:51:55.459Z",
+                                            "Event":  "Main.Closed",
+                                            "Detail":  "Main window closed"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T02:47:49.326Z",
+                                            "Event":  "Script.Start",
+                                            "Detail":  "PID=14396;SettingsPath=C:\\Users\\YMJNB\\OneDrive - Internal Revenue Service\\Documents\\PowerShell 2025\\PowerShell v5.1\\July 2025\\Sessions\\TrackSessions.Settings.json"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T02:47:50.795Z",
+                                            "Event":  "Before.ShowDialog",
+                                            "Detail":  "Entering modal loop"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T02:47:50.918Z",
+                                            "Event":  "Main.SourceInitialized",
+                                            "Detail":  ""
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T02:47:51.396Z",
+                                            "Event":  "Main.Loaded",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T02:47:51.491Z",
+                                            "Event":  "Main.ContentRendered",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T02:54:24.788Z",
+                                            "Event":  "Main.Closed",
+                                            "Detail":  "Main window closed"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T03:19:23.913Z",
+                                            "Event":  "Script.Start",
+                                            "Detail":  "PID=14396;SettingsPath=C:\\Users\\YMJNB\\OneDrive - Internal Revenue Service\\Documents\\PowerShell 2025\\PowerShell v5.1\\July 2025\\Sessions\\TrackSessions.Settings.json"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T03:19:24.186Z",
+                                            "Event":  "Before.ShowDialog",
+                                            "Detail":  "Entering modal loop"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T03:19:24.282Z",
+                                            "Event":  "Main.SourceInitialized",
+                                            "Detail":  ""
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T03:19:24.500Z",
+                                            "Event":  "Main.Loaded",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T03:19:24.663Z",
+                                            "Event":  "Main.ContentRendered",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T03:19:55.838Z",
+                                            "Event":  "Simulation.Enabled",
+                                            "Detail":  "Activity Grid simulator started."
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T03:21:08.270Z",
+                                            "Event":  "Main.Closed",
+                                            "Detail":  "Main window closed"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T03:25:44.501Z",
+                                            "Event":  "Script.Start",
+                                            "Detail":  "PID=14396;SettingsPath=C:\\Users\\YMJNB\\OneDrive - Internal Revenue Service\\Documents\\PowerShell 2025\\PowerShell v5.1\\July 2025\\Sessions\\TrackSessions.Settings.json"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T03:25:44.747Z",
+                                            "Event":  "Before.ShowDialog",
+                                            "Detail":  "Entering modal loop"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T03:25:44.824Z",
+                                            "Event":  "Main.SourceInitialized",
+                                            "Detail":  ""
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T03:25:44.941Z",
+                                            "Event":  "Main.Loaded",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T03:25:45.080Z",
+                                            "Event":  "Main.ContentRendered",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T03:25:57.090Z",
+                                            "Event":  "Simulation.Enabled",
+                                            "Detail":  "Activity Grid simulator started."
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T03:26:01.633Z",
+                                            "Event":  "Main.StateChanged",
+                                            "Detail":  "State=Minimized;InterceptionEnabled=True"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T03:26:01.672Z",
+                                            "Event":  "Main.StateChanged",
+                                            "Detail":  "State=Normal;InterceptionEnabled=True"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T03:26:01.712Z",
+                                            "Event":  "Mini.Show.Requested",
+                                            "Detail":  "MainState=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T03:26:01.778Z",
+                                            "Event":  "Main.StateChanged",
+                                            "Detail":  "State=Minimized;InterceptionEnabled=True"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T03:26:01.844Z",
+                                            "Event":  "Main.StateChanged",
+                                            "Detail":  "State=Normal;InterceptionEnabled=True"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T03:26:01.931Z",
+                                            "Event":  "Mini.Show.Completed",
+                                            "Detail":  "MiniLeft=934;MiniTop=506"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T03:26:14.981Z",
+                                            "Event":  "Main.StateChanged",
+                                            "Detail":  "State=Minimized;InterceptionEnabled=True"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T03:26:15.025Z",
+                                            "Event":  "Main.StateChanged",
+                                            "Detail":  "State=Normal;InterceptionEnabled=True"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T03:26:16.114Z",
+                                            "Event":  "Main.StateChanged",
+                                            "Detail":  "State=Minimized;InterceptionEnabled=True"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T03:26:16.151Z",
+                                            "Event":  "Main.StateChanged",
+                                            "Detail":  "State=Normal;InterceptionEnabled=True"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T03:26:29.348Z",
+                                            "Event":  "Mini.Restore.Requested",
+                                            "Detail":  ""
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T03:26:29.415Z",
+                                            "Event":  "Mini.Restore.Completed",
+                                            "Detail":  "MainState=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T03:26:36.509Z",
+                                            "Event":  "Main.StateChanged",
+                                            "Detail":  "State=Minimized;InterceptionEnabled=True"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T03:26:36.545Z",
+                                            "Event":  "Main.StateChanged",
+                                            "Detail":  "State=Normal;InterceptionEnabled=True"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T03:26:36.586Z",
+                                            "Event":  "Mini.Show.Requested",
+                                            "Detail":  "MainState=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T03:26:36.649Z",
+                                            "Event":  "Main.StateChanged",
+                                            "Detail":  "State=Minimized;InterceptionEnabled=True"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T03:26:36.686Z",
+                                            "Event":  "Main.StateChanged",
+                                            "Detail":  "State=Normal;InterceptionEnabled=True"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T03:26:36.747Z",
+                                            "Event":  "Mini.Show.Completed",
+                                            "Detail":  "MiniLeft=924;MiniTop=414.67"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T03:27:44.135Z",
+                                            "Event":  "Mini.Restore.Requested",
+                                            "Detail":  ""
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T03:27:44.190Z",
+                                            "Event":  "Mini.Restore.Completed",
+                                            "Detail":  "MainState=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T03:28:24.442Z",
+                                            "Event":  "Mini.Show.Requested",
+                                            "Detail":  "MainState=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T03:28:24.501Z",
+                                            "Event":  "Main.StateChanged",
+                                            "Detail":  "State=Minimized;InterceptionEnabled=True"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T03:28:24.534Z",
+                                            "Event":  "Main.StateChanged",
+                                            "Detail":  "State=Normal;InterceptionEnabled=True"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T03:28:24.597Z",
+                                            "Event":  "Mini.Show.Completed",
+                                            "Detail":  "MiniLeft=924;MiniTop=414.67"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T03:28:28.472Z",
+                                            "Event":  "Mini.Restore.Requested",
+                                            "Detail":  ""
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T03:28:28.545Z",
+                                            "Event":  "Mini.Restore.Completed",
+                                            "Detail":  "MainState=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T03:28:33.558Z",
+                                            "Event":  "Main.Closed",
+                                            "Detail":  "Main window closed"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T03:50:02.981Z",
+                                            "Event":  "Script.Start",
+                                            "Detail":  "PID=14396;SettingsPath=C:\\Users\\YMJNB\\OneDrive - Internal Revenue Service\\Documents\\PowerShell 2025\\PowerShell v5.1\\July 2025\\Sessions\\TrackSessions.Settings.json"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T03:50:03.422Z",
+                                            "Event":  "Before.ShowDialog",
+                                            "Detail":  "Entering modal loop"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T03:50:03.513Z",
+                                            "Event":  "Main.SourceInitialized",
+                                            "Detail":  ""
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T03:50:03.665Z",
+                                            "Event":  "Main.Loaded",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T03:50:03.957Z",
+                                            "Event":  "Main.ContentRendered",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T03:50:09.712Z",
+                                            "Event":  "Simulation.Enabled",
+                                            "Detail":  "Activity Grid simulator started."
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T03:50:18.457Z",
+                                            "Event":  "Main.StateChanged",
+                                            "Detail":  "State=Minimized"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T03:50:31.554Z",
+                                            "Event":  "Main.StateChanged",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T03:50:56.463Z",
+                                            "Event":  "Main.Closed",
+                                            "Detail":  "Main window closed"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T03:53:28.223Z",
+                                            "Event":  "Script.Start",
+                                            "Detail":  "PID=14396;SettingsPath=C:\\Users\\YMJNB\\OneDrive - Internal Revenue Service\\Documents\\PowerShell 2025\\PowerShell v5.1\\July 2025\\Sessions\\TrackSessions.Settings.json"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T03:53:28.497Z",
+                                            "Event":  "Before.ShowDialog",
+                                            "Detail":  "Entering modal loop"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T03:53:28.579Z",
+                                            "Event":  "Main.SourceInitialized",
+                                            "Detail":  ""
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T03:53:28.703Z",
+                                            "Event":  "Main.Loaded",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T03:53:28.947Z",
+                                            "Event":  "Main.ContentRendered",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T03:53:33.387Z",
+                                            "Event":  "Simulation.Enabled",
+                                            "Detail":  "Activity Grid simulator started."
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T03:58:35.318Z",
+                                            "Event":  "Main.Closed",
+                                            "Detail":  "Main window closed"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T04:04:32.025Z",
+                                            "Event":  "Script.Start",
+                                            "Detail":  "PID=14396;SettingsPath=C:\\Users\\YMJNB\\OneDrive - Internal Revenue Service\\Documents\\PowerShell 2025\\PowerShell v5.1\\July 2025\\Sessions\\TrackSessions.Settings.json"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T04:04:32.332Z",
+                                            "Event":  "Before.ShowDialog",
+                                            "Detail":  "Entering modal loop"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T04:04:32.402Z",
+                                            "Event":  "Main.SourceInitialized",
+                                            "Detail":  ""
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T04:04:32.508Z",
+                                            "Event":  "Main.Loaded",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T04:04:32.686Z",
+                                            "Event":  "Main.ContentRendered",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T04:06:17.979Z",
+                                            "Event":  "Main.Closed",
+                                            "Detail":  "Main window closed"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T04:07:16.289Z",
+                                            "Event":  "Script.Start",
+                                            "Detail":  "PID=14396;SettingsPath=C:\\Users\\YMJNB\\OneDrive - Internal Revenue Service\\Documents\\PowerShell 2025\\PowerShell v5.1\\July 2025\\Sessions\\TrackSessions.Settings.json"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T04:07:16.539Z",
+                                            "Event":  "Before.ShowDialog",
+                                            "Detail":  "Entering modal loop"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T04:07:16.611Z",
+                                            "Event":  "Main.SourceInitialized",
+                                            "Detail":  ""
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T04:07:16.944Z",
+                                            "Event":  "Main.Loaded",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T04:07:17.101Z",
+                                            "Event":  "Main.ContentRendered",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T04:07:19.555Z",
+                                            "Event":  "Main.Closed",
+                                            "Detail":  "Main window closed"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T04:11:22.141Z",
+                                            "Event":  "Script.Start",
+                                            "Detail":  "PID=14396;SettingsPath=C:\\Users\\YMJNB\\OneDrive - Internal Revenue Service\\Documents\\PowerShell 2025\\PowerShell v5.1\\July 2025\\Sessions\\TrackSessions.Settings.json"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T04:11:22.415Z",
+                                            "Event":  "Before.ShowDialog",
+                                            "Detail":  "Entering modal loop"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T04:11:22.494Z",
+                                            "Event":  "Main.SourceInitialized",
+                                            "Detail":  ""
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T04:11:22.608Z",
+                                            "Event":  "Main.Loaded",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T04:11:22.813Z",
+                                            "Event":  "Main.ContentRendered",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T04:11:58.822Z",
+                                            "Event":  "Simulation.Enabled",
+                                            "Detail":  "Activity Grid simulator started."
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T04:12:06.694Z",
+                                            "Event":  "Main.StateChanged",
+                                            "Detail":  "State=Minimized"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T04:29:46.247Z",
+                                            "Event":  "Main.StateChanged",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T04:29:49.649Z",
+                                            "Event":  "Main.StateChanged",
+                                            "Detail":  "State=Minimized"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T04:31:23.885Z",
+                                            "Event":  "Main.StateChanged",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-06T04:32:59.566Z",
+                                            "Event":  "Main.Closed",
+                                            "Detail":  "Main window closed"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-08T00:44:04.123Z",
+                                            "Event":  "Script.Start",
+                                            "Detail":  "PID=13968;SettingsPath=C:\\Users\\YMJNB\\OneDrive - Internal Revenue Service\\Documents\\PowerShell 2025\\PowerShell v5.1\\July 2025\\Sessions\\TrackSessions.Settings.json"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-08T00:45:06.094Z",
+                                            "Event":  "Before.ShowDialog",
+                                            "Detail":  "Entering modal loop"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-08T00:45:10.428Z",
+                                            "Event":  "Main.SourceInitialized",
+                                            "Detail":  ""
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-08T00:45:15.603Z",
+                                            "Event":  "Main.Loaded",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-08T00:45:16.783Z",
+                                            "Event":  "Main.ContentRendered",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-08T02:04:28.285Z",
+                                            "Event":  "Main.Closed",
+                                            "Detail":  "Main window closed"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-08T02:17:31.783Z",
+                                            "Event":  "Script.Start",
+                                            "Detail":  "PID=13968;SettingsPath=C:\\Users\\YMJNB\\OneDrive - Internal Revenue Service\\Documents\\PowerShell 2025\\PowerShell v5.1\\July 2025\\Sessions\\TrackSessions.Settings.json"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-08T02:17:36.030Z",
+                                            "Event":  "Before.ShowDialog",
+                                            "Detail":  "Entering modal loop"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-08T02:17:37.052Z",
+                                            "Event":  "Main.SourceInitialized",
+                                            "Detail":  ""
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-08T02:17:53.548Z",
+                                            "Event":  "Main.Loaded",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-08T02:17:54.440Z",
+                                            "Event":  "Main.ContentRendered",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-08T03:16:34.514Z",
+                                            "Event":  "Main.Closed",
+                                            "Detail":  "Main window closed"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-08T03:27:02.022Z",
+                                            "Event":  "Script.Start",
+                                            "Detail":  "PID=13968;SettingsPath=C:\\Users\\YMJNB\\OneDrive - Internal Revenue Service\\Documents\\PowerShell 2025\\PowerShell v5.1\\July 2025\\Sessions\\TrackSessions.Settings.json"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-08T03:27:03.753Z",
+                                            "Event":  "Before.ShowDialog",
+                                            "Detail":  "Entering modal loop"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-08T03:27:04.254Z",
+                                            "Event":  "Main.SourceInitialized",
+                                            "Detail":  ""
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-08T03:27:04.769Z",
+                                            "Event":  "Main.Loaded",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-08T03:27:05.104Z",
+                                            "Event":  "Main.ContentRendered",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-08T03:27:52.670Z",
+                                            "Event":  "Simulation.Enabled",
+                                            "Detail":  "Activity Grid simulator started."
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-08T03:28:13.807Z",
+                                            "Event":  "Simulation.Disabled",
+                                            "Detail":  "Activity Grid simulator stopped."
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-08T03:33:18.320Z",
+                                            "Event":  "CloseAfterSession.Clicked",
+                                            "Detail":  ""
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-08T03:33:19.459Z",
+                                            "Event":  "Main.Closed",
+                                            "Detail":  "Main window closed"
+                                        }
+                                    ]
+                     }
+}
