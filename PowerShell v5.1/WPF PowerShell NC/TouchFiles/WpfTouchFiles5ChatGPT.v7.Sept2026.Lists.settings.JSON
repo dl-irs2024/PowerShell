@@ -1,0 +1,54 @@
+﻿{
+    "RememberWindow":  true,
+    "SelectAll":  false,
+    "CompactMode":  true,
+    "ClearBeforeDrop":  false,
+    "AlwaysOnTop":  false,
+    "WorkMode":  true,
+    "AutoSave":  false,
+    "WorkModeColumnOrder":  [
+                                "Select",
+                                "Path",
+                                "Local Notes",
+                                "Last Modified",
+                                "Attributes",
+                                "Size",
+                                "Comment",
+                                "Absolute Path"
+                            ],
+    "Width":  860,
+    "Height":  672,
+    "Left":  -438,
+    "Top":  -825.33,
+    "ErrorDialogFontSize":  15,
+    "RecentLists":  [
+                        {
+                            "Path":  "C:\\Users\\YMJNB\\OneDrive - Internal Revenue Service\\Documents\\PowerShell 2025\\PowerShell v5.1\\WPF PowerShell NC\\TouchFiles\\Lists\\VIBE PowerShell.List.JSON",
+                            "ListName":  "VIBE PowerShell",
+                            "Description":  "Personal PowerShell\r\n",
+                            "TotalEntries":  3,
+                            "LastUsed":  "2026-09-13T13:13:26.0835876-04:00"
+                        },
+                        {
+                            "Path":  "C:\\Users\\YMJNB\\OneDrive - Internal Revenue Service\\Documents\\PowerShell 2025\\PowerShell v5.1\\WPF PowerShell NC\\TouchFiles\\Lists\\SURE v2.List.JSON",
+                            "ListName":  "SURE v2",
+                            "Description":  "SURE V2 working\r\nSeptember 2206\r\n",
+                            "TotalEntries":  3,
+                            "LastUsed":  "2026-09-13T13:05:08.6552795-04:00"
+                        },
+                        {
+                            "Path":  "C:\\Users\\YMJNB\\OneDrive - Internal Revenue Service\\Documents\\PowerShell 2025\\PowerShell v5.1\\WPF PowerShell NC\\TouchFiles\\Lists\\Test Sept 2026 3rd SAVEAS.List.JSON",
+                            "ListName":  "Test Sept 2026 3rd SAVEAS",
+                            "Description":  "Test Sept 2026 2nd list\r\nAppend above chat changes to WpfTouchFiles5ChatGPT.v7.Chat.md\r\n",
+                            "TotalEntries":  5,
+                            "LastUsed":  "2026-09-13T12:44:08.2233049-04:00"
+                        },
+                        {
+                            "Path":  "C:\\Users\\YMJNB\\OneDrive - Internal Revenue Service\\Documents\\PowerShell 2025\\PowerShell v5.1\\WPF PowerShell NC\\TouchFiles\\Lists\\Test Sept 2026 2nd list.List.JSON",
+                            "ListName":  "Test Sept 2026 2nd list",
+                            "Description":  "Test Sept 2026 2nd list\r\n",
+                            "TotalEntries":  3,
+                            "LastUsed":  "2026-09-13T12:17:39.7906234-04:00"
+                        }
+                    ]
+}

@@ -1,0 +1,628 @@
+<!-- Root window hosting the entire Touch Files experience -->
+<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Touch Files - v7 Sept 2026 Lists" Height="420" Width="760" MinWidth="300" MinHeight="260"
+    WindowStartupLocation="CenterScreen"
+    UseLayoutRounding="True"
+    SnapsToDevicePixels="True">
+    <Window.Resources>
+        <!-- Shared icon/button palette for top command row -->
+        <SolidColorBrush x:Key="TopIconIdleBrush" Color="#8E969E"/>
+        <SolidColorBrush x:Key="TopIconHoverBrush" Color="#0A63B6"/>
+        <SolidColorBrush x:Key="TopButtonBorderBrush" Color="#C7CDD4"/>
+        <SolidColorBrush x:Key="ButtonHoverBackgroundBrush" Color="#DCEEFF"/>
+        <SolidColorBrush x:Key="ButtonPressedBackgroundBrush" Color="#CCE4FA"/>
+        <SolidColorBrush x:Key="ButtonHoverBorderBrush" Color="#4A98E3"/>
+        <SolidColorBrush x:Key="ButtonHoverForegroundBrush" Color="#0E3B66"/>
+        <SolidColorBrush x:Key="ButtonIconIdleBrush" Color="#8E969E"/>
+        <SolidColorBrush x:Key="ButtonIconHoverBrush" Color="#0A63B6"/>
+
+        <Style TargetType="FrameworkElement">
+            <Setter Property="ToolTipService.InitialShowDelay" Value="250"/>
+            <Setter Property="ToolTipService.ShowDuration" Value="25000"/>
+            <Setter Property="ToolTipService.BetweenShowDelay" Value="120"/>
+        </Style>
+
+        <!-- Uniform top command button with icon prefix and subtle hover animation -->
+        <Style x:Key="TopCommandButtonStyle" TargetType="Button">
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="MinWidth" Value="146"/>
+            <Setter Property="Margin" Value="0,0,9,9"/>
+            <Setter Property="Padding" Value="12,0,12,0"/>
+            <Setter Property="Background" Value="#F7F9FB"/>
+            <Setter Property="BorderBrush" Value="{StaticResource TopButtonBorderBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Foreground" Value="#233143"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="RootBorder"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="6"
+                                Padding="{TemplateBinding Padding}"
+                                RenderTransformOrigin="0.5,0.5">
+                            <Border.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform x:Name="ButtonScale" ScaleX="1" ScaleY="1"/>
+                                    <TranslateTransform x:Name="ButtonShift" X="0" Y="0"/>
+                                </TransformGroup>
+                            </Border.RenderTransform>
+                            <StackPanel Orientation="Horizontal"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center">
+                                <TextBlock x:Name="IconGlyph"
+                                           Text="{TemplateBinding Tag}"
+                                           FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets"
+                                           FontSize="15"
+                                           Foreground="{DynamicResource ButtonIconIdleBrush}"
+                                           Margin="0,0,8,0"
+                                           VerticalAlignment="Center"
+                                           RenderTransformOrigin="0.5,0.5">
+                                    <TextBlock.RenderTransform>
+                                        <ScaleTransform x:Name="IconScale" ScaleX="1" ScaleY="1"/>
+                                    </TextBlock.RenderTransform>
+                                </TextBlock>
+                                <ContentPresenter VerticalAlignment="Center"
+                                                  HorizontalAlignment="Center"
+                                                  RecognizesAccessKey="True"/>
+                            </StackPanel>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="RootBorder" Property="Opacity" Value="0.6"/>
+                                <Setter TargetName="RootBorder" Property="Background" Value="#EDF1F4"/>
+                                <Setter TargetName="IconGlyph" Property="Foreground" Value="#AAB2BA"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="RootBorder" Property="Background" Value="{DynamicResource ButtonPressedBackgroundBrush}"/>
+                                <Setter TargetName="RootBorder" Property="BorderBrush" Value="{DynamicResource ButtonHoverBorderBrush}"/>
+                                <Setter Property="Foreground" Value="{DynamicResource ButtonHoverForegroundBrush}"/>
+                                <Setter TargetName="IconGlyph" Property="Foreground" Value="{DynamicResource ButtonIconHoverBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="RootBorder" Property="Background" Value="{DynamicResource ButtonHoverBackgroundBrush}"/>
+                                <Setter TargetName="RootBorder" Property="BorderBrush" Value="{DynamicResource ButtonHoverBorderBrush}"/>
+                                <Setter Property="Foreground" Value="{DynamicResource ButtonHoverForegroundBrush}"/>
+                                <Setter TargetName="IconGlyph" Property="Foreground" Value="{DynamicResource ButtonIconHoverBrush}"/>
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="IconScale" Storyboard.TargetProperty="ScaleX"
+                                                             To="1.14" Duration="0:0:0.14"/>
+                                            <DoubleAnimation Storyboard.TargetName="IconScale" Storyboard.TargetProperty="ScaleY"
+                                                             To="1.14" Duration="0:0:0.14"/>
+                                            <DoubleAnimation Storyboard.TargetName="ButtonShift" Storyboard.TargetProperty="Y"
+                                                             To="-0.5" Duration="0:0:0.14"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="IconScale" Storyboard.TargetProperty="ScaleX"
+                                                             To="1" Duration="0:0:0.18"/>
+                                            <DoubleAnimation Storyboard.TargetName="IconScale" Storyboard.TargetProperty="ScaleY"
+                                                             To="1" Duration="0:0:0.18"/>
+                                            <DoubleAnimation Storyboard.TargetName="ButtonShift" Storyboard.TargetProperty="Y"
+                                                             To="0" Duration="0:0:0.18"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <!-- Outer layout grid divides the surface into header, helper text, content, and status bar -->
+    <Grid x:Name="RootGrid" Margin="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Reusable top branding panel kept in its own row so it never overlaps command buttons -->
+        <Border Grid.Row="0"
+                x:Name="HeaderBrandPanel"
+                Margin="0,0,0,8"
+                Padding="10,6,10,6"
+                CornerRadius="8"
+                BorderBrush="#D2D8DE"
+                BorderThickness="1"
+                Background="#F7F9FB"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <!-- Icon + title block intentionally compact so it remains legible at narrow widths -->
+                <StackPanel x:Name="HeaderClickArea" Orientation="Horizontal" VerticalAlignment="Center" Cursor="Hand" ToolTip="About Touch Files">
+                    <Border x:Name="HeaderLogoBorder" Width="42" Height="42" CornerRadius="6" Background="#EAF0F6" BorderBrush="#CED8E2" BorderThickness="1" Margin="0,0,10,0">
+                        <Image x:Name="ImgAppIconLarge" Width="34" Height="34" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" ToolTip="Touch Files app icon"/>
+                    </Border>
+                    <Viewbox Stretch="Uniform" StretchDirection="DownOnly" MaxHeight="52">
+                        <StackPanel>
+                            <TextBlock x:Name="TxtAppTitle" Text="Touch Files" FontSize="24" FontWeight="SemiBold" Foreground="#233143"/>
+                            <TextBlock Text="Sept 2026 Lists" FontSize="13" Foreground="#5C6D7F" Margin="0,2,0,0"/>
+                        </StackPanel>
+                    </Viewbox>
+                </StackPanel>
+                    <WrapPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,8,0,0">
+                        <Button x:Name="BtnDockNarrow"
+                            Width="26"
+                            Height="26"
+                            Margin="0,0,6,0"
+                            VerticalAlignment="Center"
+                            FontSize="13"
+                            FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets"
+                            Content="&#xE892;"
+                            Cursor="Hand"
+                            ToolTip="Dock to left at 300px. Click again to dock right at 300px."/>
+                        <Button x:Name="BtnDockHalf"
+                            Width="26"
+                            Height="26"
+                            Margin="0,0,6,0"
+                            VerticalAlignment="Center"
+                            FontSize="13"
+                            FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets"
+                            Content="&#xE95A;"
+                            Cursor="Hand"
+                            ToolTip="Dock to left half. Click again to dock right half."/>
+                        <Button x:Name="BtnNextMonitor"
+                            Width="26"
+                            Height="26"
+                            Margin="0,0,6,0"
+                            VerticalAlignment="Center"
+                            FontSize="13"
+                            FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets"
+                            Content="&#xE89F;"
+                            Cursor="Hand"
+                            ToolTip="Move to the next monitor and keep current dock position."/>
+                        <Button x:Name="BtnAbout"
+                            Width="26"
+                            Height="26"
+                            VerticalAlignment="Center"
+                            FontSize="16"
+                            FontWeight="Bold"
+                            Content="?"
+                            Cursor="Hand"
+                            ToolTip="About Touch Files"/>
+                            </WrapPanel>
+            </Grid>
+        </Border>
+
+        <!-- Command row with primary action buttons centered as one visual group -->
+        <WrapPanel x:Name="CommandPanel" Grid.Row="1" Margin="0,1,0,10" HorizontalAlignment="Center" ClipToBounds="False">
+                <!-- Opens a file picker to add items to the list -->
+                <Button x:Name="BtnAdd" Style="{StaticResource TopCommandButtonStyle}" Tag="&#xE8E5;" ToolTip="Add one or more files to the queue.">Add File</Button>
+                <!-- Triggers timestamp updates for selected entries -->
+                <Button x:Name="BtnTouch" Style="{StaticResource TopCommandButtonStyle}" Tag="&#xE823;" IsEnabled="False" ToolTip="Update Last Modified date/time for selected files.">Touch</Button>
+                <!-- Toggles NTFS compression for selected entries -->
+                <Button x:Name="BtnToggleCompression" Style="{StaticResource TopCommandButtonStyle}" Tag="&#xE7B8;" IsEnabled="False" Background="#EAF4FF" BorderBrush="#8FBCEB" Foreground="#0E345A" ToolTip="Toggle NTFS compression on selected files.">
+                    <Button.Resources>
+                        <SolidColorBrush x:Key="ButtonHoverBackgroundBrush" Color="#0078D4"/>
+                        <SolidColorBrush x:Key="ButtonPressedBackgroundBrush" Color="#005A9E"/>
+                        <SolidColorBrush x:Key="ButtonHoverBorderBrush" Color="#004578"/>
+                        <SolidColorBrush x:Key="ButtonHoverForegroundBrush" Color="#FFFFFF"/>
+                        <SolidColorBrush x:Key="ButtonIconIdleBrush" Color="#005A9E"/>
+                        <SolidColorBrush x:Key="ButtonIconHoverBrush" Color="#FFFFFF"/>
+                    </Button.Resources>
+                    Compression
+                </Button>
+                <!-- Toggles NTFS encryption for selected entries -->
+                <Button x:Name="BtnToggleEncryption" Style="{StaticResource TopCommandButtonStyle}" Tag="&#xE72E;" IsEnabled="False" Background="#E9F6EC" BorderBrush="#8BC39B" Foreground="#15441A" ToolTip="Toggle EFS encryption on selected files.">
+                    <Button.Resources>
+                        <SolidColorBrush x:Key="ButtonHoverBackgroundBrush" Color="#107C10"/>
+                        <SolidColorBrush x:Key="ButtonPressedBackgroundBrush" Color="#0B6A0B"/>
+                        <SolidColorBrush x:Key="ButtonHoverBorderBrush" Color="#085A08"/>
+                        <SolidColorBrush x:Key="ButtonHoverForegroundBrush" Color="#FFFFFF"/>
+                        <SolidColorBrush x:Key="ButtonIconIdleBrush" Color="#0B6A0B"/>
+                        <SolidColorBrush x:Key="ButtonIconHoverBrush" Color="#FFFFFF"/>
+                    </Button.Resources>
+                    Encryption
+                </Button>
+                <!-- Toggles read-only attribute for selected entries -->
+                <Button x:Name="BtnToggleReadOnly" Style="{StaticResource TopCommandButtonStyle}" Tag="&#xE72E;" IsEnabled="False" Background="#FFF4E6" BorderBrush="#F5C88D" Foreground="#6B4423" ToolTip="Toggle the Read-Only attribute on selected files.">
+                    <Button.Resources>
+                        <SolidColorBrush x:Key="ButtonHoverBackgroundBrush" Color="#F59E00"/>
+                        <SolidColorBrush x:Key="ButtonPressedBackgroundBrush" Color="#D58700"/>
+                        <SolidColorBrush x:Key="ButtonHoverBorderBrush" Color="#A76100"/>
+                        <SolidColorBrush x:Key="ButtonHoverForegroundBrush" Color="#FFFFFF"/>
+                        <SolidColorBrush x:Key="ButtonIconIdleBrush" Color="#D58700"/>
+                        <SolidColorBrush x:Key="ButtonIconHoverBrush" Color="#FFFFFF"/>
+                    </Button.Resources>
+                    Read-Only
+                </Button>
+                <!-- Adds or removes date stamp to/from file names before extension -->
+                <Button x:Name="BtnDateStamp" Style="{StaticResource TopCommandButtonStyle}" Tag="&#xE787;" IsEnabled="False" Background="#F3E5F5" BorderBrush="#CE93D8" Foreground="#4A148C" ToolTip="Add/Remove date stamp: Multiple files = add stamp. One file = toggle (add if missing, remove if present).">
+                    <Button.Resources>
+                        <SolidColorBrush x:Key="ButtonHoverBackgroundBrush" Color="#9C27B0"/>
+                        <SolidColorBrush x:Key="ButtonPressedBackgroundBrush" Color="#7B1FA2"/>
+                        <SolidColorBrush x:Key="ButtonHoverBorderBrush" Color="#6A1B9A"/>
+                        <SolidColorBrush x:Key="ButtonHoverForegroundBrush" Color="#FFFFFF"/>
+                        <SolidColorBrush x:Key="ButtonIconIdleBrush" Color="#7B1FA2"/>
+                        <SolidColorBrush x:Key="ButtonIconHoverBrush" Color="#FFFFFF"/>
+                    </Button.Resources>
+                    Date Stamp
+                </Button>
+                <!-- Toggles hidden attribute for selected entries -->
+                <Button x:Name="BtnToggleHidden" Style="{StaticResource TopCommandButtonStyle}" Tag="&#xE890;" IsEnabled="False" Background="#F1F3F5" BorderBrush="#ADB5BD" Foreground="#31373D" ToolTip="Toggle the Hidden attribute on selected files.">
+                    <Button.Resources>
+                        <SolidColorBrush x:Key="ButtonHoverBackgroundBrush" Color="#6B7280"/>
+                        <SolidColorBrush x:Key="ButtonPressedBackgroundBrush" Color="#4B5563"/>
+                        <SolidColorBrush x:Key="ButtonHoverBorderBrush" Color="#3E4753"/>
+                        <SolidColorBrush x:Key="ButtonHoverForegroundBrush" Color="#FFFFFF"/>
+                        <SolidColorBrush x:Key="ButtonIconIdleBrush" Color="#4B5563"/>
+                        <SolidColorBrush x:Key="ButtonIconHoverBrush" Color="#FFFFFF"/>
+                    </Button.Resources>
+                    Hidden
+                </Button>
+                <!-- Dynamic list action button switches between Load and Save modes -->
+                <Button x:Name="BtnListAction" Style="{StaticResource TopCommandButtonStyle}" Tag="&#xE8E5;" IsEnabled="True" ToolTip="Load a saved list JSON when empty; Save current list JSON when files are present.">Load</Button>
+                <!-- Clears the entire list and resets state -->
+                <Button x:Name="BtnClear" Style="{StaticResource TopCommandButtonStyle}" Tag="&#xE894;" IsEnabled="False" ToolTip="Remove all files from the list.">Clear</Button>
+        </WrapPanel>
+
+        <!-- Instruction row with guidance and reusable option toggles -->
+        <Grid x:Name="InstructionRow" Grid.Row="2" Margin="0,0,0,8">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <!-- Contextual guidance for drag/drop and button usage -->
+            <TextBlock Grid.Row="0" Foreground="#666"
+                       Text="Drag files into the list or use Add Files. Touch updates Last Modified to the current time."
+                       TextWrapping="Wrap" Margin="0,0,0,6"/>
+            <WrapPanel Grid.Row="1"
+                       Orientation="Horizontal"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Center"
+                       Margin="0,0,0,6"
+                       MaxWidth="620">
+                <TextBlock Text="*"
+                           Visibility="Collapsed"
+                           Foreground="#DC2626"
+                           FontWeight="Bold"
+                           FontSize="14"
+                           Margin="0,0,8,0"
+                           VerticalAlignment="Center"
+                           ToolTip="Unsaved list changes"
+                           x:Name="LblListDirtyStar"/>
+                <TextBlock VerticalAlignment="Center"
+                           TextWrapping="Wrap"
+                           ToolTip="Current list name sourced from JSON metadata when loaded or saved."
+                           x:Name="LblCurrentListName">
+                    <Run Text="List:" FontWeight="Bold" Foreground="#374151"/>
+                    <Run Text=" "/>
+                    <Run Text="N/A" FontWeight="Bold" Foreground="#1E3A8A"/>
+                </TextBlock>
+            </WrapPanel>
+            <!-- Keep related toggles together on their own line -->
+            <WrapPanel Grid.Row="2" Orientation="Horizontal">
+                <!-- Toggle compact mode to hide full paths -->
+                <CheckBox x:Name="ChkCompactMode"
+                          Content="Compact Mode"
+                          IsChecked="False"
+                          VerticalAlignment="Center" Margin="0,0,12,0"
+                          ToolTip="Hide full file paths to reduce clutter."/>
+                <!-- Tri-state checkbox that selects or clears every list item -->
+                <CheckBox x:Name="ChkSelectAll"
+                          Content="Select All"
+                          IsThreeState="True"
+                          VerticalAlignment="Center" Margin="0,0,12,0"
+                          ToolTip="Select or clear all file rows."/>
+                <!-- Optional auto-clear toggle for drag & drop operations -->
+                <CheckBox x:Name="ChkClearOnDrop"
+                          Content="⚠️ Clear before drop"
+                          IsChecked="False"
+                          VerticalAlignment="Center" Margin="0,0,12,0"
+                          Foreground="#D97706"
+                          FontWeight="SemiBold"
+                          ToolTip="WARNING: When checked, dropping files will CLEAR the entire file list first. Uncheck this to ADD files to the existing list instead of replacing it."/>
+                <CheckBox x:Name="ChkRememberWindow"
+                          Content="Remember window size/location"
+                          IsChecked="True"
+                          VerticalAlignment="Center"
+                          Margin="0,0,12,0"
+                          ToolTip="Save and restore this window size and screen position on next launch. Position is saved automatically as you move/resize the window."/>
+                <CheckBox x:Name="ChkAlwaysOnTop"
+                          Content="Always on top"
+                          IsChecked="False"
+                          VerticalAlignment="Center"
+                          ToolTip="Keep this window above other windows."/>
+                <CheckBox x:Name="ChkWorkMode"
+                          Content="Work Mode"
+                          IsChecked="False"
+                          VerticalAlignment="Center"
+                          Margin="12,0,12,0"
+                          ToolTip="Wide view only: hide Size and Comment columns and show Local Notes instead. Card view is unchanged."/>
+                <CheckBox x:Name="ChkAutoSave"
+                          Content="AutoSave"
+                          IsChecked="False"
+                          VerticalAlignment="Center"
+                          ToolTip="Automatically save list updates to the currently loaded/saved .List.JSON file in the Lists folder."/>
+                <Button x:Name="BtnCommentDiag"
+                    Content="Comment Diagnostics"
+                    Visibility="Collapsed"
+                    Margin="12,0,0,0"
+                    Padding="10,2"
+                    VerticalAlignment="Center"
+                    Cursor="Hand"
+                    ToolTip="Show detailed comment metadata for the selected file (visible only when exactly one file is selected)."/>
+            </WrapPanel>
+        </Grid>
+
+        <!-- File content host switches between table and card views based on available width -->
+        <Grid Grid.Row="3">
+            <!-- Standard table view used when enough horizontal space is available -->
+            <Border x:Name="FileTableBorder" BorderBrush="#CCC" BorderThickness="1" Background="#FAFAFA">
+                <!-- ListView showing the tracked files and exposing drag/drop -->
+                <ListView x:Name="FileListView"
+                          AllowDrop="True"
+                          SelectionMode="Single"
+                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                          ScrollViewer.VerticalScrollBarVisibility="Auto"
+                          ToolTip="Drop files here or use Add File. Click to select a row.">
+                    <!-- GridView defines the column layout for each file row -->
+                    <ListView.View>
+                        <GridView>
+                            <!-- Checkbox column for multi-select - visibility controlled by Work Mode -->
+                            <GridViewColumn x:Name="ColSelect" Width="70" Header="Select">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay}"
+                                                  HorizontalAlignment="Center"
+                                                  ToolTip="Select or clear this file.">
+                                            <CheckBox.Style>
+                                                <Style TargetType="CheckBox">
+                                                    <Setter Property="IsEnabled" Value="True"/>
+                                                    <Setter Property="Opacity" Value="1"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListView}, Path=Tag}" Value="True">
+                                                            <Setter Property="IsEnabled" Value="False"/>
+                                                            <Setter Property="Opacity" Value="0.45"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </CheckBox.Style>
+                                        </CheckBox>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <!-- Displays bold file name plus full path for readability -->
+                            <GridViewColumn x:Name="ColPath" Header="Path" Width="330">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding BaseName}"
+                                                       FontWeight="Bold"
+                                                       TextWrapping="Wrap"
+                                                       ToolTip="{Binding FullPath}"/>
+                                            <TextBlock Text="{Binding DisplayPath}"
+                                                       TextWrapping="Wrap"
+                                                       Foreground="#555"
+                                                       ToolTip="{Binding FullPath}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn x:Name="ColAbsolutePath" Header="Absolute Path" Width="0"
+                                             DisplayMemberBinding="{Binding DisplayPath}"/>
+                            <!-- Shows the last modified timestamp persisted in the filesystem -->
+                            <GridViewColumn Header="Last Modified" Width="160"
+                                             DisplayMemberBinding="{Binding LastModified}"/>
+                            <!-- Render the letter-based attribute summary (A, R, C, etc.) -->
+                            <GridViewColumn Header="Attributes" Width="90"
+                                             DisplayMemberBinding="{Binding Attributes}"/>
+                            <!-- Final column with human-readable file sizes -->
+                            <GridViewColumn x:Name="ColSize" Header="Size" Width="90"
+                                             DisplayMemberBinding="{Binding Size}"/>
+                            <!-- Editable note field that commits when the editor loses focus -->
+                            <GridViewColumn x:Name="ColComment" Header="Comment" Width="220">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DockPanel LastChildFill="True">
+                                            <TextBlock Text="{Binding CommentSupportEmoji}"
+                                                       Margin="0,0,6,0"
+                                                       VerticalAlignment="Center"
+                                                       ToolTip="✅ supported type, 🚫 not supported type"/>
+                                            <TextBox Text="{Binding Comment, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                                                     Tag="CommentEditor"
+                                                     IsReadOnly="{Binding CommentReadOnly}"
+                                                     BorderThickness="1"
+                                                     BorderBrush="#CCCCCC"
+                                                     Padding="4,2"
+                                                     ToolTip="Supported: editable. Not supported: read-only.">
+                                                <TextBox.Style>
+                                                    <Style TargetType="TextBox">
+                                                        <Setter Property="Background" Value="#FFF3F3F3"/>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding CommentReadOnly}" Value="False">
+                                                                <Setter Property="Background" Value="#FFDDF5DD"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBox.Style>
+                                            </TextBox>
+                                        </DockPanel>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn x:Name="ColLocalNotes" Header="Local Notes" Width="0">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Grid HorizontalAlignment="Stretch">
+                                            <TextBox Text="{Binding LocalNotes, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                                                     Tag="LocalNotesEditor"
+                                                     HorizontalAlignment="Stretch"
+                                                     MinWidth="260"
+                                                     BorderThickness="1"
+                                                     BorderBrush="#CCCCCC"
+                                                     Padding="6,3"
+                                                     TextWrapping="Wrap"
+                                                     ToolTip="Local note for this list item. Stored in the list's .List.JSON file."/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Border>
+
+            <!-- Card layout used on ultra-narrow windows so long paths can wrap naturally -->
+            <Border x:Name="FileCardBorder" BorderBrush="#CCC" BorderThickness="1" Background="#FAFAFA" Visibility="Collapsed">
+                <ListBox x:Name="FileCardList"
+                         AllowDrop="True"
+                         SelectionMode="Single"
+                         Tag="False"
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                         ScrollViewer.VerticalScrollBarVisibility="Auto"
+                         BorderThickness="0"
+                         Background="Transparent"
+                         ToolTip="Card view for narrow windows. Drop files here. Click to select.">
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="Padding" Value="0"/>
+                            <Setter Property="Margin" Value="0"/>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border Margin="8,6" Padding="10" Background="White" BorderBrush="#D7D7D7" BorderThickness="1" CornerRadius="6">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <StackPanel Grid.Row="0" Margin="0,0,0,6">
+                                        <TextBlock Text="{Binding BaseName}"
+                                                   FontWeight="Bold"
+                                                   ToolTip="{Binding FullPath}"/>
+                                        <TextBlock Text="{Binding DisplayPath}"
+                                                   ToolTip="{Binding FullPath}"
+                                                   TextWrapping="Wrap"
+                                                   Foreground="#555">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=Tag}" Value="True">
+                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </StackPanel>
+                                    <WrapPanel Grid.Row="1" Orientation="Horizontal">
+                                        <TextBlock Text="Modified: " FontWeight="SemiBold"/>
+                                        <TextBlock Text="{Binding LastModified}" Margin="0,0,12,0"/>
+                                        <TextBlock Text="Attr: " FontWeight="SemiBold"/>
+                                        <TextBlock Text="{Binding Attributes}" Margin="0,0,12,0"/>
+                                        <TextBlock Text="Size: " FontWeight="SemiBold"/>
+                                        <TextBlock Text="{Binding Size}"/>
+                                    </WrapPanel>
+                                    <StackPanel Grid.Row="2" Margin="0,8,0,0">
+                                        <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                                            <TextBlock Text="Local Notes" FontWeight="SemiBold"/>
+                                        </StackPanel>
+                                        <TextBox Text="{Binding LocalNotes, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                                                 Tag="LocalNotesEditor"
+                                                 MinHeight="48"
+                                                 TextWrapping="Wrap"
+                                                 AcceptsReturn="True"
+                                                 VerticalScrollBarVisibility="Auto"
+                                                 BorderThickness="1"
+                                                 BorderBrush="#FDE68A"
+                                                 Background="#FFFBEB"
+                                                 Padding="4,3"
+                                                 ToolTip="Private notes stored in the list file (not in file metadata)."/>
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Border>
+        </Grid>
+
+        <!-- Footer status bar surfaces runtime status, diagnostics, metrics, and live clock -->
+        <StatusBar Grid.Row="4" Margin="0,8,0,0">
+            <StatusBarItem Padding="0">
+                <WrapPanel x:Name="FooterWrapPanel" Orientation="Horizontal" VerticalAlignment="Center" ItemHeight="24">
+                    <!-- Dynamic text updated by the script (e.g., Ready, Added files) -->
+                    <TextBlock x:Name="LblStatus"
+                               Margin="0,0,10,0"
+                               VerticalAlignment="Center"
+                               Text="Ready"
+                               TextWrapping="Wrap"
+                               ToolTip="Current operation status."/>
+                    <TextBlock x:Name="LblSelectedStatus"
+                               Margin="0,0,10,0"
+                               VerticalAlignment="Center"
+                               Foreground="#666"
+                               Text="Files selected: 0"
+                               TextWrapping="Wrap"
+                               ToolTip="Number of currently selected files."/>
+                    <!-- Hidden until errors are logged; click to open the error/log window -->
+                    <Button x:Name="BtnErrorLog"
+                            Visibility="Visible"
+                            Margin="0,0,8,0"
+                            Width="22"
+                            Height="22"
+                            Padding="0"
+                            BorderThickness="0"
+                            Background="Transparent"
+                            Cursor="Hand"
+                            ToolTip="Show error log">
+                        <Viewbox Width="12" Height="12">
+                            <Canvas Width="12" Height="12">
+                                <Ellipse x:Name="ErrorDot"
+                                         Width="10"
+                                         Height="10"
+                                         Fill="#A0A0A0"
+                                         Stroke="#7A7A7A"
+                                         StrokeThickness="1"
+                                         Canvas.Left="1"
+                                         Canvas.Top="1"/>
+                            </Canvas>
+                        </Viewbox>
+                    </Button>
+                    <TextBlock x:Name="LblDiagnostics"
+                               Margin="0,0,10,0"
+                               VerticalAlignment="Center"
+                               Foreground="#666"
+                               Text="No errors"
+                               TextWrapping="Wrap"
+                               ToolTip="Diagnostics summary."/>
+                    <TextBlock x:Name="LblWindowMetrics"
+                               Margin="0,0,10,0"
+                               VerticalAlignment="Center"
+                               Foreground="#C50F1F"
+                               FontWeight="SemiBold"
+                               TextWrapping="Wrap"
+                               Visibility="Collapsed"
+                               ToolTip="Live window size and position while moving or resizing."/>
+                    <TextBlock Margin="0,0,6,0" VerticalAlignment="Center" Text="Current Time:"/>
+                    <!-- Clock label refreshed by timer to show current timestamp -->
+                    <TextBlock x:Name="LblNow" VerticalAlignment="Center" FontWeight="Bold" ToolTip="Live local system time."/>
+                </WrapPanel>
+            </StatusBarItem>
+        </StatusBar>
+    </Grid>
+</Window>
