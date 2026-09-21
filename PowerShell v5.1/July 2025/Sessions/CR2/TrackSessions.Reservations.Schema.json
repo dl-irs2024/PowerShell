@@ -1,0 +1,202 @@
+{
+  "SchemaVersion": "1.0",
+  "Description": "Machine Reservation Schema for TrackSessions",
+  "FileNameFormat": "Reservation.{MachineName}.{UserId}.{yyyyMMdd}.{HHmmss_StartTime}.{HHmmss_EndTime}.{Status}.json",
+  "FileNameExample": "Reservation.PAWS66.YMJNB.20260910.100000.120000.Active.json",
+  
+  "SchemaDefinition": {
+    "SchemaVersion": {
+      "type": "string",
+      "description": "Schema version (e.g., '1.0')",
+      "required": true
+    },
+    "ReservationId": {
+      "type": "string",
+      "description": "Unique reservation identifier (GUID or timestamp-based)",
+      "required": true
+    },
+    "MachineName": {
+      "type": "string",
+      "description": "Short machine name (e.g., 'PAWS 66', 'PAWS66', or FQDN)",
+      "required": true
+    },
+    "MachineShortName": {
+      "type": "string",
+      "description": "Short name from Settings.Tracking.Machines[].ShortName",
+      "required": true
+    },
+    "MachineFqdn": {
+      "type": "string",
+      "description": "Full FQDN from Settings.Tracking.Machines[].FQDN",
+      "required": false
+    },
+    "UserId": {
+      "type": "string",
+      "description": "SEID of reserving user (e.g., 'YMJNB')",
+      "required": true
+    },
+    "UserDisplayName": {
+      "type": "string",
+      "description": "Full name of reserving user (e.g., 'Davis Lee')",
+      "required": true
+    },
+    "UserEmail": {
+      "type": "string",
+      "description": "Email address of reserving user",
+      "required": true
+    },
+    "ReservationDate": {
+      "type": "string",
+      "description": "Date of reservation in yyyy-MM-dd format",
+      "required": true,
+      "example": "2026-09-10"
+    },
+    "StartTime": {
+      "type": "string",
+      "description": "Start time in HH:mm format (24-hour)",
+      "required": true,
+      "example": "10:00"
+    },
+    "EndTime": {
+      "type": "string",
+      "description": "End time in HH:mm format (24-hour)",
+      "required": true,
+      "example": "12:00"
+    },
+    "CreatedAtGmt": {
+      "type": "string",
+      "description": "Creation timestamp in ISO-8601 UTC format",
+      "required": true,
+      "example": "2026-09-09T14:30:45.123Z"
+    },
+    "CreatedByUserId": {
+      "type": "string",
+      "description": "SEID of user who created reservation (may differ from UserId if admin created on behalf)",
+      "required": false
+    },
+    "LastModifiedAtGmt": {
+      "type": "string",
+      "description": "Last modification timestamp in ISO-8601 UTC format",
+      "required": true,
+      "example": "2026-09-09T14:30:45.123Z"
+    },
+    "LastModifiedByUserId": {
+      "type": "string",
+      "description": "SEID of user who last modified reservation",
+      "required": false
+    },
+    "Status": {
+      "type": "string",
+      "description": "Reservation status",
+      "required": true,
+      "enum": ["Active", "Cancelled"],
+      "default": "Active"
+    },
+    "Comments": {
+      "type": "string",
+      "description": "Optional user comments about the reservation (e.g., 'Testing SharePoint migration', 'Maintenance window')",
+      "required": false,
+      "maxLength": 500
+    },
+    "Purpose": {
+      "type": "string",
+      "description": "Optional categorization of reservation purpose",
+      "required": false,
+      "example": "Testing, Maintenance, Development, Training"
+    },
+    "OverrideWarning": {
+      "type": "boolean",
+      "description": "True if user accepted conflict warning and allowed override",
+      "required": false,
+      "default": false
+    },
+    "ConflictingReservations": {
+      "type": "array",
+      "description": "Array of conflicting reservation IDs (if OverrideWarning=true)",
+      "required": false,
+      "items": {
+        "type": "string"
+      }
+    },
+    "ApprovalRequested": {
+      "type": "boolean",
+      "description": "True if admin approval was requested before activation",
+      "required": false,
+      "default": false
+    },
+    "ApprovedByUserId": {
+      "type": "string",
+      "description": "SEID of admin who approved reservation",
+      "required": false
+    },
+    "ApprovedAtGmt": {
+      "type": "string",
+      "description": "Approval timestamp in ISO-8601 UTC format",
+      "required": false
+    },
+    "CancelledAtGmt": {
+      "type": "string",
+      "description": "Cancellation timestamp (when Status changed to 'Cancelled')",
+      "required": false
+    },
+    "CancelledByUserId": {
+      "type": "string",
+      "description": "SEID of user who cancelled",
+      "required": false
+    },
+    "CancellationReason": {
+      "type": "string",
+      "description": "Optional reason for cancellation",
+      "required": false,
+      "maxLength": 500
+    }
+  },
+
+  "Example": {
+    "SchemaVersion": "1.0",
+    "ReservationId": "res-20260909-143045-123",
+    "MachineName": "PAWS 66",
+    "MachineShortName": "PAWS 66",
+    "MachineFqdn": "mtb012vp0030366.ds.irsnet.gov",
+    "UserId": "YMJNB",
+    "UserDisplayName": "Davis Lee",
+    "UserEmail": "davis.s.lee@irs.gov",
+    "ReservationDate": "2026-09-10",
+    "StartTime": "10:00",
+    "EndTime": "12:00",
+    "CreatedAtGmt": "2026-09-09T14:30:45.123Z",
+    "CreatedByUserId": "YMJNB",
+    "LastModifiedAtGmt": "2026-09-09T14:30:45.123Z",
+    "LastModifiedByUserId": "YMJNB",
+    "Status": "Active",
+    "Comments": "Testing SharePoint migration impact on PAWS machine",
+    "Purpose": "Testing",
+    "OverrideWarning": false,
+    "ApprovalRequested": false
+  },
+
+  "ExampleCancelled": {
+    "SchemaVersion": "1.0",
+    "ReservationId": "res-20260909-143045-123",
+    "MachineName": "PAWS 66",
+    "MachineShortName": "PAWS 66",
+    "MachineFqdn": "mtb012vp0030366.ds.irsnet.gov",
+    "UserId": "YMJNB",
+    "UserDisplayName": "Davis Lee",
+    "UserEmail": "davis.s.lee@irs.gov",
+    "ReservationDate": "2026-09-10",
+    "StartTime": "10:00",
+    "EndTime": "12:00",
+    "CreatedAtGmt": "2026-09-09T14:30:45.123Z",
+    "CreatedByUserId": "YMJNB",
+    "LastModifiedAtGmt": "2026-09-09T15:00:00.456Z",
+    "LastModifiedByUserId": "YMJNB",
+    "Status": "Cancelled",
+    "Comments": "Testing SharePoint migration impact on PAWS machine",
+    "Purpose": "Testing",
+    "OverrideWarning": false,
+    "CancelledAtGmt": "2026-09-09T15:00:00.456Z",
+    "CancelledByUserId": "YMJNB",
+    "CancellationReason": "Testing completed early, machine available again"
+  }
+}

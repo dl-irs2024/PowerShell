@@ -1,0 +1,32 @@
+{
+    "SchemaVersion": "1.0",
+    "Description": "Cloud server machines for session tracking. This file can be placed on the shared path for centralized management.",
+    "LastUpdated": "2026-09-20T19:00:00Z",
+    "Machines": [
+        {
+            "ShortName": "PAWS 66",
+            "FQDN": "mtb012vp0030366.ds.irsnet.gov",
+            "Comment": "Preset PAWS machine"
+        },
+        {
+            "ShortName": "PAWS 67",
+            "FQDN": "mtb012vp0030367.ds.irsnet.gov",
+            "Comment": "Preset PAWS machine"
+        },
+        {
+            "ShortName": "PAWS 68",
+            "FQDN": "mtb012vp0030368.ds.irsnet.gov",
+            "Comment": "Preset PAWS machine"
+        },
+        {
+            "ShortName": "PAWS 69",
+            "FQDN": "mem020vp0030369.ds.irsnet.gov",
+            "Comment": "Test machine"
+        },
+        {
+            "ShortName": "PAWS 70",
+            "FQDN": "mtb012vp0030370.ds.irsnet.gov",
+            "Comment": "Backup machine"
+        }
+    ]
+}
