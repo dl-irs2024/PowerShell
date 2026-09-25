@@ -1,0 +1,31 @@
+{
+    "Version":  "1.0",
+    "Window":  {
+                   "Left":  107,
+                   "Top":  45,
+                   "Width":  902,
+                   "Height":  711,
+                   "State":  "Normal"
+               },
+    "LookupHistory":  [
+
+                      ],
+    "LastLookup":  "2026-09-12 11:10:51",
+    "OutlookCacheExpiry":  null,
+    "DataGridColumns":  {
+                            "DisplayName":  150,
+                            "Email":  200,
+                            "Title":  120,
+                            "Department":  120,
+                            "Office":  100,
+                            "StreetAddress":  120,
+                            "State":  60,
+                            "ZipCode":  80,
+                            "Phone":  110,
+                            "MobilePhone":  110,
+                            "TimeZone":  100,
+                            "Manager":  150,
+                            "OutOfOfficeEnabled":  100,
+                            "Source":  100
+                        }
+}
