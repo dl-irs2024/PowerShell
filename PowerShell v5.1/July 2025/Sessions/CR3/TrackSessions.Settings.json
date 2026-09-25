@@ -1,0 +1,644 @@
+﻿{
+    "SchemaVersion":  "1.0",
+    "MiniWindow":  {
+                       "Left":  null,
+                       "Top":  null
+                   },
+    "Layout":  {
+                   "BottomPaneHeight":  null,
+                   "WindowLeft":  null,
+                   "WindowTop":  null,
+                   "WindowWidth":  null,
+                   "WindowHeight":  null
+               },
+    "Tracking":  {
+                     "SharedPath":  "\\\\Vp0wxsqm365as02\\SPS\\PAWS-Sessions\\TestSimulate",
+                     "Machines":  [
+                                      {
+                                          "ShortName":  "mtb012vp0030366",
+                                          "FQDN":  "MTB012VP0030366.DS.IRSNET.GOV",
+                                          "Comment":  "Preset PAWS machine"
+                                      },
+                                      {
+                                          "ShortName":  "PAWS002",
+                                          "FQDN":  "MTB012VP0030367.DS.IRSNET.GOV",
+                                          "Comment":  "Preset PAWS machine"
+                                      },
+                                      {
+                                          "ShortName":  "PAWS003",
+                                          "FQDN":  "mtb012vp0030368.ds.irsnet.gov",
+                                          "Comment":  "Preset PAWS machine"
+                                      }
+                                  ]
+                 },
+    "StartupTrace":  {
+                         "Enabled":  true,
+                         "Events":  [
+                                        {
+                                            "TimestampUtc":  "2026-09-24T01:07:41.210Z",
+                                            "Event":  "Main.Loaded",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T01:07:41.310Z",
+                                            "Event":  "Main.ContentRendered",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T01:08:18.053Z",
+                                            "Event":  "Main.Closed",
+                                            "Detail":  "Main window closed"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T01:24:08.265Z",
+                                            "Event":  "Script.Start",
+                                            "Detail":  "PID=13712;SettingsPath=C:\\Users\\YMJNB\\OneDrive - Internal Revenue Service\\Documents\\PowerShell 2025\\PowerShell v5.1\\July 2025\\Sessions\\CR3\\TrackSessions.Settings.json"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T01:24:08.793Z",
+                                            "Event":  "Before.ShowDialog",
+                                            "Detail":  "Entering modal loop"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T01:24:16.986Z",
+                                            "Event":  "Before.ShowDialog",
+                                            "Detail":  "Initial refresh complete"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T01:24:17.237Z",
+                                            "Event":  "Main.SourceInitialized",
+                                            "Detail":  ""
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T01:24:17.712Z",
+                                            "Event":  "Main.Loaded",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T01:24:17.804Z",
+                                            "Event":  "Main.ContentRendered",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T01:25:26.338Z",
+                                            "Event":  "Main.Closed",
+                                            "Detail":  "Main window closed"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T01:32:31.724Z",
+                                            "Event":  "Script.Start",
+                                            "Detail":  "PID=27864;SettingsPath=C:\\Users\\YMJNB\\OneDrive - Internal Revenue Service\\Documents\\PowerShell 2025\\PowerShell v5.1\\July 2025\\Sessions\\CR3\\TrackSessions.Settings.json"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T01:32:32.169Z",
+                                            "Event":  "Before.ShowDialog",
+                                            "Detail":  "Entering modal loop"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T01:32:39.418Z",
+                                            "Event":  "Before.ShowDialog",
+                                            "Detail":  "Initial refresh complete"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T01:32:39.678Z",
+                                            "Event":  "Main.SourceInitialized",
+                                            "Detail":  ""
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T01:32:40.015Z",
+                                            "Event":  "Main.Loaded",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T01:32:40.120Z",
+                                            "Event":  "Main.ContentRendered",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T01:35:08.805Z",
+                                            "Event":  "Simulation.Enabled",
+                                            "Detail":  "Activity Grid simulator started."
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T01:35:20.158Z",
+                                            "Event":  "Simulation.Disabled",
+                                            "Detail":  "Activity Grid simulator stopped."
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T01:38:46.208Z",
+                                            "Event":  "Main.Closed",
+                                            "Detail":  "Main window closed"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T02:30:15.151Z",
+                                            "Event":  "Script.Start",
+                                            "Detail":  "PID=30492;SettingsPath=C:\\Users\\YMJNB\\OneDrive - Internal Revenue Service\\Documents\\PowerShell 2025\\PowerShell v5.1\\July 2025\\Sessions\\CR3\\TrackSessions.Settings.json"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T02:30:19.629Z",
+                                            "Event":  "Before.ShowDialog",
+                                            "Detail":  "Entering modal loop"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T02:30:24.055Z",
+                                            "Event":  "Before.ShowDialog",
+                                            "Detail":  "Initial refresh complete"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T02:30:24.251Z",
+                                            "Event":  "Main.SourceInitialized",
+                                            "Detail":  ""
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T02:30:24.612Z",
+                                            "Event":  "Main.Loaded",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T02:30:24.714Z",
+                                            "Event":  "Main.ContentRendered",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T02:31:26.498Z",
+                                            "Event":  "Main.Closed",
+                                            "Detail":  "Main window closed"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T03:19:54.321Z",
+                                            "Event":  "Script.Start",
+                                            "Detail":  "PID=41164;SettingsPath=C:\\Users\\YMJNB\\OneDrive - Internal Revenue Service\\Documents\\PowerShell 2025\\PowerShell v5.1\\July 2025\\Sessions\\CR3\\TrackSessions.Settings.json"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T03:19:56.884Z",
+                                            "Event":  "Before.ShowDialog",
+                                            "Detail":  "Entering modal loop"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T03:20:03.961Z",
+                                            "Event":  "Before.ShowDialog",
+                                            "Detail":  "Initial refresh complete"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T03:20:04.074Z",
+                                            "Event":  "Main.SourceInitialized",
+                                            "Detail":  ""
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T03:20:04.288Z",
+                                            "Event":  "Main.Loaded",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T03:20:04.379Z",
+                                            "Event":  "Main.ContentRendered",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T03:21:01.933Z",
+                                            "Event":  "Main.Closed",
+                                            "Detail":  "Main window closed"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T03:27:26.546Z",
+                                            "Event":  "Script.Start",
+                                            "Detail":  "PID=38000;SettingsPath=C:\\Users\\YMJNB\\OneDrive - Internal Revenue Service\\Documents\\PowerShell 2025\\PowerShell v5.1\\July 2025\\Sessions\\CR3\\TrackSessions.Settings.json"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T03:27:27.008Z",
+                                            "Event":  "Before.ShowDialog",
+                                            "Detail":  "Entering modal loop"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T03:27:32.968Z",
+                                            "Event":  "Before.ShowDialog",
+                                            "Detail":  "Initial refresh complete"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T03:27:33.101Z",
+                                            "Event":  "Main.SourceInitialized",
+                                            "Detail":  ""
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T03:27:33.321Z",
+                                            "Event":  "Main.Loaded",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T03:27:33.401Z",
+                                            "Event":  "Main.ContentRendered",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T03:27:44.326Z",
+                                            "Event":  "Main.Closed",
+                                            "Detail":  "Main window closed"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T03:35:39.676Z",
+                                            "Event":  "Script.Start",
+                                            "Detail":  "PID=26092;SettingsPath=.\\TrackSessions.Settings.json"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T03:35:40.105Z",
+                                            "Event":  "Before.ShowDialog",
+                                            "Detail":  "Entering modal loop"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T03:35:45.907Z",
+                                            "Event":  "Before.ShowDialog",
+                                            "Detail":  "Initial refresh complete"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T03:35:46.113Z",
+                                            "Event":  "Main.SourceInitialized",
+                                            "Detail":  ""
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T03:35:46.436Z",
+                                            "Event":  "Main.Loaded",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T03:35:46.531Z",
+                                            "Event":  "Main.ContentRendered",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T03:41:05.036Z",
+                                            "Event":  "Script.Start",
+                                            "Detail":  "PID=24968;SettingsPath=.\\TrackSessions.Settings.json"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T03:41:05.460Z",
+                                            "Event":  "Before.ShowDialog",
+                                            "Detail":  "Entering modal loop"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T03:41:12.824Z",
+                                            "Event":  "Before.ShowDialog",
+                                            "Detail":  "Initial refresh complete"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T03:41:13.330Z",
+                                            "Event":  "Main.SourceInitialized",
+                                            "Detail":  ""
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T03:41:14.114Z",
+                                            "Event":  "Main.Loaded",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T03:41:14.290Z",
+                                            "Event":  "Main.ContentRendered",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T03:42:43.315Z",
+                                            "Event":  "Script.Start",
+                                            "Detail":  "PID=7800;SettingsPath=C:\\Users\\YMJNB\\OneDrive - Internal Revenue Service\\Documents\\PowerShell 2025\\PowerShell v5.1\\July 2025\\Sessions\\CR3\\TrackSessions.Settings.json"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T03:42:43.640Z",
+                                            "Event":  "Before.ShowDialog",
+                                            "Detail":  "Entering modal loop"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T03:42:50.881Z",
+                                            "Event":  "Before.ShowDialog",
+                                            "Detail":  "Initial refresh complete"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T03:42:51.087Z",
+                                            "Event":  "Main.SourceInitialized",
+                                            "Detail":  ""
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T03:42:51.454Z",
+                                            "Event":  "Main.Loaded",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T03:42:51.575Z",
+                                            "Event":  "Main.ContentRendered",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T03:44:03.546Z",
+                                            "Event":  "Main.Closed",
+                                            "Detail":  "Main window closed"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T03:45:32.577Z",
+                                            "Event":  "Script.Start",
+                                            "Detail":  "PID=28960;SettingsPath=C:\\Users\\YMJNB\\OneDrive - Internal Revenue Service\\Documents\\PowerShell 2025\\PowerShell v5.1\\July 2025\\Sessions\\CR3\\TrackSessions.Settings.json"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T03:45:33.125Z",
+                                            "Event":  "Before.ShowDialog",
+                                            "Detail":  "Entering modal loop"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T03:45:41.997Z",
+                                            "Event":  "Before.ShowDialog",
+                                            "Detail":  "Initial refresh complete"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T03:45:42.250Z",
+                                            "Event":  "Main.SourceInitialized",
+                                            "Detail":  ""
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T03:45:42.575Z",
+                                            "Event":  "Main.Loaded",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T03:45:42.698Z",
+                                            "Event":  "Main.ContentRendered",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T03:47:27.296Z",
+                                            "Event":  "Main.Closed",
+                                            "Detail":  "Main window closed"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T17:06:24.109Z",
+                                            "Event":  "Script.Start",
+                                            "Detail":  "PID=4184;SettingsPath=C:\\Users\\YMJNB\\OneDrive - Internal Revenue Service\\Documents\\PowerShell 2025\\PowerShell v5.1\\July 2025\\Sessions\\CR3\\TrackSessions.Settings.json"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T17:06:24.906Z",
+                                            "Event":  "Before.ShowDialog",
+                                            "Detail":  "Entering modal loop"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T17:06:25.746Z",
+                                            "Event":  "Before.ShowDialog",
+                                            "Detail":  "Initial refresh complete"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T17:06:26.105Z",
+                                            "Event":  "Main.SourceInitialized",
+                                            "Detail":  ""
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T17:06:26.481Z",
+                                            "Event":  "Main.Loaded",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T17:06:26.669Z",
+                                            "Event":  "Main.ContentRendered",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T17:16:27.637Z",
+                                            "Event":  "Main.Closed",
+                                            "Detail":  "Main window closed"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T17:36:32.133Z",
+                                            "Event":  "Script.Start",
+                                            "Detail":  "PID=35996;SettingsPath=C:\\Users\\YMJNB\\OneDrive - Internal Revenue Service\\Documents\\PowerShell 2025\\PowerShell v5.1\\July 2025\\Sessions\\CR3\\TrackSessions.Settings.json"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T17:36:32.582Z",
+                                            "Event":  "Before.ShowDialog",
+                                            "Detail":  "Entering modal loop"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T17:36:33.212Z",
+                                            "Event":  "Before.ShowDialog",
+                                            "Detail":  "Initial refresh complete"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T17:36:33.380Z",
+                                            "Event":  "Main.SourceInitialized",
+                                            "Detail":  ""
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T17:36:33.716Z",
+                                            "Event":  "Main.Loaded",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T17:36:33.821Z",
+                                            "Event":  "Main.ContentRendered",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T17:40:17.321Z",
+                                            "Event":  "Simulation.Enabled",
+                                            "Detail":  "Activity Grid simulator started."
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T17:40:21.117Z",
+                                            "Event":  "Simulation.Disabled",
+                                            "Detail":  "Activity Grid simulator stopped."
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T17:51:44.918Z",
+                                            "Event":  "Main.Closed",
+                                            "Detail":  "Main window closed"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T19:29:06.561Z",
+                                            "Event":  "Script.Start",
+                                            "Detail":  "PID=37792;SettingsPath=C:\\Users\\YMJNB\\OneDrive - Internal Revenue Service\\Documents\\PowerShell 2025\\PowerShell v5.1\\July 2025\\Sessions\\CR3\\TrackSessions.Settings.json"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T19:29:07.456Z",
+                                            "Event":  "Before.ShowDialog",
+                                            "Detail":  "Entering modal loop"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T19:29:11.408Z",
+                                            "Event":  "Before.ShowDialog",
+                                            "Detail":  "Initial refresh complete"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T19:29:12.148Z",
+                                            "Event":  "Main.SourceInitialized",
+                                            "Detail":  ""
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T19:29:13.801Z",
+                                            "Event":  "Main.Loaded",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T19:29:14.140Z",
+                                            "Event":  "Main.ContentRendered",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T19:36:39.698Z",
+                                            "Event":  "Main.Closed",
+                                            "Detail":  "Main window closed"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T19:39:05.446Z",
+                                            "Event":  "Script.Start",
+                                            "Detail":  "PID=39784;SettingsPath=C:\\Users\\YMJNB\\OneDrive - Internal Revenue Service\\Documents\\PowerShell 2025\\PowerShell v5.1\\July 2025\\Sessions\\CR3\\TrackSessions.Settings.json"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T19:39:06.755Z",
+                                            "Event":  "Before.ShowDialog",
+                                            "Detail":  "Entering modal loop"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T19:39:15.038Z",
+                                            "Event":  "Before.ShowDialog",
+                                            "Detail":  "Initial refresh complete"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T19:39:16.433Z",
+                                            "Event":  "Main.SourceInitialized",
+                                            "Detail":  ""
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T19:39:18.066Z",
+                                            "Event":  "Main.Loaded",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T19:39:18.333Z",
+                                            "Event":  "Main.ContentRendered",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T19:42:40.970Z",
+                                            "Event":  "CloseAfterSession.Clicked",
+                                            "Detail":  ""
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T19:43:29.579Z",
+                                            "Event":  "Main.Closed",
+                                            "Detail":  "Main window closed"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T19:48:44.103Z",
+                                            "Event":  "Script.Start",
+                                            "Detail":  "PID=32192;SettingsPath=C:\\Users\\YMJNB\\OneDrive - Internal Revenue Service\\Documents\\PowerShell 2025\\PowerShell v5.1\\July 2025\\Sessions\\CR3\\TrackSessions.Settings.json"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T19:48:45.399Z",
+                                            "Event":  "Before.ShowDialog",
+                                            "Detail":  "Entering modal loop"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T19:48:59.588Z",
+                                            "Event":  "Before.ShowDialog",
+                                            "Detail":  "Initial refresh complete"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T19:49:00.071Z",
+                                            "Event":  "Main.SourceInitialized",
+                                            "Detail":  ""
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T19:49:00.697Z",
+                                            "Event":  "Main.Loaded",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T19:49:00.969Z",
+                                            "Event":  "Main.ContentRendered",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T19:50:13.133Z",
+                                            "Event":  "CloseAfterSession.Clicked",
+                                            "Detail":  ""
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T19:50:15.726Z",
+                                            "Event":  "Main.Closed",
+                                            "Detail":  "Main window closed"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T23:53:32.997Z",
+                                            "Event":  "Script.Start",
+                                            "Detail":  "PID=34132;SettingsPath=C:\\Users\\YMJNB\\OneDrive - Internal Revenue Service\\Documents\\PowerShell 2025\\PowerShell v5.1\\July 2025\\Sessions\\CR3\\TrackSessions.Settings.json"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T23:53:33.639Z",
+                                            "Event":  "Before.ShowDialog",
+                                            "Detail":  "Entering modal loop"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T23:53:41.197Z",
+                                            "Event":  "Before.ShowDialog",
+                                            "Detail":  "Initial refresh complete"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T23:53:41.456Z",
+                                            "Event":  "Main.SourceInitialized",
+                                            "Detail":  ""
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T23:53:41.776Z",
+                                            "Event":  "Main.Loaded",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T23:53:41.951Z",
+                                            "Event":  "Main.ContentRendered",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-24T23:56:07.680Z",
+                                            "Event":  "Main.Closed",
+                                            "Detail":  "Main window closed"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-25T00:02:59.698Z",
+                                            "Event":  "Script.Start",
+                                            "Detail":  "PID=44204;SettingsPath=C:\\Users\\YMJNB\\OneDrive - Internal Revenue Service\\Documents\\PowerShell 2025\\PowerShell v5.1\\July 2025\\Sessions\\CR3\\TrackSessions.Settings.json"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-25T00:03:00.057Z",
+                                            "Event":  "Before.ShowDialog",
+                                            "Detail":  "Entering modal loop"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-25T00:03:02.862Z",
+                                            "Event":  "Before.ShowDialog",
+                                            "Detail":  "Initial refresh complete"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-25T00:03:03.292Z",
+                                            "Event":  "Main.SourceInitialized",
+                                            "Detail":  ""
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-25T00:03:03.563Z",
+                                            "Event":  "Main.Loaded",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-25T00:03:03.664Z",
+                                            "Event":  "Main.ContentRendered",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-25T00:03:45.057Z",
+                                            "Event":  "CloseAfterSession.Clicked",
+                                            "Detail":  ""
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-25T00:03:48.435Z",
+                                            "Event":  "Main.Closed",
+                                            "Detail":  "Main window closed"
+                                        }
+                                    ]
+                     },
+    "Debug":  {
+                  "ShowAllSessions":  true,
+                  "ShowFilterInLog":  true,
+                  "ShowRefreshEvents":  true
+              }
+}

@@ -1,0 +1,154 @@
+﻿{
+    "SchemaVersion":  "1.0",
+    "MiniWindow":  {
+                       "Left":  null,
+                       "Top":  null
+                   },
+    "Layout":  {
+                   "BottomPaneHeight":  190,
+                   "WindowLeft":  null,
+                   "WindowTop":  null,
+                   "WindowWidth":  null,
+                   "WindowHeight":  null
+               },
+    "Tracking":  {
+                     "SharedPath":  "\\\\Vp0wxsqm365as02\\SPS\\PAWS-Sessions\\TestSimulate",
+                     "Machines":  [
+                                      {
+                                          "ShortName":  "PAWS 66",
+                                          "FQDN":  "mtb012vp0030366.ds.irsnet.gov",
+                                          "Comment":  "Everyone, Davis"
+                                      },
+                                      {
+                                          "ShortName":  "PAWS 67",
+                                          "FQDN":  "mtb012vp0030367.ds.irsnet.gov",
+                                          "Comment":  "Rizu mostly"
+                                      },
+                                      {
+                                          "ShortName":  "PAWS 68",
+                                          "FQDN":  "mtb012vp0030368.ds.irsnet.gov",
+                                          "Comment":  "Preset PAWS machine"
+                                      },
+                                      {
+                                          "ShortName":  "PAWS 69",
+                                          "FQDN":  "mem020vp0030369.ds.irsnet.gov",
+                                          "Comment":  ""
+                                      }
+                                  ]
+                 },
+    "StartupTrace":  {
+                         "Enabled":  true,
+                         "Events":  [
+                                        {
+                                            "TimestampUtc":  "2026-09-15T13:16:27.796Z",
+                                            "Event":  "Script.Start",
+                                            "Detail":  "PID=33256;SettingsPath=C:\\paws\\TrackSessions.Settings.json"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-15T13:16:28.047Z",
+                                            "Event":  "Before.ShowDialog",
+                                            "Detail":  "Entering modal loop"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-15T13:16:28.155Z",
+                                            "Event":  "Main.SourceInitialized",
+                                            "Detail":  ""
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-15T13:16:28.183Z",
+                                            "Event":  "Main.Loaded",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-15T13:16:28.359Z",
+                                            "Event":  "Main.ContentRendered",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-15T13:16:33.105Z",
+                                            "Event":  "Simulation.Enabled",
+                                            "Detail":  "Activity Grid simulator started."
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-15T13:16:35.495Z",
+                                            "Event":  "Main.StateChanged",
+                                            "Detail":  "State=Maximized"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-15T13:16:44.023Z",
+                                            "Event":  "Main.Closed",
+                                            "Detail":  "Main window closed"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-15T13:53:39.010Z",
+                                            "Event":  "Script.Start",
+                                            "Detail":  "PID=31760;SettingsPath=C:\\PAWS\\PowerShell\\TrackSessions.Settings.json"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-15T13:53:39.454Z",
+                                            "Event":  "Before.ShowDialog",
+                                            "Detail":  "Entering modal loop"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-15T13:53:39.552Z",
+                                            "Event":  "Main.SourceInitialized",
+                                            "Detail":  ""
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-15T13:53:39.644Z",
+                                            "Event":  "Main.Loaded",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-15T13:53:39.743Z",
+                                            "Event":  "Main.ContentRendered",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-15T13:53:49.502Z",
+                                            "Event":  "Main.StateChanged",
+                                            "Detail":  "State=Maximized"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-15T13:55:42.168Z",
+                                            "Event":  "CloseAfterSession.Clicked",
+                                            "Detail":  ""
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-15T14:48:32.639Z",
+                                            "Event":  "Script.Start",
+                                            "Detail":  "PID=26524;SettingsPath=C:\\PAWS\\PowerShell\\TrackSessions.Settings.json"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-15T14:48:33.203Z",
+                                            "Event":  "Before.ShowDialog",
+                                            "Detail":  "Entering modal loop"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-15T14:48:33.325Z",
+                                            "Event":  "Main.SourceInitialized",
+                                            "Detail":  ""
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-15T14:48:33.465Z",
+                                            "Event":  "Main.Loaded",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-15T14:48:33.633Z",
+                                            "Event":  "Main.ContentRendered",
+                                            "Detail":  "State=Normal"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-15T14:48:47.089Z",
+                                            "Event":  "Main.StateChanged",
+                                            "Detail":  "State=Maximized"
+                                        },
+                                        {
+                                            "TimestampUtc":  "2026-09-15T14:48:53.185Z",
+                                            "Event":  "Main.StateChanged",
+                                            "Detail":  "State=Normal"
+                                        }
+                                    ]
+                     }
+}

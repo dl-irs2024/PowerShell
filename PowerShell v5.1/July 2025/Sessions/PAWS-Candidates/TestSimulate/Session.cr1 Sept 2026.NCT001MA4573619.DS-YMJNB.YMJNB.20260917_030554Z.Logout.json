@@ -1,0 +1,17 @@
+﻿{
+    "CreatedAtGmt":  "2026-09-17T03:05:54Z",
+    "JsonFileName":  "Session.cr1 Sept 2026.NCT001MA4573619.DS-YMJNB.YMJNB.20260917_030554Z.json",
+    "SchemaVersion":  "1.0",
+    "MachineName":  "NCT001MA4573619",
+    "SessionId":  1,
+    "SessionName":  "console",
+    "UserId":  "DS\\YMJNB",
+    "UserDisplayName":  "YMJNB",
+    "UserEmail":  "ymjnb@ds.irsnet.gov",
+    "SessionStatus":  "Closed",
+    "SessionCloseEvent":  "WindowClosed",
+    "SessionClosedAtGmt":  "2026-09-17T03:10:49Z",
+    "LastUpdatedAtGmt":  "2026-09-17T03:10:49Z",
+    "LogoutFileCreatedAtGmt":  "2026-09-17T03:10:49Z",
+    "LogoutFileName":  "Session.cr1 Sept 2026.NCT001MA4573619.DS-YMJNB.YMJNB.20260917_030554Z.Logout.json"
+}

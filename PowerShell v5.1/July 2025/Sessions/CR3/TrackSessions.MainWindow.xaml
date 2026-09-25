@@ -1,0 +1,373 @@
+<!--
+===============================================================================
+TrackSessions.MainWindow.xaml
+===============================================================================
+
+PURPOSE:
+  Main UI window for the Session Tracker application. Displays current session
+  information, user details, and a grid of activity from other machines.
+
+USAGE CONTEXT:
+  - Loaded at script startup by: New-MainWindowObject()
+  - Displayed via: $window.ShowDialog()
+  - Contains both the main session info display and the startup instructions overlay
+
+KEY SECTIONS:
+  - Header Banner: "Session Tracking Home" with animated icon
+  - Info Panel: Read-only text boxes for Session, User ID, Display Name, Email, 
+                Machine Name, JSON Folder, JSON File, Last Update
+  - Activity Grid: DataGrid showing status from other machines with color coding
+  - Legend: Visual indicators for Logged In, Logged Out, Disconnected, Reservation
+  - Control Panel: Zoom buttons, simulation mode checkbox, status bar
+  - Button Row: Refresh, Copy, Settings, Log, Manage Users, Reservations, Minimize, Close
+  - Startup Overlay: Instructions popup shown on first launch
+
+EVENT HANDLERS WIRED:
+  BtnRefresh.Click              -> Refresh session activity data manually
+  BtnCopyMain.Click             -> Copy session and grid data as PowerShell object
+  BtnEditSettings.Click         -> Open Show-EditSettingsDialog()
+  BtnLog.Click                  -> Open Show-LogViewerDialog()
+  BtnManageUsers.Click          -> Open Show-ManageUsersDialog()
+  BtnReservations.Click         -> Open Show-ReservationsDialog()
+  BtnMinimize.Click             -> Hide main window, show mini panel
+  BtnCloseAfterSession.Click    -> Set flag to close after session ends
+  BtnCloseStartupOverlay.Click  -> Hide startup instructions overlay
+  BtnZoomOutMain.Click          -> Decrease font size (zoom out)
+  BtnZoomInMain.Click           -> Increase font size (zoom in)
+  ChkSimulationMode.Checked     -> Enable simulator rows in grid
+  ChkSimulationMode.Unchecked   -> Disable simulator rows in grid
+  GridSessionFiles.MouseDoubleClick -> Handle double-click on grid rows
+  Window.Closed                 -> Cleanup and exit
+  Window.Closing                -> Prompt to confirm close
+
+REFERENCED CONTROLS:
+  InfoGrid.LblSession, TxtSession              - Current Windows session ID
+  InfoGrid.LblUserId, TxtUserId                - User ID in DOMAIN\USERNAME format
+  InfoGrid.LblDisplayName, TxtDisplayName      - User's display name from directory
+  InfoGrid.LblUserEmail, TxtUserEmail          - User's email address
+  InfoGrid.LblMachine, TxtMachine              - Local machine name
+  InfoGrid.LblFolder, TxtFolder                - JSON output folder path
+  InfoGrid.LblJsonFile, TxtJsonFile            - Current JSON file being updated
+  InfoGrid.LblLastUpdated, TxtLastUpdated      - Last update timestamp (GMT)
+  GridSessionFiles                            - DataGrid: Activity from other machines
+  MainRowSplitter                             - Draggable splitter between panels
+  LblHistory                                  - "Activity on Other Machines" header
+  TxtStatusDateTime                           - Bottom status bar: timestamp
+  TxtStatusUser                               - Bottom status bar: current user
+  TxtStatusMachine                            - Bottom status bar: machine name
+  StartupOverlay                              - Modal overlay with instructions
+  BtnCloseStartupOverlay                      - Dismisses startup instructions
+
+POWERSHELL FUNCTIONS USING THIS XAML:
+  New-MainWindowObject()              - Creates $window from this XAML
+  PopulateMainWindow()                - Populates all text boxes with session info
+  UpdateSessionGridData()              - Refreshes GridSessionFiles with activity
+  ApplyMainWindowZoom()                - Updates font sizes for zoom level
+
+RESOURCE STYLES:
+  Button style with FontWeight="Bold" applied to all buttons
+
+COLORS & THEMING:
+  Main background: #F4F8FC (light blue)
+  Header background: #1F5A8A (dark blue)
+  Header text: White
+  Body background: White
+  Border color: #D3DFEB
+  
+  Row status background colors:
+    - Logged In:    #E7F7EC (light green)
+    - Logged Out:   #FDEBEC (light red)
+    - Disconnected: #E8F3FF (light blue)
+    - Reservation:  #F3E5F5 (light purple)
+  
+  Status bar background: #ECF3FB (very light blue)
+
+ANIMATIONS:
+  - Animated icon in header (ImgAnimatedIcon binding)
+  - Pulsing green dot on "Logged In" rows (Opacity animation, 1.0 to 0.25, 0.5s duration)
+
+CONSTRAINTS:
+  - MinHeight: 450, MinWidth: 560
+  - Default Height: 480, Width: 860
+  - WindowStartupLocation: CenterScreen
+  - ResizeMode: CanResizeWithGrip
+  - ShowInTaskbar: True
+
+DATA BINDING:
+  GridSessionFiles columns bind to data properties:
+    - MachineName
+    - UserId
+    - UserDisplayNameResolved
+    - LastLogin
+    - RowStatus
+    - StatusTimestampDisplay
+  
+  Grid row background colors trigger on RowStatus value via DataTriggers
+
+===============================================================================
+-->
+<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		Title="Windows Session Tracker - cr1 Sept 2026"
+		Height="720"
+		Width="860"
+		MinHeight="500"
+		MinWidth="560"
+		WindowStartupLocation="CenterScreen"
+		ResizeMode="CanResizeWithGrip"
+		SizeToContent="Manual"
+		ShowInTaskbar="True"
+		Background="#F4F8FC">
+	<Window.Resources>
+		<Style TargetType="Button">
+			<Setter Property="FontWeight" Value="Bold"/>
+		</Style>
+	</Window.Resources>
+	<Grid Margin="18">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+		</Grid.RowDefinitions>
+
+		<Border Grid.Row="0" Background="#1F5A8A" CornerRadius="8" Padding="12" Margin="0,0,0,12">
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto"/>
+					<ColumnDefinition Width="*"/>
+				</Grid.ColumnDefinitions>
+				<Image Name="ImgAnimatedIcon" Grid.Column="0" Width="22" Height="22" Margin="0,0,10,0" VerticalAlignment="Center"/>
+				<TextBlock Grid.Column="1" Text="Session Tracking Home" Foreground="White" FontSize="22" FontWeight="SemiBold" VerticalAlignment="Center"/>
+			</Grid>
+		</Border>
+
+		<Border Grid.Row="1" Background="White" CornerRadius="8" Padding="0" BorderBrush="#D3DFEB" BorderThickness="1">
+			<Grid x:Name="BodyGrid" Margin="12">
+				<Grid.RowDefinitions>
+					<RowDefinition x:Name="TopPaneRow" Height="*" MinHeight="80"/>
+					<RowDefinition Height="6"/>
+					<RowDefinition x:Name="BottomPaneRow" Height="*" MinHeight="240"/>
+				</Grid.RowDefinitions>
+
+				<ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Padding="4">
+					<Grid x:Name="InfoGrid">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition x:Name="LblCol" Width="230"/>
+							<ColumnDefinition x:Name="ValCol" Width="*"/>
+						</Grid.ColumnDefinitions>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition Height="Auto"/>
+						</Grid.RowDefinitions>
+
+						<TextBlock Name="LblSession" Grid.Row="0" Grid.Column="0" Text="Session (Windows):" FontWeight="SemiBold" Margin="0,4,6,6" VerticalAlignment="Top"/>
+						<TextBox Grid.Row="0" Grid.Column="1" Name="TxtSession" Margin="0,4,0,6" TextWrapping="Wrap" VerticalAlignment="Top" IsReadOnly="True" BorderThickness="0" Background="Transparent" IsReadOnlyCaretVisible="True"/>
+
+						<TextBlock Name="LblUserId" Grid.Row="1" Grid.Column="0" Text="User ID:" FontWeight="SemiBold" Margin="0,4,6,6" VerticalAlignment="Top"/>
+						<TextBox Grid.Row="1" Grid.Column="1" Name="TxtUserId" Margin="0,4,0,6" TextWrapping="Wrap" VerticalAlignment="Top" IsReadOnly="True" BorderThickness="0" Background="Transparent" IsReadOnlyCaretVisible="True"/>
+
+						<TextBlock Name="LblDisplayName" Grid.Row="2" Grid.Column="0" Text="User Display Name:" FontWeight="SemiBold" Margin="0,4,6,6" VerticalAlignment="Top"/>
+						<TextBox Grid.Row="2" Grid.Column="1" Name="TxtDisplayName" Margin="0,4,0,6" TextWrapping="Wrap" VerticalAlignment="Top" IsReadOnly="True" BorderThickness="0" Background="Transparent" IsReadOnlyCaretVisible="True"/>
+
+						<TextBlock Name="LblUserEmail" Grid.Row="3" Grid.Column="0" Text="User Email:" FontWeight="SemiBold" Margin="0,4,6,6" VerticalAlignment="Top"/>
+						<TextBox Grid.Row="3" Grid.Column="1" Name="TxtUserEmail" Margin="0,4,0,6" TextWrapping="Wrap" VerticalAlignment="Top" IsReadOnly="True" BorderThickness="0" Background="Transparent" IsReadOnlyCaretVisible="True"/>
+
+						<TextBlock Name="LblMachine" Grid.Row="4" Grid.Column="0" Text="Machine Name:" FontWeight="SemiBold" Margin="0,4,6,6" VerticalAlignment="Top"/>
+						<TextBox Grid.Row="4" Grid.Column="1" Name="TxtMachine" Margin="0,4,0,6" TextWrapping="Wrap" VerticalAlignment="Top" IsReadOnly="True" BorderThickness="0" Background="Transparent" IsReadOnlyCaretVisible="True"/>
+
+						<TextBlock Name="LblFolder" Grid.Row="5" Grid.Column="0" Text="JSON Output Folder (default):" FontWeight="SemiBold" Margin="0,4,6,6" VerticalAlignment="Top"/>
+						<TextBox Grid.Row="5" Grid.Column="1" Name="TxtFolder" Margin="0,4,0,6" TextWrapping="Wrap" VerticalAlignment="Top" IsReadOnly="True" BorderThickness="0" Background="Transparent" IsReadOnlyCaretVisible="True"/>
+
+						<TextBlock Name="LblJsonFile" Grid.Row="6" Grid.Column="0" Text="Current JSON File:" FontWeight="SemiBold" Margin="0,4,6,6" VerticalAlignment="Top"/>
+						<TextBox Grid.Row="6" Grid.Column="1" Name="TxtJsonFile" Margin="0,4,0,6" TextWrapping="Wrap" VerticalAlignment="Top" IsReadOnly="True" BorderThickness="0" Background="Transparent" IsReadOnlyCaretVisible="True"/>
+
+						<TextBlock Name="LblLastUpdated" Grid.Row="7" Grid.Column="0" Text="Last Update (GMT):" FontWeight="SemiBold" Margin="0,4,6,6" VerticalAlignment="Top"/>
+						<TextBox Grid.Row="7" Grid.Column="1" Name="TxtLastUpdated" Margin="0,4,0,6" TextWrapping="Wrap" VerticalAlignment="Top" IsReadOnly="True" BorderThickness="0" Background="Transparent" IsReadOnlyCaretVisible="True"/>
+					</Grid>
+				</ScrollViewer>
+
+				<GridSplitter Name="MainRowSplitter" Grid.Row="1" Height="6" HorizontalAlignment="Stretch" VerticalAlignment="Center" ResizeDirection="Rows" ResizeBehavior="PreviousAndNext" Background="#D9E5EF"/>
+
+				<Grid Grid.Row="2" Margin="4,8,4,4">
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto"/>
+						<RowDefinition Height="*"/>
+					</Grid.RowDefinitions>
+					<TextBlock Name="LblHistory" Grid.Row="0" Text="Activity on Other Machines" FontWeight="SemiBold" Margin="0,0,0,6"/>
+					<DataGrid Name="GridSessionFiles"
+							  Grid.Row="1"
+							  MinHeight="120"
+							  AutoGenerateColumns="False"
+							  CanUserAddRows="False"
+							  CanUserDeleteRows="False"
+							  IsReadOnly="True"
+							  HeadersVisibility="Column"
+							  SelectionMode="Single"
+							  SelectionUnit="FullRow"
+							  GridLinesVisibility="Horizontal"
+							  ScrollViewer.VerticalScrollBarVisibility="Auto"
+							  ScrollViewer.HorizontalScrollBarVisibility="Auto">
+						<DataGrid.RowStyle>
+							<Style TargetType="DataGridRow">
+								<Style.Triggers>
+									<DataTrigger Binding="{Binding RowStatus}" Value="Logged In">
+										<Setter Property="Background" Value="#E7F7EC"/>
+									</DataTrigger>
+									<DataTrigger Binding="{Binding RowStatus}" Value="Logged Out">
+										<Setter Property="Background" Value="#FDEBEC"/>
+									</DataTrigger>
+									<DataTrigger Binding="{Binding RowStatus}" Value="Disconnected">
+										<Setter Property="Background" Value="#E8F3FF"/>
+									</DataTrigger>
+								</Style.Triggers>
+							</Style>
+						</DataGrid.RowStyle>
+						<DataGrid.Columns>
+							<DataGridTemplateColumn Header="Machine Name" Width="*">
+								<DataGridTemplateColumn.CellTemplate>
+									<DataTemplate>
+										<StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+											<TextBlock Text="{Binding MachineName}" VerticalAlignment="Center"/>
+											<Ellipse Width="8" Height="8" Fill="#0D7A2E" Margin="6,0,0,0" VerticalAlignment="Center">
+												<Ellipse.Style>
+													<Style TargetType="Ellipse">
+														<Setter Property="Visibility" Value="Collapsed"/>
+														<Setter Property="Opacity" Value="1.0"/>
+														<Style.Triggers>
+															<DataTrigger Binding="{Binding RowStatus}" Value="Logged In">
+																<Setter Property="Visibility" Value="Visible"/>
+															</DataTrigger>
+														</Style.Triggers>
+													</Style>
+												</Ellipse.Style>
+												<Ellipse.Triggers>
+													<EventTrigger RoutedEvent="FrameworkElement.Loaded">
+														<BeginStoryboard>
+															<Storyboard RepeatBehavior="Forever" AutoReverse="True">
+																<DoubleAnimation Storyboard.TargetProperty="Opacity" From="1.0" To="0.25" Duration="0:0:0.5"/>
+															</Storyboard>
+														</BeginStoryboard>
+													</EventTrigger>
+												</Ellipse.Triggers>
+											</Ellipse>
+										</StackPanel>
+									</DataTemplate>
+								</DataGridTemplateColumn.CellTemplate>
+							</DataGridTemplateColumn>
+							<DataGridTextColumn Header="User ID" Binding="{Binding UserId}" Width="*"/>
+							<DataGridTextColumn Header="User Display Name" Binding="{Binding UserDisplayNameResolved}" Width="*"/>
+							<DataGridTextColumn Header="Last Login" Binding="{Binding LastLogin}" Width="*"/>
+							<DataGridTemplateColumn Header="Status" Width="*">
+								<DataGridTemplateColumn.CellTemplate>
+									<DataTemplate>
+										<TextBlock Text="{Binding RowStatus}" ToolTip="{Binding StatusTimestampDisplay}" VerticalAlignment="Center"/>
+									</DataTemplate>
+								</DataGridTemplateColumn.CellTemplate>
+							</DataGridTemplateColumn>
+						</DataGrid.Columns>
+					</DataGrid>
+				</Grid>
+			</Grid>
+		</Border>
+
+		<Grid Grid.Row="2" Margin="0,12,0,0">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto"/>
+				<ColumnDefinition Width="*"/>
+			</Grid.ColumnDefinitions>
+			<StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+				<TextBlock Text="Legend:" FontSize="16.5" Foreground="#365065" Margin="0,0,6,0" VerticalAlignment="Center"/>
+				<Border Width="15" Height="15" Background="#E7F7EC" BorderBrush="#3F8E5A" BorderThickness="3" Margin="0,0,4,0" VerticalAlignment="Center"/>
+				<TextBlock Text="Logged In" FontSize="16.5" Foreground="#365065" Margin="0,0,8,0" VerticalAlignment="Center"/>
+				<Border Width="15" Height="15" Background="#FDEBEC" BorderBrush="#B45B66" BorderThickness="3" Margin="0,0,4,0" VerticalAlignment="Center"/>
+				<TextBlock Text="Logged Out" FontSize="16.5" Foreground="#365065" Margin="0,0,8,0" VerticalAlignment="Center"/>
+				<Border Width="15" Height="15" Background="#E8F3FF" BorderBrush="#4F7FAF" BorderThickness="3" Margin="0,0,4,0" VerticalAlignment="Center"/>
+				<TextBlock Text="Disconnected" FontSize="16.5" Foreground="#365065" Margin="0,0,8,0" VerticalAlignment="Center"/>
+				<Border Width="15" Height="15" Background="#F3E5F5" BorderBrush="#7B1FA2" BorderThickness="3" Margin="0,0,4,0" VerticalAlignment="Center"/>
+				<TextBlock Text="Reservation" FontSize="16.5" Foreground="#365065" VerticalAlignment="Center"/>
+			</StackPanel>
+		</Grid>
+
+		<Grid Grid.Row="3" Margin="0,12,0,0">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*"/>
+				<ColumnDefinition Width="Auto"/>
+			</Grid.ColumnDefinitions>
+			<StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+				<Button Name="BtnZoomOutMain" Content="-" Width="30" Height="28" Margin="0,0,6,0" ToolTip="Zoom out main details and session grid."/>
+				<Button Name="BtnZoomInMain" Content="+" Width="30" Height="28" Margin="0,0,10,0" ToolTip="Zoom in main details and session grid."/>
+				<TextBlock Text="Session JSON auto-updates every 3 minutes while this app is running." Foreground="#334E68" VerticalAlignment="Center" TextWrapping="Wrap" Margin="0,0,0,0"/>
+			</StackPanel>
+			<CheckBox Grid.Column="1" Name="ChkSimulationMode" Content="Simulation" VerticalAlignment="Center" Margin="10,0,0,0" HorizontalAlignment="Right" ToolTip="When enabled, simulator rows are added to the Activity Grid every 5-7 seconds."/>
+		</Grid>
+
+		<Grid Grid.Row="4" Margin="0,12,0,0">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto"/>
+				<ColumnDefinition Width="Auto"/>
+				<ColumnDefinition Width="Auto"/>
+				<ColumnDefinition Width="Auto"/>
+				<ColumnDefinition Width="Auto"/>
+				<ColumnDefinition Width="Auto"/>
+				<ColumnDefinition Width="Auto"/>
+			</Grid.ColumnDefinitions>
+			<Button Grid.Column="0" Name="BtnRefresh" Content="Refresh Now" Width="110" Height="30" Margin="0,0,8,0" ToolTip="Manually refresh the session activity data."/>
+			<Button Grid.Column="1" Name="BtnCopyMain" Content="Copy" Width="74" Height="30" Margin="0,0,8,0" ToolTip="Copies Session and Grid as PowerShell object format"/>
+			<Button Grid.Column="2" Name="BtnEditSettings" Content="Settings..." Width="108" Height="30" Margin="0,0,8,0" ToolTip="Open the settings dialog to configure tracked machines and paths."/>
+			<Button Grid.Column="3" Name="BtnLog" Content="Log..." Width="60" Height="30" Margin="0,0,8,0" ToolTip="Show debug and trace log output."/>
+			<Button Grid.Column="4" Name="BtnManageUsers" Content="Manage Users..." Width="126" Height="30" Margin="0,0,8,0" ToolTip="Edit user database and admin permissions."/>
+			<Button Grid.Column="5" Name="BtnReservations" Content="Reservations..." Width="126" Height="30" Margin="0,0,8,0" ToolTip="View and manage machine reservations calendar."/>
+			<Button Grid.Column="6" Name="BtnMinimize" Content="_" Width="34" Height="30" Margin="0,0,8,0" FontWeight="Bold" ToolTip="Minimize to system tray."/>
+			<Button Grid.Column="7" Name="BtnCloseAfterSession" Content="Close After Session" Width="150" Height="30" ToolTip="Close the app after the current session ends."/>
+		</Grid>
+
+		<Border Grid.Row="5" Margin="0,12,0,0" Padding="8,6" CornerRadius="6" Background="#ECF3FB" BorderBrush="#BFD4E8" BorderThickness="1">
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="2*"/>
+					<ColumnDefinition Width="*"/>
+					<ColumnDefinition Width="*"/>
+				</Grid.ColumnDefinitions>
+				<TextBlock Name="TxtStatusDateTime" Grid.Column="0" VerticalAlignment="Center" Foreground="#24415F" FontSize="12" FontWeight="SemiBold" Text="Ready"/>
+				<TextBlock Name="TxtStatusUser" Grid.Column="1" VerticalAlignment="Center" Foreground="#24415F" FontSize="12" TextTrimming="CharacterEllipsis" Margin="10,0,0,0"/>
+				<TextBlock Name="TxtStatusMachine" Grid.Column="2" VerticalAlignment="Center" Foreground="#24415F" FontSize="12" TextTrimming="CharacterEllipsis" Margin="10,0,0,0"/>
+			</Grid>
+		</Border>
+
+		<Grid Name="StartupOverlay" Grid.RowSpan="6" Background="#B3000000" Visibility="Visible" Panel.ZIndex="1000">
+			<Border Width="700" MaxWidth="760" Padding="16" CornerRadius="10" Background="#FFFDF8F1" BorderBrush="#D9C7A9" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+				<Grid>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto"/>
+						<RowDefinition Height="*"/>
+						<RowDefinition Height="Auto"/>
+					</Grid.RowDefinitions>
+
+					<TextBlock Grid.Row="0" Text="Session Tracker Startup Instructions" FontSize="20" FontWeight="SemiBold" Foreground="#2E4A66" Margin="0,0,0,10"/>
+					<TextBlock Grid.Row="1" Name="TxtStartupInstructions" TextWrapping="Wrap" Foreground="#2E3A48" FontSize="14" LineHeight="21" Text="This PowerShell UI app monitors status of other Windows machines.&#x0a;This can be our own PAWS (Privileged) machines.&#x0a;Each Remote Desktop login will generate a JSON tracking file in a shared UNC.&#x0a;The GridView at bottom half will show the latest activity.&#x0a;This is mainly to show if someone else might be using the machine that you want to use.&#x0a;If you disconnect, this Session Tracker should be left running.&#x0a;If you log out this and other apps will shutdown and the JSON file is finalized."/>
+
+					<StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,12,0,0">
+						<Button Name="BtnCloseStartupOverlay" Content="Close" Width="96" Height="32" ToolTip="Close startup instructions and continue to the main screen."/>
+					</StackPanel>
+				</Grid>
+			</Border>
+		</Grid>
+	</Grid>
+</Window>

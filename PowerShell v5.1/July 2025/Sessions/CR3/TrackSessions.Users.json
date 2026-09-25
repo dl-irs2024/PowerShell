@@ -1,0 +1,118 @@
+﻿[
+    {
+        "SEID":  "ABCD123",
+        "FirstName":  "Sample",
+        "LastName":  "User",
+        "Status":  "FTE",
+        "IRSEmail":  "sample.user@irs.gov",
+        "SEIDEmail":  "ABCD123@ds.irsnet.gov",
+        "Timezone":  "Washington, DC (ET) [UTC-05:00 / UTC-04:00]",
+        "DaylightSavings":  true,
+        "Products":  [
+                         "SharePoint",
+                         "OneDrive"
+                     ],
+        "LastLogin":  "Mon 07/09/2026 09:15",
+        "LastPawsUsed":  "mtb012vp0030366.ds.irsnet.gov",
+        "LastModified":  "Mon 07/09/2026 09:15",
+        "Created":  "Mon 07/09/2026 09:15",
+        "IsAdmin":  false
+    },
+    {
+        "SEID":  "YMJNB",
+        "FirstName":  "Davis",
+        "LastName":  "Lee",
+        "Status":  "FTE",
+        "IRSEmail":  "davis.s.lee@irs.gov",
+        "SEIDEmail":  "YMJNB@ds.irsnet.gov",
+        "Timezone":  "Washington, DC (ET) [UTC-05:00 / UTC-04:00]",
+        "DaylightSavings":  true,
+        "Products":  [
+                         "SharePoint",
+                         "Power Platform"
+                     ],
+        "LastLogin":  "",
+        "LastPawsUsed":  "mtb012vp0030366.ds.irsnet.gov",
+        "LastModified":  "Tue 08/09/2026 08:16",
+        "Created":  "Tue 08/09/2026 08:16",
+        "IsAdmin":  true
+    },
+    {
+        "SEID":  "BSYPB",
+        "FirstName":  "Richard",
+        "LastName":  "Patterson",
+        "Status":  "FTE",
+        "IRSEmail":  "Richard.Patterson@irs.gov",
+        "SEIDEmail":  "bsypb@ds.irsnet.gov",
+        "Timezone":  "Memphis, TN (CT) [UTC-06:00 / UTC-05:00]",
+        "DaylightSavings":  true,
+        "Products":  [
+                         "SharePoint",
+                         "Power Platform",
+                         "OneDrive",
+                         "Entra"
+                     ],
+        "LastLogin":  "",
+        "LastPawsUsed":  "mtb012vp0030366.ds.irsnet.gov",
+        "LastModified":  "Thu 10/09/2026 01:42",
+        "Created":  "Tue 08/09/2026 11:41",
+        "IsAdmin":  false
+    },
+    {
+        "SEID":  "T0SSB",
+        "FirstName":  "Rizu",
+        "LastName":  "Gupta",
+        "Status":  "FTE",
+        "IRSEmail":  "Rizu.Gupta@irs.gov",
+        "SEIDEmail":  "t0ssb@ds.irsnet.gov",
+        "Timezone":  "Washington, DC (ET) [UTC-05:00 / UTC-04:00]",
+        "DaylightSavings":  true,
+        "Products":  [
+                         "SharePoint",
+                         "Power Platform"
+                     ],
+        "LastLogin":  "",
+        "LastPawsUsed":  "mtb012vp0030366.ds.irsnet.gov",
+        "LastModified":  "Fri 11/09/2026 01:03",
+        "Created":  "Fri 11/09/2026 12:57",
+        "IsAdmin":  false
+    },
+    {
+        "SEID":  "BPYXB",
+        "FirstName":  "Efrain",
+        "LastName":  "Irizarrysilva",
+        "Status":  "FTE",
+        "IRSEmail":  "Efrain.IrizarrySilva@irs.gov",
+        "SEIDEmail":  "bpyxb@ds.irsnet.gov",
+        "Timezone":  "Washington, DC (ET) [UTC-05:00 / UTC-04:00]",
+        "DaylightSavings":  true,
+        "Products":  [
+                         "SharePoint",
+                         "Power Platform",
+                         "Entra"
+                     ],
+        "LastLogin":  "",
+        "LastPawsUsed":  "mtb012vp0030366.ds.irsnet.gov",
+        "LastModified":  "Fri 11/09/2026 01:04",
+        "Created":  "Fri 11/09/2026 01:03",
+        "IsAdmin":  false
+    },
+    {
+        "SEID":  "4ZSRB",
+        "FirstName":  "Imran",
+        "LastName":  "Ahmed",
+        "Status":  "FTE",
+        "IRSEmail":  "Imran.Ahmed@irs.gov",
+        "SEIDEmail":  "4zsrb@ds.irsnet.gov",
+        "Timezone":  "Washington, DC (ET) [UTC-05:00 / UTC-04:00]",
+        "DaylightSavings":  true,
+        "Products":  [
+
+                     ],
+        "LastLogin":  "",
+        "LastPawsUsed":  "mtb012vp0030366.ds.irsnet.gov",
+        "LastModified":  "Fri 11/09/2026 01:05",
+        "Created":  "Fri 11/09/2026 01:05",
+        "IsAdmin":  false
+    }
+]

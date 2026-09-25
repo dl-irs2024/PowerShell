@@ -1,0 +1,211 @@
+<!--
+===============================================================================
+TrackSessions.SettingsDialog.xaml
+===============================================================================
+
+PURPOSE:
+  Modal dialog for configuring Session Tracker settings. Allows users to set
+  the shared UNC path for session data and manage the list of tracked machines
+  (PAWS systems). Changes are saved to TrackSessions.Settings.json.
+
+USAGE CONTEXT:
+  - Opened by: Show-EditSettingsDialog() function
+  - Modal dialog with owner set to main window
+  - Launched from: BtnEditSettings click handler in main window
+  - Shows both shared path settings and editable machine grid
+
+KEY SECTIONS:
+  - Shared Path Section (Grid.Row=0): Configure UNC path for session tracking
+    * Text box for entering/displaying UNC path
+    * Browse button to select folder via dialog
+    * "Reveal in Explorer" button to open path in Windows Explorer
+  - Tracked Machines Section (Grid.Row=1): DataGrid with editable rows
+    * ShortName column (required) - machine short name
+    * FQDN column (optional) - fully qualified domain name
+    * Comment column (optional) - user notes/description
+  - Control Panel (Grid.Row=2): Zoom, copy, and save/cancel buttons
+
+EVENT HANDLERS WIRED:
+  BtnBrowseSharedPath.Click      -> FolderBrowserDialog to select UNC path
+  BtnRevealSharedPath.Click      -> Open selected path in Explorer
+  BtnZoomOutSettings.Click       -> Decrease grid font size
+  BtnZoomInSettings.Click        -> Increase grid font size
+  BtnCopySettings.Click          -> Copy grid data as PowerShell object to clipboard
+  BtnCancelSettings.Click        -> Close dialog without saving
+  BtnSaveCloseSettings.Click     -> Validate, save settings, close dialog
+  GridTrackedMachines.MouseDoubleClick -> Edit cell
+  GridTrackedMachines.CanUserAddRows=True -> Allow manual row insertion
+  GridTrackedMachines.CanUserDeleteRows=True -> Allow row deletion
+
+REFERENCED CONTROLS:
+  TxtSharedPath                  - Text box for UNC path input
+  BtnBrowseSharedPath            - Browse folder dialog button
+  BtnRevealSharedPath            - Open path in Explorer button
+  GridTrackedMachines            - DataGrid for machine entries
+  BtnZoomOutSettings             - Decrease zoom level button (-)
+  BtnZoomInSettings              - Increase zoom level button (+)
+  BtnCopySettings                - Copy to clipboard button
+  BtnCancelSettings              - Cancel button
+  BtnSaveCloseSettings           - Save and close button
+
+POWERSHELL FUNCTIONS USING THIS XAML:
+  Show-EditSettingsDialog()       - Creates and displays this dialog
+  Collect-MachinesFromGrid()      - Reads machine data from GridTrackedMachines
+  Validate-SharedPath()           - Validates UNC path format
+  Save-TrackSessionsSettings()    - Persists settings to JSON file
+  Read-TrackSessionsSettings()    - Loads settings from JSON file
+
+DATA BINDING:
+  GridTrackedMachines.ItemsSource -> DataTable with columns:
+    - ShortName: Machine short name (required)
+    - FQDN: Fully qualified domain name (optional)
+    - Comment: User-entered notes (optional)
+  
+  Binding Mode: TwoWay with UpdateSourceTrigger=PropertyChanged
+  Allows real-time editing without manual commit
+
+VALIDATION:
+  - UNC path must start with \\ (network path)
+  - ShortName is mandatory for each machine row
+  - Empty rows (all columns blank) are automatically filtered out
+  - FQDN and Comment are optional
+
+COLORS & THEMING:
+  Main background: #F6FAFF (very light blue)
+  Shared path section background: #ECF4FF (light blue)
+  Border color: #BED8FA (soft blue)
+  Grid background: White
+  Grid border: #D4E3F5 (light blue-gray)
+  Text color: Default (dark gray)
+  Status text color: #325275 (muted blue)
+
+ZOOM LEVELS:
+  Clamps between 0.80x and 1.80x
+  Updates GridTrackedMachines:
+    - FontSize: 11.0 * ZoomLevel
+    - ColumnHeaderHeight: 26.0 * ZoomLevel
+    - RowHeight: 24.0 * ZoomLevel
+
+CONSTRAINTS:
+  - MinHeight: 420, MinWidth: 760
+  - Default Height: 500, Width: 900
+  - WindowStartupLocation: CenterOwner
+  - ResizeMode: CanResizeWithGrip
+  - ShowInTaskbar: False (appears as child of main window)
+
+GRID FEATURES:
+  - AutoGenerateColumns: False (explicit column definitions)
+  - CanUserAddRows: True (allows inserting new rows at bottom)
+  - CanUserDeleteRows: True (allows row deletion)
+  - CanUserReorderColumns: False (prevents column reordering)
+  - SelectionMode: Single, SelectionUnit: FullRow
+  - GridLinesVisibility: Horizontal (only horizontal grid lines)
+
+TOOLTIPS:
+  - Various controls have descriptive tooltips explaining their function
+  - Example: "Configure shared UNC path and tracked PAWS machines."
+
+===============================================================================
+-->
+<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		Title="Track Sessions Settings"
+		Height="500"
+		Width="900"
+		MinHeight="420"
+		MinWidth="760"
+		WindowStartupLocation="CenterOwner"
+		ResizeMode="CanResizeWithGrip"
+		ShowInTaskbar="False"
+		Background="#F6FAFF">
+	<Window.Resources>
+		<Style TargetType="Button">
+			<Setter Property="FontWeight" Value="Bold"/>
+		</Style>
+	</Window.Resources>
+	<Grid Margin="14">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+		</Grid.RowDefinitions>
+
+		<Border Grid.Row="0" Background="#ECF4FF" BorderBrush="#BED8FA" BorderThickness="1" CornerRadius="8" Padding="10" Margin="0,0,0,10" ToolTip="Configure shared UNC path and tracked PAWS machines.">
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="180"/>
+					<ColumnDefinition Width="*"/>
+					<ColumnDefinition Width="Auto"/>
+					<ColumnDefinition Width="Auto"/>
+				</Grid.ColumnDefinitions>
+				<TextBlock Grid.Column="0" Text="Shared Path (UNC):" FontWeight="SemiBold" VerticalAlignment="Center" ToolTip="Enter a UNC path such as \\server\share\folder."/>
+				<TextBox Grid.Column="1" Name="TxtSharedPath" MinHeight="28" VerticalContentAlignment="Center" ToolTip="UNC path used for shared session tracking output or reference."/>
+				<Button Grid.Column="2" Name="BtnBrowseSharedPath" Content="Browse" Width="84" Height="28" Margin="8,0,8,0" ToolTip="Browse for a folder and place it in Shared Path."/>
+				<Button Grid.Column="3" Name="BtnRevealSharedPath" Content="Reveal in Explorer" Width="136" Height="28" ToolTip="Open the Shared Path folder in Windows Explorer."/>
+			</Grid>
+		</Border>
+
+		<Border Grid.Row="1" Background="White" BorderBrush="#D4E3F5" BorderThickness="1" CornerRadius="8" Padding="10" ToolTip="Edit machine tracking rows: ShortName, optional FQDN, and comments.">
+			<Grid>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="*"/>
+				</Grid.RowDefinitions>
+				<TextBlock Grid.Row="0" Text="Tracked Machines" FontWeight="SemiBold" Margin="0,0,0,8" ToolTip="Pre-set PAWS machines are editable. Add or remove rows as needed."/>
+				<DataGrid Grid.Row="1"
+						 Name="GridTrackedMachines"
+						 AutoGenerateColumns="False"
+						 CanUserAddRows="True"
+						 CanUserDeleteRows="True"
+						 CanUserReorderColumns="False"
+						 IsReadOnly="False"
+						 HeadersVisibility="Column"
+						 SelectionMode="Single"
+						 SelectionUnit="FullRow"
+						 GridLinesVisibility="Horizontal"
+						 ScrollViewer.VerticalScrollBarVisibility="Auto"
+						 ScrollViewer.HorizontalScrollBarVisibility="Auto"
+						 ToolTip="ShortName is required; FQDN is optional; Comment is optional.">
+					<DataGrid.Columns>
+						<DataGridTextColumn Header="ShortName" Binding="{Binding ShortName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="180"/>
+						<DataGridTextColumn Header="FQDN (Optional)" Binding="{Binding FQDN, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="260"/>
+						<DataGridTextColumn Header="Comment" Binding="{Binding Comment, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
+					</DataGrid.Columns>
+				</DataGrid>
+			</Grid>
+		</Border>
+
+		<Border Grid.Row="2" Background="#FFF5E6" BorderBrush="#FFD4A3" BorderThickness="1" CornerRadius="8" Padding="10" Margin="0,10,0,10" ToolTip="Debug control options for session tracking and filtering.">
+			<StackPanel Orientation="Vertical">
+				<TextBlock Text="Debug Controls" FontWeight="SemiBold" Margin="0,0,0,8" Foreground="#664D00" ToolTip="Enable debug features for detailed tracking and logging."/>
+				<CheckBox Name="ChkShowAllSessions" Margin="0,0,0,6" VerticalAlignment="Center" ToolTip="Show all sessions in the grid without applying filters.">
+					<TextBlock Text="Show all Sessions" VerticalAlignment="Center"/>
+				</CheckBox>
+				<CheckBox Name="ChkShowFilterInLog" Margin="0,0,0,6" VerticalAlignment="Center" ToolTip="Display the active filter in the Log output as it changes.">
+					<TextBlock Text="Show actual filter in Log output (as it changes)" VerticalAlignment="Center"/>
+				</CheckBox>
+				<CheckBox Name="ChkShowRefreshEvents" Margin="0,0,0,0" VerticalAlignment="Center" ToolTip="Log when grid refresh operations occur.">
+					<TextBlock Text="Show when refreshes occur" VerticalAlignment="Center"/>
+				</CheckBox>
+			</StackPanel>
+		</Border>
+
+		<Grid Grid.Row="3" Margin="0,10,0,0" ToolTip="Save changes, cancel changes, or copy configuration to clipboard.">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*"/>
+				<ColumnDefinition Width="Auto"/>
+				<ColumnDefinition Width="Auto"/>
+				<ColumnDefinition Width="Auto"/>
+			</Grid.ColumnDefinitions>
+			<StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+				<Button Name="BtnZoomOutSettings" Content="-" Width="30" Height="28" Margin="0,0,6,0" ToolTip="Zoom out tracked machines grid only."/>
+				<Button Name="BtnZoomInSettings" Content="+" Width="30" Height="28" Margin="0,0,10,0" ToolTip="Zoom in tracked machines grid only."/>
+				<TextBlock VerticalAlignment="Center" Foreground="#325275" Text="Tip: Use Copy to Clipboard for a PowerShell object snippet." ToolTip="Copy in PowerShell Object format."/>
+			</StackPanel>
+			<Button Grid.Column="1" Name="BtnCopySettings" Width="132" Height="30" Margin="0,0,8,0" Content="Copy to Clipboard" ToolTip="Copy in PowerShell Object format."/>
+			<Button Grid.Column="2" Name="BtnCancelSettings" Width="92" Height="30" Margin="0,0,8,0" Content="Cancel" ToolTip="Close this dialog without saving changes."/>
+			<Button Grid.Column="3" Name="BtnSaveCloseSettings" Width="122" Height="30" Content="Save &amp; Close" ToolTip="Save TrackSessions.Settings.json and close this dialog."/>
+		</Grid>
+	</Grid>
+</Window>
