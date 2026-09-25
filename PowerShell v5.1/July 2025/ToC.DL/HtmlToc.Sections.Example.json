@@ -1,0 +1,63 @@
+[
+  { 
+    "Id": "intro",
+    "Title": "Introduction",
+    "Level": 1,
+    "Paragraphs": [
+      "This page was generated from a JSON sections file.",
+      "Use this template to define long-form content with headings and navigation."
+    ],
+    "Bullets": [
+      "Structured sections",
+      "Tables and code blocks",
+      "Collapsible TOC and section content"
+    ]
+  },
+  {
+    "Id": "usage",
+    "Title": "Usage Notes",
+    "Level": 2,
+    "Numbered": [
+      "Edit this JSON to add, remove, or reorder sections.",
+      "Set Level from 1 to 6 to control heading depth and nested TOC.",
+      "Keep each Id unique so intralinks and TOC anchors work correctly."
+    ],
+    "CodeBlocks": [
+      ".\\HtmlToc.ps1 -SectionsPath .\\HtmlToc.Sections.Example.json -OutputPath .\\HtmlToc.FromJson.html -EnableSectionNavLinks -EnableMultiLevelToc -EnableCollapsibleToc -EnableCollapsibleSections"
+    ]
+  },
+  {
+    "Id": "table-demo",
+    "Title": "Table Demo",
+    "Level": 2,
+    "Paragraphs": [
+      "Tables use Columns plus Rows. Rows can be objects keyed by column name."
+    ],
+    "Table": {
+      "Columns": ["Feature", "Enabled", "Notes"],
+      "Rows": [
+        {
+          "Feature": "Section nav links",
+          "Enabled": "Yes",
+          "Notes": "Top / Previous / Next available"
+        },
+        {
+          "Feature": "Multi-level TOC",
+          "Enabled": "Yes",
+          "Notes": "Driven by each section Level"
+        },
+        {
+          "Feature": "Collapsible sections",
+          "Enabled": "Yes",
+          "Notes": "Per-section toggle button"
+        }
+      ]
+    }
+  },
+  {
+    "Id": "custom-html",
+    "Title": "Custom HTML Block",
+    "Level": 3,
+    "Html": "<p><strong>Tip:</strong> You can inject custom HTML for special formatting.</p>"
+  }
+]

@@ -1,0 +1,96 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root { --toc-w: 260px; --gap: 24px; --active: #0a66c2; }
+    html { scroll-behavior: smooth; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+    }
+
+    body { margin: 0; font: 16px/1.5 Segoe UI, system-ui, sans-serif; }
+    .layout {
+      display: grid;
+      grid-template-columns: var(--toc-w) minmax(0, 1fr);
+      gap: var(--gap);
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    nav.toc {
+      position: sticky;
+      top: 16px;
+      align-self: start;
+      max-height: calc(100vh - 32px);
+      overflow: auto;
+      border-right: 1px solid #ddd;
+      padding-right: 12px;
+    }
+
+    .toc a {
+      display: block;
+      color: #333;
+      text-decoration: none;
+      padding: 6px 8px;
+      border-radius: 8px;
+    }
+
+    .toc a.active {
+      background: #e8f1fb;
+      color: var(--active);
+      font-weight: 600;
+    }
+
+    main section { margin: 0 0 48px; }
+    h2 { scroll-margin-top: 24px; }
+
+    @media (max-width: 900px) {
+      .layout { grid-template-columns: 1fr; }
+      nav.toc {
+        position: static;
+        border-right: 0;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 8px;
+        margin-bottom: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <nav class="toc" aria-label="Table of contents">
+      <a href="#intro">Intro</a>
+      <a href="#install">Install</a>
+      <a href="#usage">Usage</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+
+    <main>
+      <section id="intro"><h2>Intro</h2><p>...</p></section>
+      <section id="install"><h2>Install</h2><p>...</p></section>
+      <section id="usage"><h2>Usage</h2><p>...</p></section>
+      <section id="faq"><h2>FAQ</h2><p>...</p></section>
+    </main>
+  </div>
+
+  <script>
+    const links = [...document.querySelectorAll('.toc a')];
+    const byId = new Map(links.map(a => [a.getAttribute('href').slice(1), a]));
+    const sections = [...document.querySelectorAll('main section[id]')];
+
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        links.forEach(a => a.classList.remove('active'));
+        const a = byId.get(e.target.id);
+        if (a) a.classList.add('active');
+      });
+    }, { rootMargin: '-35% 0px -55% 0px', threshold: 0.01 });
+
+    sections.forEach(s => io.observe(s));
+  </script>
+</body>
+</html>

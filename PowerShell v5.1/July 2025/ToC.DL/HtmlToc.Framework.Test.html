@@ -1,0 +1,341 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Data</title>
+  <style>
+    :root {
+      --toc-width: 300px;
+      --gap: 24px;
+      --line: #d8d8d8;
+      --paper: #ffffff;
+      --ink: #1a1a1a;
+      --muted: #555;
+      --accent: #005a9c;
+      --accent-soft: #eaf3fb;
+    }
+
+    html { scroll-behavior: smooth; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: linear-gradient(180deg, #f4f8fb 0%, #ffffff 160px);
+      font: 16px/1.55 "Segoe UI", Tahoma, Arial, sans-serif;
+    }
+
+    .page {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    .title-wrap h1 {
+      margin: 0 0 6px;
+      font-size: 2rem;
+      letter-spacing: 0.02em;
+    }
+
+    .page-description {
+      margin: 0 0 18px;
+      color: var(--muted);
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: var(--toc-width) minmax(0, 1fr);
+      gap: var(--gap);
+      align-items: start;
+    }
+
+    .toc-wrap {
+      position: sticky;
+      top: 12px;
+      align-self: start;
+      max-height: calc(100vh - 24px);
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--paper);
+      box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+      padding: 12px;
+    }
+
+    .toc-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    .toc-toggle {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: #333;
+      padding: 4px 8px;
+      cursor: pointer;
+      display: none;
+    }
+
+    .toc-collapsible .toc-toggle { display: inline-block; }
+
+    .toc-body.is-collapsed { display: none; }
+
+    .toc-list,
+    .toc-list ul {
+      list-style: none;
+      margin: 0;
+      padding-left: 10px;
+    }
+
+    .toc-list > li,
+    .toc-list ul > li { margin: 3px 0; }
+
+    .toc-link {
+      color: #2a2a2a;
+      text-decoration: none;
+      display: inline-block;
+      padding: 4px 6px;
+      border-radius: 6px;
+    }
+
+    .toc-link:hover,
+    .toc-link.active {
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    main {
+      min-width: 0;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.04);
+      padding: 20px;
+    }
+
+    .content-section {
+      border-bottom: 1px dashed #dcdcdc;
+      padding: 8px 0 16px;
+      margin-bottom: 8px;
+    }
+
+    .content-section:last-child {
+      border-bottom: 0;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .section-heading {
+      margin: 0 0 8px;
+      scroll-margin-top: 14px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-nav {
+      display: inline-flex;
+      gap: 6px;
+      margin-left: auto;
+    }
+
+    .section-nav-link {
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      text-decoration: none;
+      color: #333;
+      padding: 2px 8px;
+      background: #fff;
+      font-size: 0.9rem;
+    }
+
+    .section-nav-link:hover {
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    .section-collapse-btn {
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fff;
+      color: #333;
+      padding: 2px 8px;
+      cursor: pointer;
+      font-size: 0.86rem;
+    }
+
+    .section-collapse-btn:hover { background: #f3f7fb; }
+
+    .section-body.is-collapsed {
+      display: none;
+    }
+
+    p { margin: 0 0 12px; }
+    ul, ol { margin-top: 0; margin-bottom: 12px; }
+
+    pre {
+      border: 1px solid #e3e3e3;
+      border-radius: 8px;
+      padding: 10px;
+      overflow: auto;
+      background: #f8fbfe;
+    }
+
+    .table-wrap { overflow: auto; margin-bottom: 12px; }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      min-width: 420px;
+    }
+    th, td {
+      border: 1px solid #e1e1e1;
+      text-align: left;
+      padding: 8px;
+      vertical-align: top;
+    }
+    th {
+      background: #f3f7fb;
+      font-weight: 700;
+    }
+
+    @media (max-width: 980px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .toc-wrap {
+        position: static;
+        max-height: none;
+      }
+
+      .section-nav {
+        margin-left: 0;
+      }
+    }
+
+
+  </style>
+</head>
+<body id="page-top">
+  <div class="page">
+    <div class="title-wrap">
+      <h1>Data</h1>
+      
+    </div>
+
+    <div class="layout">
+      <nav class="toc-wrap toc-collapsible" aria-label="Table of contents">
+        <div class="toc-header">
+          <span>Contents</span>
+          <button type="button" class="toc-toggle" id="toc-toggle" aria-expanded="true">Toggle</button>
+        </div>
+        <div class="toc-body" id="toc-body">
+<ul class="toc-list">
+<li><a href="#intro" class="toc-link">Intro</a></li>
+<ul>
+<li><a href="#table" class="toc-link">Data</a></li>
+</ul>
+</ul>
+
+        </div>
+      </nav>
+
+      <main>
+<section id="intro" class="content-section">
+  <h1 class="section-heading">Intro <span class="section-nav"><a href="#page-top" class="section-nav-link" title="Back to top">&uarr;</a>  <a href="#table" class="section-nav-link" title="Next section">&rarr;</a></span> <button type="button" class="section-collapse-btn" data-target="section-body-intro" aria-expanded="true">Toggle</button></h1>
+  <div id="section-body-intro" class="section-body">
+<p>Hello from framework.</p>
+<ul>
+<li>One</li>
+<li>Two</li>
+</ul>
+
+  </div>
+</section>
+<section id="table" class="content-section">
+  <h2 class="section-heading">Data <span class="section-nav"><a href="#page-top" class="section-nav-link" title="Back to top">&uarr;</a> <a href="#intro" class="section-nav-link" title="Previous section">&larr;</a> </span> <button type="button" class="section-collapse-btn" data-target="section-body-table" aria-expanded="true">Toggle</button></h2>
+  <div id="section-body-table" class="section-body">
+<div class="table-wrap">
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Value</th>
+</tr></thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+  </div>
+</section>
+
+      </main>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var links = Array.prototype.slice.call(document.querySelectorAll('.toc-link'));
+      var byId = {};
+      for (var i = 0; i < links.length; i++) {
+        var href = links[i].getAttribute('href') || '';
+        if (href.indexOf('#') === 0) {
+          byId[href.substring(1)] = links[i];
+        }
+      }
+
+      var sections = Array.prototype.slice.call(document.querySelectorAll('main section[id]'));
+      if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            links.forEach(function (a) { a.classList.remove('active'); });
+            var active = byId[entry.target.id];
+            if (active) active.classList.add('active');
+          });
+        }, { rootMargin: '-35% 0px -55% 0px', threshold: 0.01 });
+
+        sections.forEach(function (s) { io.observe(s); });
+      }
+
+      var tocToggle = document.getElementById('toc-toggle');
+      var tocBody = document.getElementById('toc-body');
+      if (tocToggle && tocBody) {
+        tocToggle.addEventListener('click', function () {
+          var collapsed = tocBody.classList.toggle('is-collapsed');
+          tocToggle.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+        });
+      }
+
+      var collapseButtons = Array.prototype.slice.call(document.querySelectorAll('.section-collapse-btn'));
+      collapseButtons.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var targetId = btn.getAttribute('data-target');
+          var target = document.getElementById(targetId);
+          if (!target) return;
+          var collapsed = target.classList.toggle('is-collapsed');
+          btn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

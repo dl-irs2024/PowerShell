@@ -1,0 +1,23 @@
+﻿{
+    "SectionNavMode":  "icons",
+    "KeepLeftTocOnNarrowScreens":  true,
+    "RightPanelStarWidth":  3.2,
+    "WindowTop":  103.33333333333333,
+    "EnableCollapsibleToc":  true,
+    "SelectedSamplePath":  "C:\\Users\\YMJNB\\OneDrive - Internal Revenue Service\\Documents\\PowerShell 2025\\PowerShell v5.1\\July 2025\\ToC.DL\\HtmlToc.Test.Samples\\HtmlToc.Sample.USConstitution.json",
+    "OpenGeneratedFile":  true,
+    "EnableFloatingToc":  true,
+    "EnableMultiLevelToc":  true,
+    "LeftPanelStarWidth":  2.1,
+    "WindowLeft":  2174.6666666666665,
+    "OpenSectionsByDefault":  true,
+    "EnableTopLinkAfterSection":  true,
+    "EnableCollapsibleSections":  true,
+    "TocPlacement":  "left",
+    "WindowHeight":  860,
+    "UiZoom":  1.4,
+    "WindowWidth":  1380,
+    "EnableSectionNavLinks":  true,
+    "EnableSectionHeadingNumbering":  true,
+    "SectionNavIconNumberPlacement":  "arrow-before-number"
+}
