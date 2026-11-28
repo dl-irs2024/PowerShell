@@ -1,0 +1,74 @@
+{
+  "name": "11111111-0003-4000-8000-000000000003",
+  "properties": {
+    "apiId": "/providers/Microsoft.PowerApps/apis/shared_logicflows",
+    "displayName": "Sample 03 - SharePoint trigger, nested Apply to each (throttling risk)",
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": { "$connections": { "defaultValue": {}, "type": "Object" } },
+      "triggers": {
+        "When_an_item_is_created": {
+          "recurrence": { "frequency": "Minute", "interval": 1 },
+          "splitOn": "@triggerOutputs()?['body/value']",
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": { "connectionName": "shared_sharepointonline", "operationId": "GetOnNewItems", "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline" },
+            "parameters": { "dataset": "https://contoso.sharepoint.com/sites/hr", "table": "Requests" }
+          }
+        }
+      },
+      "actions": {
+        "Get_departments": {
+          "runAfter": {},
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": { "connectionName": "shared_sharepointonline", "operationId": "GetItems", "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline" },
+            "parameters": { "dataset": "https://contoso.sharepoint.com/sites/hr", "table": "Departments" }
+          }
+        },
+        "For_each_department": {
+          "foreach": "@outputs('Get_departments')?['body/value']",
+          "runAfter": { "Get_departments": [ "Succeeded" ] },
+          "type": "Foreach",
+          "actions": {
+            "Get_employees": {
+              "runAfter": {},
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": { "connectionName": "shared_sharepointonline", "operationId": "GetItems", "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline" },
+                "parameters": { "dataset": "https://contoso.sharepoint.com/sites/hr", "table": "Employees", "$filter": "Dept eq '@{items('For_each_department')?['Title']}'" }
+              }
+            },
+            "For_each_employee": {
+              "foreach": "@outputs('Get_employees')?['body/value']",
+              "runAfter": { "Get_employees": [ "Succeeded" ] },
+              "type": "Foreach",
+              "actions": {
+                "Update_employee": {
+                  "runAfter": {},
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "host": { "connectionName": "shared_sharepointonline", "operationId": "PatchItem", "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline" },
+                    "parameters": { "dataset": "https://contoso.sharepoint.com/sites/hr", "table": "Employees", "id": "@items('For_each_employee')?['ID']", "item/Request": "@triggerOutputs()?['body/ID']" }
+                  }
+                },
+                "Post_message": {
+                  "runAfter": { "Update_employee": [ "Succeeded" ] },
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "host": { "connectionName": "shared_teams", "operationId": "PostMessageToConversation", "apiId": "/providers/Microsoft.PowerApps/apis/shared_teams" },
+                    "parameters": { "poster": "Flow bot", "location": "Channel", "body/messageBody": "Updated @{items('For_each_employee')?['Title']}" }
+                  }
+                }
+              },
+              "runtimeConfiguration": { "concurrency": { "repetitions": 50 } }
+            }
+          },
+          "runtimeConfiguration": { "concurrency": { "repetitions": 50 } }
+        }
+      }
+    },
+    "state": "Started"
+  }
+}

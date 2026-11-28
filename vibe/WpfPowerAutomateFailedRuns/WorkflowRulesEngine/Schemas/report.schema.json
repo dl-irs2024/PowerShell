@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "workflow-report.schema.json",
+  "title": "Workflow Inspector report",
+  "type": "object",
+  "required": ["reportId", "generated", "workflow", "summary", "findings"],
+  "properties": {
+    "reportId": { "type": "string", "description": "RPT-yyyyMMdd-HHmmss-XXXXXX" },
+    "generated": { "type": "string", "format": "date-time" },
+    "engine": { "type": "object" },
+    "catalog": { "type": "object", "description": "Catalog version and file list used (snapshot for reproducibility)" },
+    "workflow": { "type": "object", "properties": { "name": {}, "source": {}, "editor": {}, "hash": { "type": "string", "description": "SHA-256 of the analysed definition" } } },
+    "summary": { "type": "object", "properties": { "healthScore": { "type": "integer" }, "overallRisk": { "type": "string" }, "findingCount": { "type": "integer" }, "bySeverity": { "type": "object" }, "byCategory": { "type": "object" } } },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["findingId", "ruleId", "severity", "message"],
+        "properties": {
+          "findingId": { "type": "string" }, "ruleId": { "type": "string" }, "ruleVersion": { "type": "string" }, "severity": { "type": "string" },
+          "riskScore": { "type": "integer" }, "riskGrade": { "type": "string" }, "likelihood": { "type": "integer" }, "impact": { "type": "integer" },
+          "action": { "type": "string" }, "path": { "type": "string" }, "message": { "type": "string" }, "evidence": { "type": "string" },
+          "remediation": { "type": "array", "items": { "type": "string" } }, "source": { "type": "object" }, "status": { "type": "string" }
+        }
+      }
+    },
+    "suppressions": { "type": "array" },
+    "notEvaluated": { "type": "array", "description": "Rules that could not run (Planned / needs runtime data)" }
+  }
+}

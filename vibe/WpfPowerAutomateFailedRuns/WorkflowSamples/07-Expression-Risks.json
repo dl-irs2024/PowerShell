@@ -1,0 +1,68 @@
+{
+  "name": "11111111-0007-4000-8000-000000000007",
+  "properties": {
+    "apiId": "/providers/Microsoft.PowerApps/apis/shared_logicflows",
+    "displayName": "Sample 07 - Expression risks (null-unsafe, hard-coded, unknown functions)",
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": { "$connections": { "defaultValue": {}, "type": "Object" } },
+      "triggers": {
+        "manual": {
+          "type": "Request",
+          "kind": "Button",
+          "inputs": { "schema": { "type": "object", "properties": {} } }
+        }
+      },
+      "actions": {
+        "Get_users": {
+          "runAfter": {},
+          "type": "Http",
+          "inputs": { "method": "GET", "uri": "https://graph.microsoft.com/v1.0/users?$top=999", "authentication": { "type": "Raw", "value": "Bearer eyJhbGciOiJSUzI1NiJ9.sample.token" } }
+        },
+        "First_user": {
+          "runAfter": { "Get_users": [ "Succeeded" ] },
+          "type": "Compose",
+          "inputs": "@first(body('Get_users')?['value'])['displayName']"
+        },
+        "Email_of_third": {
+          "runAfter": { "First_user": [ "Succeeded" ] },
+          "type": "Compose",
+          "inputs": "@body('Get_users')['value'][2]['mail']"
+        },
+        "Is_old_enough": {
+          "runAfter": { "Email_of_third": [ "Succeeded" ] },
+          "type": "If",
+          "expression": { "greater": [ "@sub(ticks(utcNow()), ticks(body('Get_users')?['value'][0]?['createdDateTime']))", 864000000000 ] },
+          "actions": {
+            "Use_unknown_function": {
+              "runAfter": {},
+              "type": "Compose",
+              "inputs": "@{toUpperCase(outputs('First_user'))} and @{formatDateTime(utcNow(), 'yyyy-MM-dd'}"
+            },
+            "Hard_coded_call": {
+              "runAfter": { "Use_unknown_function": [ "Succeeded" ] },
+              "type": "Http",
+              "inputs": { "method": "POST", "uri": "https://prod.contoso.com/api/notify?site=7c0f3c52-1a2b-4c3d-8e9f-001122334455", "body": "@{outputs('Missing_action')}" }
+            }
+          },
+          "else": {
+            "actions": {
+              "Later_action_reference": {
+                "runAfter": {},
+                "type": "Compose",
+                "inputs": "@outputs('Final_compose')"
+              }
+            }
+          }
+        },
+        "Final_compose": {
+          "runAfter": { "Is_old_enough": [ "Succeeded" ] },
+          "type": "Compose",
+          "inputs": "@concat('done ', string(variables('undefinedVariable')), item()?['x'])"
+        }
+      }
+    },
+    "state": "Started"
+  }
+}

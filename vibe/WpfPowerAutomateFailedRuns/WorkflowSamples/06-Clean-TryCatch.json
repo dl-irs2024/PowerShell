@@ -1,0 +1,62 @@
+{
+  "name": "11111111-0006-4000-8000-000000000006",
+  "properties": {
+    "apiId": "/providers/Microsoft.PowerApps/apis/shared_logicflows",
+    "displayName": "Sample 06 - Clean: try/catch scopes, retry, single instance",
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": { "$connections": { "defaultValue": {}, "type": "Object" } },
+      "triggers": {
+        "Recurrence": {
+          "recurrence": { "frequency": "Day", "interval": 1, "startTime": "2026-01-01T06:00:00Z" },
+          "type": "Recurrence",
+          "runtimeConfiguration": { "concurrency": { "runs": 1 } }
+        }
+      },
+      "actions": {
+        "Try": {
+          "actions": {
+            "Get_data": {
+              "runAfter": {},
+              "type": "Http",
+              "inputs": { "method": "GET", "uri": "https://api.contoso.com/report", "retryPolicy": { "type": "fixed", "count": 3, "interval": "PT30S" } }
+            },
+            "Parse_data": {
+              "runAfter": { "Get_data": [ "Succeeded" ] },
+              "type": "ParseJson",
+              "inputs": { "content": "@body('Get_data')", "schema": { "type": "object", "properties": { "rows": { "type": "array" } } } }
+            },
+            "Save_row_count": {
+              "runAfter": { "Parse_data": [ "Succeeded" ] },
+              "type": "Compose",
+              "inputs": "@coalesce(length(body('Parse_data')?['rows']), 0)"
+            }
+          },
+          "runAfter": {},
+          "type": "Scope"
+        },
+        "Catch": {
+          "actions": {
+            "Notify_owner": {
+              "runAfter": {},
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": { "connectionName": "shared_office365", "operationId": "SendEmailV2", "apiId": "/providers/Microsoft.PowerApps/apis/shared_office365" },
+                "parameters": { "emailMessage/To": "owner@contoso.com", "emailMessage/Subject": "Report flow failed", "emailMessage/Body": "@{result('Try')}" }
+              }
+            },
+            "Terminate": {
+              "runAfter": { "Notify_owner": [ "Succeeded" ] },
+              "type": "Terminate",
+              "inputs": { "runStatus": "Failed", "runError": { "code": "ReportFailed", "message": "@{actions('Get_data')?['error']?['message']}" } }
+            }
+          },
+          "runAfter": { "Try": [ "Failed", "TimedOut" ] },
+          "type": "Scope"
+        }
+      }
+    },
+    "state": "Started"
+  }
+}

@@ -1,0 +1,2149 @@
+﻿{
+    "catalogVersion":  "1.0.0",
+    "updated":  "2026-11-28T01:10:51-05:00",
+    "description":  "Workflow Inspector rule catalog (schema from Workflow_Inspector_Rules_Engine_ChatGPT_2026-11-24.v1.docx section 7).",
+    "rules":  [
+                  {
+                      "ruleId":  "PA-LOOP-001",
+                      "ruleKey":  "connector-action-in-foreach",
+                      "ruleVersion":  "1.0.0",
+                      "name":  "Connector action inside Apply to each",
+                      "enabled":  true,
+                      "severity":  "Warning",
+                      "categories":  [
+                                         "Looping",
+                                         "Performance",
+                                         "Connector"
+                                     ],
+                      "appliesTo":  [
+                                        "Action"
+                                    ],
+                      "inspectionMode":  "Static",
+                      "editors":  [
+                                      "PowerAutomate",
+                                      "AgentFlows",
+                                      "LogicApps"
+                                  ],
+                      "detector":  {
+                                       "type":  "DefinitionPattern",
+                                       "logic":  "ConnectorInForeach"
+                                   },
+                      "message":  "A connector action runs once for every item of an Apply to each loop.",
+                      "risk":  "Each iteration is a separate API call: slow runs, connector throttling (429) and API quota consumption.",
+                      "remediation":  [
+                                          "Filter items server-side first",
+                                          "Use a batch / bulk operation where the connector offers one",
+                                          "Limit the loop to the items that really need the call"
+                                      ],
+                      "source":  {
+                                     "sourceId":  "ms-pa-guidelines",
+                                     "type":  "Microsoft",
+                                     "name":  "Power Automate coding guidelines",
+                                     "url":  "https://learn.microsoft.com/power-automate/guidance/coding-guidelines/"
+                                 },
+                      "documentation":  {
+                                            "owner":  "Automation Governance",
+                                            "status":  "Approved"
+                                        }
+                  },
+                  {
+                      "ruleId":  "PA-LOOP-002",
+                      "ruleKey":  "nested-apply-to-each",
+                      "ruleVersion":  "1.0.0",
+                      "name":  "Nested Apply to each",
+                      "enabled":  true,
+                      "severity":  "Warning",
+                      "categories":  [
+                                         "Looping",
+                                         "Performance"
+                                     ],
+                      "appliesTo":  [
+                                        "Action",
+                                        "Loop"
+                                    ],
+                      "inspectionMode":  "Static",
+                      "editors":  [
+                                      "PowerAutomate",
+                                      "AgentFlows",
+                                      "LogicApps"
+                                  ],
+                      "detector":  {
+                                       "type":  "DefinitionPattern",
+                                       "logic":  "NestedForeach"
+                                   },
+                      "message":  "An Apply to each is nested inside another Apply to each.",
+                      "risk":  "Work grows as outer x inner items and run time and action counts explode.",
+                      "remediation":  [
+                                          "Flatten the data with Select / Filter array / Join before looping",
+                                          "Move the inner loop into a child flow",
+                                          "Use a lookup (Filter array) instead of an inner loop"
+                                      ],
+                      "source":  {
+                                     "sourceId":  "ms-pa-limits",
+                                     "type":  "Microsoft",
+                                     "name":  "Power Automate limits and configuration",
+                                     "url":  "https://learn.microsoft.com/power-automate/limits-and-config"
+                                 },
+                      "documentation":  {
+                                            "owner":  "Automation Governance",
+                                            "status":  "Approved"
+                                        }
+                  },
+                  {
+                      "ruleId":  "PA-LOOP-003",
+                      "ruleKey":  "excessive-loop-nesting",
+                      "ruleVersion":  "1.0.0",
+                      "name":  "Excessive loop nesting",
+                      "enabled":  true,
+                      "severity":  "High",
+                      "categories":  [
+                                         "Looping",
+                                         "Complexity",
+                                         "Maintainability"
+                                     ],
+                      "appliesTo":  [
+                                        "Action",
+                                        "Loop"
+                                    ],
+                      "inspectionMode":  "Static",
+                      "editors":  [
+                                      "PowerAutomate",
+                                      "AgentFlows",
+                                      "LogicApps"
+                                  ],
+                      "detector":  {
+                                       "type":  "Metric",
+                                       "logic":  "LoopNestingDepth",
+                                       "params":  {
+                                                      "maxLoops":  3,
+                                                      "maxDepth":  6
+                                                  }
+                                   },
+                      "message":  "Loops or containers are nested too deeply.",
+                      "risk":  "Hard to understand and test; costs multiply per level.",
+                      "remediation":  [
+                                          "Split the logic into child flows",
+                                          "Pre-shape the data so one loop suffices",
+                                          "Replace deep Condition nesting with Switch or early Terminate"
+                                      ],
+                      "source":  {
+                                     "sourceId":  "internal",
+                                     "type":  "Internal",
+                                     "name":  "Workflow Inspector rule catalog (Word document 2026-11-24)",
+                                     "url":  ""
+                                 },
+                      "documentation":  {
+                                            "owner":  "Automation Governance",
+                                            "status":  "Approved"
+                                        }
+                  },
+                  {
+                      "ruleId":  "PA-LOOP-004",
+                      "ruleKey":  "sequential-where-parallel-is-safe",
+                      "ruleVersion":  "1.0.0",
+                      "name":  "Sequential processing where parallelism is safe",
+                      "enabled":  true,
+                      "severity":  "Info",
+                      "categories":  [
+                                         "Looping",
+                                         "Performance",
+                                         "Concurrency"
+                                     ],
+                      "appliesTo":  [
+                                        "Action",
+                                        "Loop"
+                                    ],
+                      "inspectionMode":  "Hybrid",
+                      "editors":  [
+                                      "PowerAutomate",
+                                      "AgentFlows",
+                                      "LogicApps"
+                                  ],
+                      "detector":  {
+                                       "type":  "DefinitionPattern",
+                                       "logic":  "SequentialLoopCouldBeParallel"
+                                   },
+                      "message":  "An Apply to each is forced to run sequentially although its iterations share no variables.",
+                      "risk":  "Unnecessarily long run duration.",
+                      "remediation":  [
+                                          "Increase the loop degree of parallelism after confirming iterations are independent"
+                                      ],
+                      "source":  {
+                                     "sourceId":  "ms-pa-limits",
+                                     "type":  "Microsoft",
+                                     "name":  "Power Automate limits and configuration",
+                                     "url":  "https://learn.microsoft.com/power-automate/limits-and-config"
+                                 },
+                      "documentation":  {
+                                            "owner":  "Automation Governance",
+                                            "status":  "Approved"
+                                        }
+                  },
+                  {
+                      "ruleId":  "PA-LOOP-005",
+                      "ruleKey":  "parallel-processing-unsafe-shared-state",
+                      "ruleVersion":  "1.0.0",
+                      "name":  "Parallel processing against unsafe shared state",
+                      "enabled":  true,
+                      "severity":  "High",
+                      "categories":  [
+                                         "Looping",
+                                         "Concurrency",
+                                         "Shared Data"
+                                     ],
+                      "appliesTo":  [
+                                        "Action",
+                                        "Loop"
+                                    ],
+                      "inspectionMode":  "Static",
+                      "editors":  [
+                                      "PowerAutomate",
+                                      "AgentFlows",
+                                      "LogicApps"
+                                  ],
+                      "detector":  {
+                                       "type":  "DefinitionPattern",
+                                       "logic":  "ParallelLoopWritesSharedTarget"
+                                   },
+                      "message":  "A concurrent Apply to each writes to a target that does not depend on the current item.",
+                      "risk":  "Parallel iterations overwrite each other and results become non-deterministic.",
+                      "remediation":  [
+                                          "Make the loop sequential",
+                                          "Write a distinct target per item",
+                                          "Aggregate results after the loop"
+                                      ],
+                      "source":  {
+                                     "sourceId":  "ms-pa-limits",
+                                     "type":  "Microsoft",
+                                     "name":  "Power Automate limits and configuration",
+                                     "url":  "https://learn.microsoft.com/power-automate/limits-and-config"
+                                 },
+                      "documentation":  {
+                                            "owner":  "Automation Governance",
+                                            "status":  "Approved"
+                                        }
+                  },
+                  {
+                      "ruleId":  "PA-WAIT-001",
+                      "ruleKey":  "long-delay",
+                      "ruleVersion":  "1.0.0",
+                      "name":  "Long Delay action",
+                      "enabled":  true,
+                      "severity":  "Warning",
+                      "categories":  [
+                                         "Wait States",
+                                         "Performance"
+                                     ],
+                      "appliesTo":  [
+                                        "Action"
+                                    ],
+                      "inspectionMode":  "Static",
+                      "editors":  [
+                                      "PowerAutomate",
+                                      "AgentFlows",
+                                      "LogicApps"
+                                  ],
+                      "detector":  {
+                                       "type":  "Metric",
+                                       "logic":  "LongDelay",
+                                       "params":  {
+                                                      "minSeconds":  3600
+                                                  }
+                                   },
+                      "message":  "A Delay or Delay until action waits for an hour or longer.",
+                      "risk":  "The run stays open (30 day maximum), holds capacity and is exposed to timeouts and edits.",
+                      "remediation":  [
+                                          "Use a Recurrence flow that checks a date column",
+                                          "Use an Approval / webhook wait instead of sleeping",
+                                          "Keep delays short"
+                                      ],
+                      "source":  {
+                                     "sourceId":  "ms-pa-limits",
+                                     "type":  "Microsoft",
+                                     "name":  "Power Automate limits and configuration",
+                                     "url":  "https://learn.microsoft.com/power-automate/limits-and-config"
+                                 },
+                      "documentation":  {
+                                            "owner":  "Automation Governance",
+                                            "status":  "Approved"
+                                        }
+                  },
+                  {
+                      "ruleId":  "PA-WAIT-002",
+                      "ruleKey":  "delay-inside-loop",
+                      "ruleVersion":  "1.0.0",
+                      "name":  "Delay inside loop",
+                      "enabled":  true,
+                      "severity":  "High",
+                      "categories":  [
+                                         "Wait States",
+                                         "Looping",
+                                         "Performance"
+                                     ],
+                      "appliesTo":  [
+                                        "Action",
+                                        "Loop"
+                                    ],
+                      "inspectionMode":  "Static",
+                      "editors":  [
+                                      "PowerAutomate",
+                                      "AgentFlows",
+                                      "LogicApps"
+                                  ],
+                      "detector":  {
+                                       "type":  "DefinitionPattern",
+                                       "logic":  "DelayInLoop"
+                                   },
+                      "message":  "A Delay action runs on every iteration of a loop.",
+                      "risk":  "Total wait time = delay x items; runs can exceed the 30 day limit.",
+                      "remediation":  [
+                                          "Remove the delay and rely on retry/backoff",
+                                          "Throttle with loop concurrency",
+                                          "Move delayed work to a scheduled flow"
+                                      ],
+                      "source":  {
+                                     "sourceId":  "ms-pa-limits",
+                                     "type":  "Microsoft",
+                                     "name":  "Power Automate limits and configuration",
+                                     "url":  "https://learn.microsoft.com/power-automate/limits-and-config"
+                                 },
+                      "documentation":  {
+                                            "owner":  "Automation Governance",
+                                            "status":  "Approved"
+                                        }
+                  },
+                  {
+                      "ruleId":  "PA-WAIT-003",
+                      "ruleKey":  "long-do-until-polling",
+                      "ruleVersion":  "1.0.0",
+                      "name":  "Long-running Do Until polling loop",
+                      "enabled":  true,
+                      "severity":  "High",
+                      "categories":  [
+                                         "Wait States",
+                                         "Looping",
+                                         "Performance"
+                                     ],
+                      "appliesTo":  [
+                                        "Action",
+                                        "Loop"
+                                    ],
+                      "inspectionMode":  "Static",
+                      "editors":  [
+                                      "PowerAutomate",
+                                      "AgentFlows",
+                                      "LogicApps"
+                                  ],
+                      "detector":  {
+                                       "type":  "DefinitionPattern",
+                                       "logic":  "UntilPolling",
+                                       "params":  {
+                                                      "minTimeoutSeconds":  3600
+                                                  }
+                                   },
+                      "message":  "A Do until loop is allowed to poll for an hour or longer or for 60+ iterations.",
+                      "risk":  "Polling burns API calls and holds the run open.",
+                      "remediation":  [
+                                          "Lower the count and timeout",
+                                          "Use a trigger or webhook/callback instead of polling",
+                                          "Poll with an increasing delay"
+                                      ],
+                      "source":  {
+                                     "sourceId":  "ms-pa-limits",
+                                     "type":  "Microsoft",
+                                     "name":  "Power Automate limits and configuration",
+                                     "url":  "https://learn.microsoft.com/power-automate/limits-and-config"
+                                 },
+                      "documentation":  {
+                                            "owner":  "Automation Governance",
+                                            "status":  "Approved"
+                                        }
+                  },
+                  {
+                      "ruleId":  "PA-PERF-001",
+                      "ruleKey":  "get-items-without-filter-query",
+                      "ruleVersion":  "1.0.0",
+                      "name":  "Get items without server-side Filter Query",
+                      "enabled":  true,
+                      "severity":  "Warning",
+                      "categories":  [
+                                         "Performance",
+                                         "Data Source",
+                                         "SharePoint"
+                                     ],
+                      "appliesTo":  [
+                                        "Action"
+                                    ],
+                      "inspectionMode":  "Static",
+                      "editors":  [
+                                      "PowerAutomate",
+                                      "AgentFlows",
+                                      "LogicApps"
+                                  ],
+                      "detector":  {
+                                       "type":  "DefinitionPattern",
+                                       "logic":  "GetItemsWithoutFilter"
+                                   },
+                      "message":  "A list/get-rows action has no filter query, so the whole data source is returned.",
+                      "risk":  "Slow runs, hitting row limits and wasted API calls.",
+                      "remediation":  [
+                                          "Add a Filter Query / OData $filter",
+                                          "Add Top Count and ordering",
+                                          "Select only the needed columns"
+                                      ],
+                      "source":  {
+                                     "sourceId":  "ms-pa-guidelines",
+                                     "type":  "Microsoft",
+                                     "name":  "Power Automate coding guidelines",
+                                     "url":  "https://learn.microsoft.com/power-automate/guidance/coding-guidelines/"
+                                 },
+                      "documentation":  {
+                                            "owner":  "Automation Governance",
+                                            "status":  "Approved"
+                                        }
+                  },
+                  {
+                      "ruleId":  "PA-PERF-002",
+                      "ruleKey":  "filter-array-after-large-retrieval",
+                      "ruleVersion":  "1.0.0",
+                      "name":  "Large data retrieval followed by Filter array",
+                      "enabled":  true,
+                      "severity":  "Warning",
+                      "categories":  [
+                                         "Performance",
+                                         "Data Source"
+                                     ],
+                      "appliesTo":  [
+                                        "Action"
+                                    ],
+                      "inspectionMode":  "Static",
+                      "editors":  [
+                                      "PowerAutomate",
+                                      "AgentFlows",
+                                      "LogicApps"
+                                  ],
+                      "detector":  {
+                                       "type":  "DefinitionPattern",
+                                       "logic":  "FilterArrayAfterGet"
+                                   },
+                      "message":  "Filter array is used to filter the result of a list/get-rows action.",
+                      "risk":  "All rows are transferred then filtered in the flow.",
+                      "remediation":  [
+                                          "Move the condition into the connector Filter Query"
+                                      ],
+                      "source":  {
+                                     "sourceId":  "ms-pa-guidelines",
+                                     "type":  "Microsoft",
+                                     "name":  "Power Automate coding guidelines",
+                                     "url":  "https://learn.microsoft.com/power-automate/guidance/coding-guidelines/"
+                                 },
+                      "documentation":  {
+                                            "owner":  "Automation Governance",
+                                            "status":  "Approved"
+                                        }
+                  },
+                  {
+                      "ruleId":  "PA-PERF-003",
+                      "ruleKey":  "repeated-identical-connector-query",
+                      "ruleVersion":  "1.0.0",
+                      "name":  "Repeated identical connector query",
+                      "enabled":  true,
+                      "severity":  "Warning",
+                      "categories":  [
+                                         "Performance",
+                                         "Connector"
+                                     ],
+                      "appliesTo":  [
+                                        "Action"
+                                    ],
+                      "inspectionMode":  "Static",
+                      "editors":  [
+                                      "PowerAutomate",
+                                      "AgentFlows",
+                                      "LogicApps"
+                                  ],
+                      "detector":  {
+                                       "type":  "DefinitionPattern",
+                                       "logic":  "RepeatedIdenticalQuery"
+                                   },
+                      "message":  "The same connector read is executed more than once with identical parameters.",
+                      "risk":  "Duplicate API calls and slower runs.",
+                      "remediation":  [
+                                          "Reuse the first result via a variable or Compose"
+                                      ],
+                      "source":  {
+                                     "sourceId":  "internal",
+                                     "type":  "Internal",
+                                     "name":  "Workflow Inspector rule catalog (Word document 2026-11-24)",
+                                     "url":  ""
+                                 },
+                      "documentation":  {
+                                            "owner":  "Automation Governance",
+                                            "status":  "Approved"
+                                        }
+                  },
+                  {
+                      "ruleId":  "PA-PERF-004",
+                      "ruleKey":  "expensive-operation-in-loop",
+                      "ruleVersion":  "1.0.0",
+                      "name":  "Expensive operation repeatedly executed in loop",
+                      "enabled":  true,
+                      "severity":  "High",
+                      "categories":  [
+                                         "Performance",
+                                         "Looping"
+                                     ],
+                      "appliesTo":  [
+                                        "Action",
+                                        "Loop"
+                                    ],
+                      "inspectionMode":  "Static",
+                      "editors":  [
+                                      "PowerAutomate",
+                                      "AgentFlows",
+                                      "LogicApps"
+                                  ],
+                      "detector":  {
+                                       "type":  "DefinitionPattern",
+                                       "logic":  "ExpensiveCallInLoop"
+                                   },
+                      "message":  "An HTTP call, child flow or connector read runs inside a loop.",
+                      "risk":  "Cost scales with the number of items and triggers throttling.",
+                      "remediation":  [
+                                          "Fetch once before the loop",
+                                          "Batch requests",
+                                          "Use a single query with a filter"
+                                      ],
+                      "source":  {
+                                     "sourceId":  "ms-pa-guidelines",
+                                     "type":  "Microsoft",
+                                     "name":  "Power Automate coding guidelines",
+                                     "url":  "https://learn.microsoft.com/power-automate/guidance/coding-guidelines/"
+                                 },
+                      "documentation":  {
+                                            "owner":  "Automation Governance",
+                                            "status":  "Approved"
+                                        }
+                  },
+                  {
+                      "ruleId":  "PA-PERF-005",
+                      "ruleKey":  "abnormally-long-median-run-duration",
+                      "ruleVersion":  "1.0.0",
+                      "name":  "Abnormally long median run duration",
+                      "enabled":  true,
+                      "severity":  "Warning",
+                      "categories":  [
+                                         "Performance",
+                                         "Runtime"
+                                     ],
+                      "appliesTo":  [
+                                        "Flow"
+                                    ],
+                      "inspectionMode":  "Runtime",
+                      "editors":  [
+                                      "PowerAutomate",
+                                      "AgentFlows",
+                                      "LogicApps"
+                                  ],
+                      "detector":  {
+                                       "type":  "Runtime",
+                                       "logic":  "RuntimeMedianDuration"
+                                   },
+                      "message":  "The median run duration is far above the flow\u0027s historical baseline.",
+                      "risk":  "Slow flows tie up capacity and delay business processes.",
+                      "remediation":  [
+                                          "Review recent run history for slow actions"
+                                      ],
+                      "source":  {
+                                     "sourceId":  "internal",
+                                     "type":  "Internal",
+                                     "name":  "Workflow Inspector rule catalog (Word document 2026-11-24)",
+                                     "url":  ""
+                                 },
+                      "documentation":  {
+                                            "owner":  "Automation Governance",
+                                            "status":  "Approved"
+                                        }
+                  },
+                  {
+                      "ruleId":  "PA-CONC-001",
+                      "ruleKey":  "trigger-permits-unsafe-overlap",
+                      "ruleVersion":  "1.0.0",
+                      "name":  "Trigger permits unsafe overlapping runs",
+                      "enabled":  true,
+                      "severity":  "High",
+                      "categories":  [
+                                         "Concurrency",
+                                         "Shared Data"
+                                     ],
+                      "appliesTo":  [
+                                        "Trigger"
+                                    ],
+                      "inspectionMode":  "Hybrid",
+                      "editors":  [
+                                      "PowerAutomate",
+                                      "AgentFlows",
+                                      "LogicApps"
+                                  ],
+                      "detector":  {
+                                       "type":  "DefinitionPattern",
+                                       "logic":  "TriggerUnlimitedOverlap"
+                                   },
+                      "message":  "The trigger has no concurrency limit while the flow writes data.",
+                      "risk":  "Overlapping runs can corrupt shared data or duplicate work.",
+                      "remediation":  [
+                                          "Enable trigger concurrency control and set Degree of Parallelism to 1",
+                                          "Make writes idempotent"
+                                      ],
+                      "source":  {
+                                     "sourceId":  "ms-pa-limits",
+                                     "type":  "Microsoft",
+                                     "name":  "Power Automate limits and configuration",
+                                     "url":  "https://learn.microsoft.com/power-automate/limits-and-config"
+                                 },
+                      "documentation":  {
+                                            "owner":  "Automation Governance",
+                                            "status":  "Approved"
+                                        }
+                  },
+                  {
+                      "ruleId":  "PA-CONC-002",
+                      "ruleKey":  "concurrency-disabled-high-volume",
+                      "ruleVersion":  "1.0.0",
+                      "name":  "Concurrency disabled on high-volume trigger",
+                      "enabled":  true,
+                      "severity":  "Info",
+                      "categories":  [
+                                         "Concurrency",
+                                         "Performance"
+                                     ],
+                      "appliesTo":  [
+                                        "Trigger"
+                                    ],
+                      "inspectionMode":  "Hybrid",
+                      "editors":  [
+                                      "PowerAutomate",
+                                      "AgentFlows",
+                                      "LogicApps"
+                                  ],
+                      "detector":  {
+                                       "type":  "DefinitionPattern",
+                                       "logic":  "ConcurrencyLimitedReadOnly"
+                                   },
+                      "message":  "Runs are serialized although the flow does not write shared data.",
+                      "risk":  "Backlog under load.",
+                      "remediation":  [
+                                          "Allow more parallel runs if the flow is safe to overlap"
+                                      ],
+                      "source":  {
+                                     "sourceId":  "ms-pa-limits",
+                                     "type":  "Microsoft",
+                                     "name":  "Power Automate limits and configuration",
+                                     "url":  "https://learn.microsoft.com/power-automate/limits-and-config"
+                                 },
+                      "documentation":  {
+                                            "owner":  "Automation Governance",
+                                            "status":  "Approved"
+                                        }
+                  },
+                  {
+                      "ruleId":  "PA-CONC-003",
+                      "ruleKey":  "parallel-branches-modify-same-resource",
+                      "ruleVersion":  "1.0.0",
+                      "name":  "Parallel branches modify same resource",
+                      "enabled":  true,
+                      "severity":  "Critical",
+                      "categories":  [
+                                         "Concurrency",
+                                         "Shared Data"
+                                     ],
+                      "appliesTo":  [
+                                        "Action"
+                                    ],
+                      "inspectionMode":  "Static",
+                      "editors":  [
+                                      "PowerAutomate",
+                                      "AgentFlows",
+                                      "LogicApps"
+                                  ],
+                      "detector":  {
+                                       "type":  "DefinitionPattern",
+                                       "logic":  "ParallelBranchesSameResource"
+                                   },
+                      "message":  "Parallel branches perform the same kind of write on one connector.",
+                      "risk":  "Last-writer-wins corruption and race conditions.",
+                      "remediation":  [
+                                          "Chain the actions with run after",
+                                          "Merge the updates into one call"
+                                      ],
+                      "source":  {
+                                     "sourceId":  "internal",
+                                     "type":  "Internal",
+                                     "name":  "Workflow Inspector rule catalog (Word document 2026-11-24)",
+                                     "url":  ""
+                                 },
+                      "documentation":  {
+                                            "owner":  "Automation Governance",
+                                            "status":  "Approved"
+                                        }
+                  },
+                  {
+                      "ruleId":  "PA-CONC-004",
+                      "ruleKey":  "loop-concurrency-writes-shared-variable",
+                      "ruleVersion":  "1.0.0",
+                      "name":  "Loop concurrency writes shared variable",
+                      "enabled":  true,
+                      "severity":  "High",
+                      "categories":  [
+                                         "Concurrency",
+                                         "Looping",
+                                         "Shared Data"
+                                     ],
+                      "appliesTo":  [
+                                        "Action",
+                                        "Loop"
+                                    ],
+                      "inspectionMode":  "Static",
+                      "editors":  [
+                                      "PowerAutomate",
+                                      "AgentFlows",
+                                      "LogicApps"
+                                  ],
+                      "detector":  {
+                                       "type":  "DefinitionPattern",
+                                       "logic":  "ParallelLoopWritesVariable"
+                                   },
+                      "message":  "A variable is modified inside a loop that runs iterations in parallel.",
+                      "risk":  "Lost updates and non-deterministic variable values.",
+                      "remediation":  [
+                                          "Set loop concurrency to 1",
+                                          "Build results with Select / Filter array instead of variables"
+                                      ],
+                      "source":  {
+                                     "sourceId":  "ms-pa-limits",
+                                     "type":  "Microsoft",
+                                     "name":  "Power Automate limits and configuration",
+                                     "url":  "https://learn.microsoft.com/power-automate/limits-and-config"
+                                 },
+                      "documentation":  {
+                                            "owner":  "Automation Governance",
+                                            "status":  "Approved"
+                                        }
+                  },
+                  {
+                      "ruleId":  "PA-DATA-001",
+                      "ruleKey":  "read-modify-write-without-concurrency-protection",
+                      "ruleVersion":  "1.0.0",
+                      "name":  "Read-modify-write without concurrency protection",
+                      "enabled":  true,
+                      "severity":  "High",
+                      "categories":  [
+                                         "Data Source Concurrency",
+                                         "Shared Data"
+                                     ],
+                      "appliesTo":  [
+                                        "Action"
+                                    ],
+                      "inspectionMode":  "Static",
+                      "editors":  [
+                                      "PowerAutomate",
+                                      "AgentFlows",
+                                      "LogicApps"
+                                  ],
+                      "detector":  {
+                                       "type":  "DefinitionPattern",
+                                       "logic":  "ReadModifyWrite"
+                                   },
+                      "message":  "An item is read and later updated while runs may overlap.",
+                      "risk":  "Concurrent runs overwrite each other\u0027s changes.",
+                      "remediation":  [
+                                          "Limit trigger concurrency to 1",
+                                          "Use ETag / row-version checks",
+                                          "Update only the columns that change"
+                                      ],
+                      "source":  {
+                                     "sourceId":  "internal",
+                                     "type":  "Internal",
+                                     "name":  "Workflow Inspector rule catalog (Word document 2026-11-24)",
+                                     "url":  ""
+                                 },
+                      "documentation":  {
+                                            "owner":  "Automation Governance",
+                                            "status":  "Approved"
+                                        }
+                  },
+                  {
+                      "ruleId":  "PA-DATA-002",
+                      "ruleKey":  "multiple-runs-update-same-sharepoint-item",
+                      "ruleVersion":  "1.0.0",
+                      "name":  "Multiple runs update same SharePoint item",
+                      "enabled":  true,
+                      "severity":  "High",
+                      "categories":  [
+                                         "Data Source Concurrency",
+                                         "SharePoint"
+                                     ],
+                      "appliesTo":  [
+                                        "Action"
+                                    ],
+                      "inspectionMode":  "Hybrid",
+                      "editors":  [
+                                      "PowerAutomate",
+                                      "AgentFlows",
+                                      "LogicApps"
+                                  ],
+                      "detector":  {
+                                       "type":  "Runtime",
+                                       "logic":  "RuntimeSameItemUpdates"
+                                   },
+                      "message":  "Run history shows multiple runs updating the same item.",
+                      "risk":  "Conflicting updates and trigger storms.",
+                      "remediation":  [
+                                          "Add a trigger condition or processing marker"
+                                      ],
+                      "source":  {
+                                     "sourceId":  "internal",
+                                     "type":  "Internal",
+                                     "name":  "Workflow Inspector rule catalog (Word document 2026-11-24)",
+                                     "url":  ""
+                                 },
+                      "documentation":  {
+                                            "owner":  "Automation Governance",
+                                            "status":  "Approved"
+                                        }
+                  },
+                  {
+                      "ruleId":  "PA-DATA-003",
+                      "ruleKey":  "shared-excel-file-as-transactional-database",
+                      "ruleVersion":  "1.0.0",
+                      "name":  "Shared Excel file used as transactional database",
+                      "enabled":  true,
+                      "severity":  "High",
+                      "categories":  [
+                                         "Shared Data",
+                                         "Concurrency",
+                                         "Performance"
+                                     ],
+                      "appliesTo":  [
+                                        "Action"
+                                    ],
+                      "inspectionMode":  "Static",
+                      "editors":  [
+                                      "PowerAutomate",
+                                      "AgentFlows",
+                                      "LogicApps"
+                                  ],
+                      "detector":  {
+                                       "type":  "DefinitionPattern",
+                                       "logic":  "ExcelAsDatabase"
+                                   },
+                      "message":  "A concurrent flow or loop writes rows into an Excel workbook.",
+                      "risk":  "File locks, failed writes and corrupt tables.",
+                      "remediation":  [
+                                          "Use Dataverse, SQL or SharePoint lists",
+                                          "Serialize writes"
+                                      ],
+                      "source":  {
+                                     "sourceId":  "community",
+                                     "type":  "Community",
+                                     "name":  "Community / field experience",
+                                     "url":  ""
+                                 },
+                      "documentation":  {
+                                            "owner":  "Automation Governance",
+                                            "status":  "Approved"
+                                        }
+                  },
+                  {
+                      "ruleId":  "PA-REENT-001",
+                      "ruleKey":  "no-idempotency-check",
+                      "ruleVersion":  "1.0.0",
+                      "name":  "Triggered process has no idempotency check",
+                      "enabled":  true,
+                      "severity":  "High",
+                      "categories":  [
+                                         "Re-entrant",
+                                         "Concurrency"
+                                     ],
+                      "appliesTo":  [
+                                        "Trigger"
+                                    ],
+                      "inspectionMode":  "Static",
+                      "editors":  [
+                                      "PowerAutomate",
+                                      "AgentFlows",
+                                      "LogicApps"
+                                  ],
+                      "detector":  {
+                                       "type":  "DefinitionPattern",
+                                       "logic":  "NoIdempotencyCheck"
+                                   },
+                      "message":  "The flow creates records on every trigger event with no duplicate check.",
+                      "risk":  "Duplicate trigger events create duplicate records.",
+                      "remediation":  [
+                                          "Check whether the record exists before creating",
+                                          "Use trigger conditions",
+                                          "Store a processing marker"
+                                      ],
+                      "source":  {
+                                     "sourceId":  "internal",
+                                     "type":  "Internal",
+                                     "name":  "Workflow Inspector rule catalog (Word document 2026-11-24)",
+                                     "url":  ""
+                                 },
+                      "documentation":  {
+                                            "owner":  "Automation Governance",
+                                            "status":  "Approved"
+                                        }
+                  },
+                  {
+                      "ruleId":  "PA-REENT-002",
+                      "ruleKey":  "retry-can-create-duplicate-business-record",
+                      "ruleVersion":  "1.0.0",
+                      "name":  "Retry can create duplicate business record",
+                      "enabled":  true,
+                      "severity":  "Critical",
+                      "categories":  [
+                                         "Re-entrant",
+                                         "Retry",
+                                         "Data"
+                                     ],
+                      "appliesTo":  [
+                                        "Action"
+                                    ],
+                      "inspectionMode":  "Hybrid",
+                      "editors":  [
+                                      "PowerAutomate",
+                                      "AgentFlows",
+                                      "LogicApps"
+                                  ],
+                      "detector":  {
+                                       "type":  "Runtime",
+                                       "logic":  "RuntimeRetryDuplicates"
+                                   },
+                      "message":  "Run history shows retried create actions that produced duplicates.",
+                      "risk":  "Duplicate business records.",
+                      "remediation":  [
+                                          "Use idempotency keys"
+                                      ],
+                      "source":  {
+                                     "sourceId":  "internal",
+                                     "type":  "Internal",
+                                     "name":  "Workflow Inspector rule catalog (Word document 2026-11-24)",
+                                     "url":  ""
+                                 },
+                      "documentation":  {
+                                            "owner":  "Automation Governance",
+                                            "status":  "Approved"
+                                        }
+                  },
+                  {
+                      "ruleId":  "PA-REENT-003",
+                      "ruleKey":  "flow-can-trigger-itself",
+                      "ruleVersion":  "1.0.0",
+                      "name":  "Flow can retrigger itself through data update",
+                      "enabled":  true,
+                      "severity":  "Critical",
+                      "categories":  [
+                                         "Re-entrant",
+                                         "Looping",
+                                         "Concurrency",
+                                         "Shared Data"
+                                     ],
+                      "appliesTo":  [
+                                        "Trigger",
+                                        "Action"
+                                    ],
+                      "inspectionMode":  "Static",
+                      "editors":  [
+                                      "PowerAutomate",
+                                      "AgentFlows",
+                                      "LogicApps"
+                                  ],
+                      "detector":  {
+                                       "type":  "DefinitionPattern",
+                                       "logic":  "SelfTrigger"
+                                   },
+                      "message":  "The flow is triggered by changes to a data source that it also updates.",
+                      "risk":  "The update can start another run and create recursive executions.",
+                      "remediation":  [
+                                          "Add a trigger condition",
+                                          "Add an ownership or processing marker",
+                                          "Make the operation idempotent",
+                                          "Avoid updating trigger-sensitive columns when unnecessary"
+                                      ],
+                      "source":  {
+                                     "sourceId":  "ms-pa-guidelines",
+                                     "type":  "Microsoft",
+                                     "name":  "Power Automate coding guidelines",
+                                     "url":  "https://learn.microsoft.com/power-automate/guidance/coding-guidelines/"
+                                 },
+                      "documentation":  {
+                                            "owner":  "Automation Governance",
+                                            "status":  "Approved"
+                                        }
+                  },
+                  {
+                      "ruleId":  "PA-CONN-001",
+                      "ruleKey":  "connector-connection-unhealthy",
+                      "ruleVersion":  "1.0.0",
+                      "name":  "Connector connection unhealthy",
+                      "enabled":  true,
+                      "severity":  "High",
+                      "categories":  [
+                                         "Connector",
+                                         "Reliability"
+                                     ],
+                      "appliesTo":  [
+                                        "Connector"
+                                    ],
+                      "inspectionMode":  "Metadata",
+                      "editors":  [
+                                      "PowerAutomate",
+                                      "AgentFlows"
+                                  ],
+                      "detector":  {
+                                       "type":  "Metadata",
+                                       "logic":  "ConnectionHealth"
+                                   },
+                      "message":  "A connection used by the flow is in an error state.",
+                      "risk":  "The flow fails on its next run.",
+                      "remediation":  [
+                                          "Re-authenticate the connection"
+                                      ],
+                      "source":  {
+                                     "sourceId":  "internal",
+                                     "type":  "Internal",
+                                     "name":  "Workflow Inspector rule catalog (Word document 2026-11-24)",
+                                     "url":  ""
+                                 },
+                      "documentation":  {
+                                            "owner":  "Automation Governance",
+                                            "status":  "Approved"
+                                        }
+                  },
+                  {
+                      "ruleId":  "PA-CONN-002",
+                      "ruleKey":  "flow-depends-on-individual-owner-connection",
+                      "ruleVersion":  "1.0.0",
+                      "name":  "Flow depends on individual owner\u0027s connection",
+                      "enabled":  true,
+                      "severity":  "Warning",
+                      "categories":  [
+                                         "Connector",
+                                         "Governance",
+                                         "Continuity"
+                                     ],
+                      "appliesTo":  [
+                                        "Connector"
+                                    ],
+                      "inspectionMode":  "Metadata",
+                      "editors":  [
+                                      "PowerAutomate",
+                                      "AgentFlows"
+                                  ],
+                      "detector":  {
+                                       "type":  "Metadata",
+                                       "logic":  "ConnectionOwner"
+                                   },
+                      "message":  "A connection belongs to an individual user instead of a service account.",
+                      "risk":  "The flow breaks when the user leaves or changes password.",
+                      "remediation":  [
+                                          "Use a service principal / service account connection"
+                                      ],
+                      "source":  {
+                                     "sourceId":  "ms-pa-security",
+                                     "type":  "Microsoft",
+                                     "name":  "Power Platform security and governance",
+                                     "url":  "https://learn.microsoft.com/power-platform/admin/security/"
+                                 },
+                      "documentation":  {
+                                            "owner":  "Automation Governance",
+                                            "status":  "Approved"
+                                        }
+                  },
+                  {
+                      "ruleId":  "PA-CONN-003",
+                      "ruleKey":  "unexpected-connector-introduced",
+                      "ruleVersion":  "1.0.0",
+                      "name":  "Unexpected connector introduced",
+                      "enabled":  false,
+                      "severity":  "High",
+                      "categories":  [
+                                         "Connector",
+                                         "Governance",
+                                         "Security"
+                                     ],
+                      "appliesTo":  [
+                                        "Action"
+                                    ],
+                      "inspectionMode":  "Static",
+                      "editors":  [
+                                      "PowerAutomate",
+                                      "AgentFlows",
+                                      "LogicApps"
+                                  ],
+                      "detector":  {
+                                       "type":  "DefinitionPattern",
+                                       "logic":  "ConnectorAllowList",
+                                       "params":  {
+                                                      "allowed":  [
+
+                                                                  ]
+                                                  }
+                                   },
+                      "message":  "A connector is used that is not in the approved connector list.",
+                      "risk":  "Unvetted data egress paths.",
+                      "remediation":  [
+                                          "Use an approved connector",
+                                          "Request approval and add it to the list"
+                                      ],
+                      "source":  {
+                                     "sourceId":  "internal",
+                                     "type":  "Internal",
+                                     "name":  "Workflow Inspector rule catalog (Word document 2026-11-24)",
+                                     "url":  ""
+                                 },
+                      "documentation":  {
+                                            "owner":  "Automation Governance",
+                                            "status":  "Approved"
+                                        }
+                  },
+                  {
+                      "ruleId":  "PA-CONN-004",
+                      "ruleKey":  "connector-violates-approved-catalog",
+                      "ruleVersion":  "1.0.0",
+                      "name":  "Connector violates approved connector catalog",
+                      "enabled":  false,
+                      "severity":  "Critical",
+                      "categories":  [
+                                         "Connector",
+                                         "Governance",
+                                         "Security"
+                                     ],
+                      "appliesTo":  [
+                                        "Action"
+                                    ],
+                      "inspectionMode":  "Static",
+                      "editors":  [
+                                      "PowerAutomate",
+                                      "AgentFlows",
+                                      "LogicApps"
+                                  ],
+                      "detector":  {
+                                       "type":  "DefinitionPattern",
+                                       "logic":  "ConnectorBlockList",
+                                       "params":  {
+                                                      "blocked":  [
+
+                                                                  ]
+                                                  }
+                                   },
+                      "message":  "A blocked connector is used by the flow.",
+                      "risk":  "Policy violation and data exfiltration risk.",
+                      "remediation":  [
+                                          "Remove the connector or obtain an exception"
+                                      ],
+                      "source":  {
+                                     "sourceId":  "internal",
+                                     "type":  "Internal",
+                                     "name":  "Workflow Inspector rule catalog (Word document 2026-11-24)",
+                                     "url":  ""
+                                 },
+                      "documentation":  {
+                                            "owner":  "Automation Governance",
+                                            "status":  "Approved"
+                                        }
+                  },
+                  {
+                      "ruleId":  "PA-ERR-001",
+                      "ruleKey":  "critical-action-has-no-failure-path",
+                      "ruleVersion":  "1.0.0",
+                      "name":  "Critical action has no failure path",
+                      "enabled":  true,
+                      "severity":  "High",
+                      "categories":  [
+                                         "Error Handling",
+                                         "Reliability"
+                                     ],
+                      "appliesTo":  [
+                                        "ErrorHandling",
+                                        "Action"
+                                    ],
+                      "inspectionMode":  "Static",
+                      "editors":  [
+                                      "PowerAutomate",
+                                      "AgentFlows",
+                                      "LogicApps"
+                                  ],
+                      "detector":  {
+                                       "type":  "DefinitionPattern",
+                                       "logic":  "CriticalActionNoFailurePath"
+                                   },
+                      "message":  "An action that writes data or calls a service has no run-after failure path.",
+                      "risk":  "Failures stop the flow silently or leave data half-updated.",
+                      "remediation":  [
+                                          "Wrap the actions in a Try scope",
+                                          "Add a Catch scope configured to run after Failed and TimedOut"
+                                      ],
+                      "source":  {
+                                     "sourceId":  "ms-pa-error",
+                                     "type":  "Microsoft",
+                                     "name":  "Power Automate - employ robust error handling",
+                                     "url":  "https://learn.microsoft.com/power-automate/guidance/coding-guidelines/error-handling"
+                                 },
+                      "documentation":  {
+                                            "owner":  "Automation Governance",
+                                            "status":  "Approved"
+                                        }
+                  },
+                  {
+                      "ruleId":  "PA-ERR-002",
+                      "ruleKey":  "scope-missing-run-after-failure-branch",
+                      "ruleVersion":  "1.0.0",
+                      "name":  "Scope missing Configure run after failure branch",
+                      "enabled":  true,
+                      "severity":  "Warning",
+                      "categories":  [
+                                         "Error Handling"
+                                     ],
+                      "appliesTo":  [
+                                        "ErrorHandling",
+                                        "Scope"
+                                    ],
+                      "inspectionMode":  "Static",
+                      "editors":  [
+                                      "PowerAutomate",
+                                      "AgentFlows",
+                                      "LogicApps"
+                                  ],
+                      "detector":  {
+                                       "type":  "DefinitionPattern",
+                                       "logic":  "ScopeWithoutFailureBranch"
+                                   },
+                      "message":  "A Scope has no sibling that runs after it Failed or TimedOut.",
+                      "risk":  "The try/catch pattern is incomplete.",
+                      "remediation":  [
+                                          "Add a Catch scope with run after Failed and TimedOut"
+                                      ],
+                      "source":  {
+                                     "sourceId":  "ms-pa-error",
+                                     "type":  "Microsoft",
+                                     "name":  "Power Automate - employ robust error handling",
+                                     "url":  "https://learn.microsoft.com/power-automate/guidance/coding-guidelines/error-handling"
+                                 },
+                      "documentation":  {
+                                            "owner":  "Automation Governance",
+                                            "status":  "Approved"
+                                        }
+                  },
+                  {
+                      "ruleId":  "PA-ERR-003",
+                      "ruleKey":  "failure-swallowed-without-logging",
+                      "ruleVersion":  "1.0.0",
+                      "name":  "Failure swallowed without logging",
+                      "enabled":  true,
+                      "severity":  "High",
+                      "categories":  [
+                                         "Error Handling",
+                                         "Observability"
+                                     ],
+                      "appliesTo":  [
+                                        "ErrorHandling"
+                                    ],
+                      "inspectionMode":  "Static",
+                      "editors":  [
+                                      "PowerAutomate",
+                                      "AgentFlows",
+                                      "LogicApps"
+                                  ],
+                      "detector":  {
+                                       "type":  "DefinitionPattern",
+                                       "logic":  "FailureSwallowed"
+                                   },
+                      "message":  "A failure handler does not notify, log or terminate the run as failed.",
+                      "risk":  "Errors disappear and nobody notices.",
+                      "remediation":  [
+                                          "Send a notification or write a log record",
+                                          "End the handler with Terminate (Failed)"
+                                      ],
+                      "source":  {
+                                     "sourceId":  "ms-pa-error",
+                                     "type":  "Microsoft",
+                                     "name":  "Power Automate - employ robust error handling",
+                                     "url":  "https://learn.microsoft.com/power-automate/guidance/coding-guidelines/error-handling"
+                                 },
+                      "documentation":  {
+                                            "owner":  "Automation Governance",
+                                            "status":  "Approved"
+                                        }
+                  },
+                  {
+                      "ruleId":  "PA-ERR-004",
+                      "ruleKey":  "no-terminal-error-state",
+                      "ruleVersion":  "1.0.0",
+                      "name":  "Flow has no terminal error state",
+                      "enabled":  true,
+                      "severity":  "Warning",
+                      "categories":  [
+                                         "Error Handling",
+                                         "Observability"
+                                     ],
+                      "appliesTo":  [
+                                        "ErrorHandling",
+                                        "Flow"
+                                    ],
+                      "inspectionMode":  "Static",
+                      "editors":  [
+                                      "PowerAutomate",
+                                      "AgentFlows",
+                                      "LogicApps"
+                                  ],
+                      "detector":  {
+                                       "type":  "DefinitionPattern",
+                                       "logic":  "NoTerminalErrorState"
+                                   },
+                      "message":  "The flow writes data but never ends a run as Failed or Cancelled on purpose.",
+                      "risk":  "Handled errors appear as Succeeded runs, hiding problems from monitoring.",
+                      "remediation":  [
+                                          "Add a Terminate (Failed) action at the end of the Catch scope"
+                                      ],
+                      "source":  {
+                                     "sourceId":  "ms-pa-error",
+                                     "type":  "Microsoft",
+                                     "name":  "Power Automate - employ robust error handling",
+                                     "url":  "https://learn.microsoft.com/power-automate/guidance/coding-guidelines/error-handling"
+                                 },
+                      "documentation":  {
+                                            "owner":  "Automation Governance",
+                                            "status":  "Approved"
+                                        }
+                  },
+                  {
+                      "ruleId":  "PA-RETRY-001",
+                      "ruleKey":  "excessive-automatic-retries",
+                      "ruleVersion":  "1.0.0",
+                      "name":  "Excessive automatic retries",
+                      "enabled":  true,
+                      "severity":  "Warning",
+                      "categories":  [
+                                         "Retry",
+                                         "Performance"
+                                     ],
+                      "appliesTo":  [
+                                        "Action"
+                                    ],
+                      "inspectionMode":  "Static",
+                      "editors":  [
+                                      "PowerAutomate",
+                                      "AgentFlows",
+                                      "LogicApps"
+                                  ],
+                      "detector":  {
+                                       "type":  "Metric",
+                                       "logic":  "ExcessiveRetries",
+                                       "params":  {
+                                                      "maxCount":  4
+                                                  }
+                                   },
+                      "message":  "An action is configured with more retries than recommended.",
+                      "risk":  "Retries amplify load on a failing service.",
+                      "remediation":  [
+                                          "Reduce the retry count",
+                                          "Use exponential backoff"
+                                      ],
+                      "source":  {
+                                     "sourceId":  "ms-la-errors",
+                                     "type":  "Microsoft",
+                                     "name":  "Handle errors and exceptions in Azure Logic Apps",
+                                     "url":  "https://learn.microsoft.com/azure/logic-apps/error-exception-handling"
+                                 },
+                      "documentation":  {
+                                            "owner":  "Automation Governance",
+                                            "status":  "Approved"
+                                        }
+                  },
+                  {
+                      "ruleId":  "PA-RETRY-002",
+                      "ruleKey":  "retry-operation-is-not-idempotent",
+                      "ruleVersion":  "1.0.0",
+                      "name":  "Retry operation is not idempotent",
+                      "enabled":  true,
+                      "severity":  "Critical",
+                      "categories":  [
+                                         "Retry",
+                                         "Re-entrant"
+                                     ],
+                      "appliesTo":  [
+                                        "Action"
+                                    ],
+                      "inspectionMode":  "Static",
+                      "editors":  [
+                                      "PowerAutomate",
+                                      "AgentFlows",
+                                      "LogicApps"
+                                  ],
+                      "detector":  {
+                                       "type":  "DefinitionPattern",
+                                       "logic":  "NonIdempotentRetry"
+                                   },
+                      "message":  "A create/POST action keeps the default retry policy.",
+                      "risk":  "A timeout followed by a retry can create duplicate records.",
+                      "remediation":  [
+                                          "Set retry policy to None for creates",
+                                          "Send an idempotency key",
+                                          "Check for an existing record first"
+                                      ],
+                      "source":  {
+                                     "sourceId":  "ms-la-errors",
+                                     "type":  "Microsoft",
+                                     "name":  "Handle errors and exceptions in Azure Logic Apps",
+                                     "url":  "https://learn.microsoft.com/azure/logic-apps/error-exception-handling"
+                                 },
+                      "documentation":  {
+                                            "owner":  "Automation Governance",
+                                            "status":  "Approved"
+                                        }
+                  },
+                  {
+                      "ruleId":  "PA-RETRY-003",
+                      "ruleKey":  "repeated-http-429-responses",
+                      "ruleVersion":  "1.0.0",
+                      "name":  "Repeated HTTP 429 responses",
+                      "enabled":  true,
+                      "severity":  "High",
+                      "categories":  [
+                                         "Retry",
+                                         "Throttling",
+                                         "Performance"
+                                     ],
+                      "appliesTo":  [
+                                        "Runtime"
+                                    ],
+                      "inspectionMode":  "Runtime",
+                      "editors":  [
+                                      "PowerAutomate",
+                                      "AgentFlows",
+                                      "LogicApps"
+                                  ],
+                      "detector":  {
+                                       "type":  "Runtime",
+                                       "logic":  "RuntimeThrottling"
+                                   },
+                      "message":  "Run history shows repeated HTTP 429 throttling.",
+                      "risk":  "Slow or failing runs.",
+                      "remediation":  [
+                                          "Reduce parallelism and calls per run"
+                                      ],
+                      "source":  {
+                                     "sourceId":  "ms-pa-limits",
+                                     "type":  "Microsoft",
+                                     "name":  "Power Automate limits and configuration",
+                                     "url":  "https://learn.microsoft.com/power-automate/limits-and-config"
+                                 },
+                      "documentation":  {
+                                            "owner":  "Automation Governance",
+                                            "status":  "Approved"
+                                        }
+                  },
+                  {
+                      "ruleId":  "PA-TRG-001",
+                      "ruleKey":  "trigger-condition-should-be-used",
+                      "ruleVersion":  "1.0.0",
+                      "name":  "Trigger condition should be used",
+                      "enabled":  true,
+                      "severity":  "Warning",
+                      "categories":  [
+                                         "Trigger",
+                                         "Performance"
+                                     ],
+                      "appliesTo":  [
+                                        "Trigger"
+                                    ],
+                      "inspectionMode":  "Static",
+                      "editors":  [
+                                      "PowerAutomate",
+                                      "AgentFlows",
+                                      "LogicApps"
+                                  ],
+                      "detector":  {
+                                       "type":  "DefinitionPattern",
+                                       "logic":  "TriggerConditionMissing"
+                                   },
+                      "message":  "The first action filters on trigger data instead of using a trigger condition.",
+                      "risk":  "Runs start (and consume capacity) only to exit immediately.",
+                      "remediation":  [
+                                          "Move the test into the trigger\u0027s Trigger Conditions setting"
+                                      ],
+                      "source":  {
+                                     "sourceId":  "ms-pa-guidelines",
+                                     "type":  "Microsoft",
+                                     "name":  "Power Automate coding guidelines",
+                                     "url":  "https://learn.microsoft.com/power-automate/guidance/coding-guidelines/"
+                                 },
+                      "documentation":  {
+                                            "owner":  "Automation Governance",
+                                            "status":  "Approved"
+                                        }
+                  },
+                  {
+                      "ruleId":  "PA-TRG-002",
+                      "ruleKey":  "trigger-causes-unnecessary-executions",
+                      "ruleVersion":  "1.0.0",
+                      "name":  "Trigger causes unnecessary executions",
+                      "enabled":  true,
+                      "severity":  "Warning",
+                      "categories":  [
+                                         "Trigger",
+                                         "Performance",
+                                         "Capacity"
+                                     ],
+                      "appliesTo":  [
+                                        "Trigger"
+                                    ],
+                      "inspectionMode":  "Hybrid",
+                      "editors":  [
+                                      "PowerAutomate",
+                                      "AgentFlows",
+                                      "LogicApps"
+                                  ],
+                      "detector":  {
+                                       "type":  "Metric",
+                                       "logic":  "RecurrenceTooFrequent",
+                                       "params":  {
+                                                      "minSeconds":  300
+                                                  }
+                                   },
+                      "message":  "The recurrence interval is shorter than recommended.",
+                      "risk":  "Frequent polling consumes capacity and API quota.",
+                      "remediation":  [
+                                          "Increase the interval",
+                                          "Use an event trigger instead of polling"
+                                      ],
+                      "source":  {
+                                     "sourceId":  "ms-pa-limits",
+                                     "type":  "Microsoft",
+                                     "name":  "Power Automate limits and configuration",
+                                     "url":  "https://learn.microsoft.com/power-automate/limits-and-config"
+                                 },
+                      "documentation":  {
+                                            "owner":  "Automation Governance",
+                                            "status":  "Approved"
+                                        }
+                  },
+                  {
+                      "ruleId":  "PA-COND-001",
+                      "ruleKey":  "excessively-complex-condition-expression",
+                      "ruleVersion":  "1.0.0",
+                      "name":  "Excessively complex condition expression",
+                      "enabled":  true,
+                      "severity":  "Warning",
+                      "categories":  [
+                                         "Condition",
+                                         "Maintainability"
+                                     ],
+                      "appliesTo":  [
+                                        "Condition"
+                                    ],
+                      "inspectionMode":  "Static",
+                      "editors":  [
+                                      "PowerAutomate",
+                                      "AgentFlows",
+                                      "LogicApps"
+                                  ],
+                      "detector":  {
+                                       "type":  "Metric",
+                                       "logic":  "ComplexCondition",
+                                       "params":  {
+                                                      "maxLength":  300,
+                                                      "maxDepth":  3,
+                                                      "maxOperators":  6
+                                                  }
+                                   },
+                      "message":  "A condition is long or deeply nested.",
+                      "risk":  "Hard to read, easy to get wrong.",
+                      "remediation":  [
+                                          "Compute parts in Compose actions",
+                                          "Split into several conditions or a Switch"
+                                      ],
+                      "source":  {
+                                     "sourceId":  "internal",
+                                     "type":  "Internal",
+                                     "name":  "Workflow Inspector rule catalog (Word document 2026-11-24)",
+                                     "url":  ""
+                                 },
+                      "documentation":  {
+                                            "owner":  "Automation Governance",
+                                            "status":  "Approved"
+                                        }
+                  },
+                  {
+                      "ruleId":  "PA-COND-002",
+                      "ruleKey":  "null-empty-value-not-protected",
+                      "ruleVersion":  "1.0.0",
+                      "name":  "Null/empty value not protected",
+                      "enabled":  true,
+                      "severity":  "Warning",
+                      "categories":  [
+                                         "Condition",
+                                         "Reliability"
+                                     ],
+                      "appliesTo":  [
+                                        "Condition"
+                                    ],
+                      "inspectionMode":  "Static",
+                      "editors":  [
+                                      "PowerAutomate",
+                                      "AgentFlows",
+                                      "LogicApps"
+                                  ],
+                      "detector":  {
+                                       "type":  "Expression",
+                                       "logic":  "ConditionNullUnsafe"
+                                   },
+                      "message":  "A condition reads a dynamic value without null protection.",
+                      "risk":  "The condition action fails when the property is missing.",
+                      "remediation":  [
+                                          "Use ?[ ] safe access or coalesce()",
+                                          "Test empty() first"
+                                      ],
+                      "source":  {
+                                     "sourceId":  "ms-wdl-functions",
+                                     "type":  "Microsoft",
+                                     "name":  "Workflow expression functions reference",
+                                     "url":  "https://learn.microsoft.com/azure/logic-apps/workflow-definition-language-functions-reference"
+                                 },
+                      "documentation":  {
+                                            "owner":  "Automation Governance",
+                                            "status":  "Approved"
+                                        }
+                  },
+                  {
+                      "ruleId":  "PA-OBS-001",
+                      "ruleKey":  "repeated-failure-threshold-exceeded",
+                      "ruleVersion":  "1.0.0",
+                      "name":  "Repeated failure threshold exceeded",
+                      "enabled":  true,
+                      "severity":  "High",
+                      "categories":  [
+                                         "Error Handling",
+                                         "Observability"
+                                     ],
+                      "appliesTo":  [
+                                        "Flow"
+                                    ],
+                      "inspectionMode":  "Runtime",
+                      "editors":  [
+                                      "PowerAutomate",
+                                      "AgentFlows",
+                                      "LogicApps"
+                                  ],
+                      "detector":  {
+                                       "type":  "Runtime",
+                                       "logic":  "RuntimeFailureRate"
+                                   },
+                      "message":  "The recent failure rate is above the allowed threshold.",
+                      "risk":  "Sustained failures go unnoticed.",
+                      "remediation":  [
+                                          "Investigate failing runs and add alerts"
+                                      ],
+                      "source":  {
+                                     "sourceId":  "internal",
+                                     "type":  "Internal",
+                                     "name":  "Workflow Inspector rule catalog (Word document 2026-11-24)",
+                                     "url":  ""
+                                 },
+                      "documentation":  {
+                                            "owner":  "Automation Governance",
+                                            "status":  "Approved"
+                                        }
+                  },
+                  {
+                      "ruleId":  "PA-OBS-002",
+                      "ruleKey":  "run-duration-increased-materially",
+                      "ruleVersion":  "1.0.0",
+                      "name":  "Run duration increased materially",
+                      "enabled":  true,
+                      "severity":  "Warning",
+                      "categories":  [
+                                         "Performance",
+                                         "Observability"
+                                     ],
+                      "appliesTo":  [
+                                        "Flow"
+                                    ],
+                      "inspectionMode":  "Runtime",
+                      "editors":  [
+                                      "PowerAutomate",
+                                      "AgentFlows",
+                                      "LogicApps"
+                                  ],
+                      "detector":  {
+                                       "type":  "Runtime",
+                                       "logic":  "RuntimeDurationTrend"
+                                   },
+                      "message":  "Recent runs are materially slower than before.",
+                      "risk":  "Gradual degradation.",
+                      "remediation":  [
+                                          "Compare recent and baseline action durations"
+                                      ],
+                      "source":  {
+                                     "sourceId":  "internal",
+                                     "type":  "Internal",
+                                     "name":  "Workflow Inspector rule catalog (Word document 2026-11-24)",
+                                     "url":  ""
+                                 },
+                      "documentation":  {
+                                            "owner":  "Automation Governance",
+                                            "status":  "Approved"
+                                        }
+                  },
+                  {
+                      "ruleId":  "PA-ALM-001",
+                      "ruleKey":  "production-flow-outside-solution",
+                      "ruleVersion":  "1.0.0",
+                      "name":  "Production flow outside solution",
+                      "enabled":  true,
+                      "severity":  "Warning",
+                      "categories":  [
+                                         "ALM",
+                                         "Governance"
+                                     ],
+                      "appliesTo":  [
+                                        "Flow"
+                                    ],
+                      "inspectionMode":  "Metadata",
+                      "editors":  [
+                                      "PowerAutomate",
+                                      "AgentFlows"
+                                  ],
+                      "detector":  {
+                                       "type":  "Metadata",
+                                       "logic":  "SolutionMembership"
+                                   },
+                      "message":  "A production flow is not part of a solution.",
+                      "risk":  "No ALM, no environment promotion, harder ownership transfer.",
+                      "remediation":  [
+                                          "Move the flow into a solution"
+                                      ],
+                      "source":  {
+                                     "sourceId":  "ms-pa-guidelines",
+                                     "type":  "Microsoft",
+                                     "name":  "Power Automate coding guidelines",
+                                     "url":  "https://learn.microsoft.com/power-automate/guidance/coding-guidelines/"
+                                 },
+                      "documentation":  {
+                                            "owner":  "Automation Governance",
+                                            "status":  "Approved"
+                                        }
+                  },
+                  {
+                      "ruleId":  "PA-ALM-002",
+                      "ruleKey":  "hard-coded-environment-specific-identifier",
+                      "ruleVersion":  "1.0.0",
+                      "name":  "Hard-coded environment-specific identifier",
+                      "enabled":  true,
+                      "severity":  "Warning",
+                      "categories":  [
+                                         "ALM",
+                                         "Maintainability"
+                                     ],
+                      "appliesTo":  [
+                                        "Action"
+                                    ],
+                      "inspectionMode":  "Static",
+                      "editors":  [
+                                      "PowerAutomate",
+                                      "AgentFlows",
+                                      "LogicApps"
+                                  ],
+                      "detector":  {
+                                       "type":  "DefinitionPattern",
+                                       "logic":  "HardcodedEnvironmentIdentifier"
+                                   },
+                      "message":  "An environment-specific GUID, site URL or host name is typed into an action.",
+                      "risk":  "The flow breaks or touches production when promoted between environments.",
+                      "remediation":  [
+                                          "Use environment variables or parameters",
+                                          "Use connection references"
+                                      ],
+                      "source":  {
+                                     "sourceId":  "ms-pa-guidelines",
+                                     "type":  "Microsoft",
+                                     "name":  "Power Automate coding guidelines",
+                                     "url":  "https://learn.microsoft.com/power-automate/guidance/coding-guidelines/"
+                                 },
+                      "documentation":  {
+                                            "owner":  "Automation Governance",
+                                            "status":  "Approved"
+                                        }
+                  },
+                  {
+                      "ruleId":  "SEC-001",
+                      "ruleKey":  "hardcoded-secret-or-token",
+                      "ruleVersion":  "1.0.0",
+                      "name":  "Hard-coded secret or token",
+                      "enabled":  true,
+                      "severity":  "High",
+                      "categories":  [
+                                         "Security",
+                                         "Governance"
+                                     ],
+                      "appliesTo":  [
+                                        "Action"
+                                    ],
+                      "inspectionMode":  "Static",
+                      "editors":  [
+                                      "PowerAutomate",
+                                      "AgentFlows",
+                                      "LogicApps"
+                                  ],
+                      "detector":  {
+                                       "type":  "DefinitionPattern",
+                                       "logic":  "HardcodedSecret"
+                                   },
+                      "message":  "A password, key or bearer token is stored in the flow definition.",
+                      "risk":  "Anyone who can read or export the flow can steal the credential.",
+                      "remediation":  [
+                                          "Move secrets to Azure Key Vault or an environment variable of type Secret",
+                                          "Mark the input as secure",
+                                          "Rotate the exposed credential"
+                                      ],
+                      "source":  {
+                                     "sourceId":  "ms-pa-security",
+                                     "type":  "Microsoft",
+                                     "name":  "Power Platform security and governance",
+                                     "url":  "https://learn.microsoft.com/power-platform/admin/security/"
+                                 },
+                      "documentation":  {
+                                            "owner":  "Automation Governance",
+                                            "status":  "Approved"
+                                        }
+                  },
+                  {
+                      "ruleId":  "EXP-001",
+                      "ruleKey":  "expression-syntax-error",
+                      "ruleVersion":  "1.0.0",
+                      "name":  "Expression syntax error",
+                      "enabled":  true,
+                      "severity":  "High",
+                      "categories":  [
+                                         "Expression",
+                                         "Reliability"
+                                     ],
+                      "appliesTo":  [
+                                        "Expression"
+                                    ],
+                      "inspectionMode":  "Static",
+                      "editors":  "All",
+                      "detector":  {
+                                       "type":  "Expression",
+                                       "logic":  "Expr_EXP-001"
+                                   },
+                      "message":  "An expression has unbalanced parentheses, brackets or quotes or an unexpected token.",
+                      "risk":  "The action fails at design time or at run time.",
+                      "remediation":  [
+                                          "Fix the expression syntax",
+                                          "Paste it into a Compose action to validate"
+                                      ],
+                      "source":  {
+                                     "sourceId":  "ms-wdl-schema",
+                                     "type":  "Microsoft",
+                                     "name":  "Workflow Definition Language schema reference",
+                                     "url":  "https://learn.microsoft.com/azure/logic-apps/logic-apps-workflow-definition-language"
+                                 },
+                      "documentation":  {
+                                            "owner":  "Automation Governance",
+                                            "status":  "Approved"
+                                        }
+                  },
+                  {
+                      "ruleId":  "EXP-002",
+                      "ruleKey":  "unknown-expression-function",
+                      "ruleVersion":  "1.0.0",
+                      "name":  "Unknown expression function",
+                      "enabled":  true,
+                      "severity":  "High",
+                      "categories":  [
+                                         "Expression",
+                                         "Reliability"
+                                     ],
+                      "appliesTo":  [
+                                        "Expression"
+                                    ],
+                      "inspectionMode":  "Static",
+                      "editors":  "All",
+                      "detector":  {
+                                       "type":  "Expression",
+                                       "logic":  "Expr_EXP-002"
+                                   },
+                      "message":  "An expression calls a function that does not exist in the Workflow Definition Language.",
+                      "risk":  "The action fails at run time.",
+                      "remediation":  [
+                                          "Correct the function name using the WDL functions reference"
+                                      ],
+                      "source":  {
+                                     "sourceId":  "ms-wdl-functions",
+                                     "type":  "Microsoft",
+                                     "name":  "Workflow expression functions reference",
+                                     "url":  "https://learn.microsoft.com/azure/logic-apps/workflow-definition-language-functions-reference"
+                                 },
+                      "documentation":  {
+                                            "owner":  "Automation Governance",
+                                            "status":  "Approved"
+                                        }
+                  },
+                  {
+                      "ruleId":  "EXP-003",
+                      "ruleKey":  "wrong-argument-count",
+                      "ruleVersion":  "1.0.0",
+                      "name":  "Wrong number of function arguments",
+                      "enabled":  true,
+                      "severity":  "High",
+                      "categories":  [
+                                         "Expression",
+                                         "Reliability"
+                                     ],
+                      "appliesTo":  [
+                                        "Expression"
+                                    ],
+                      "inspectionMode":  "Static",
+                      "editors":  "All",
+                      "detector":  {
+                                       "type":  "Expression",
+                                       "logic":  "Expr_EXP-003"
+                                   },
+                      "message":  "A function is called with too few or too many arguments.",
+                      "risk":  "The expression is invalid and the action fails.",
+                      "remediation":  [
+                                          "Check the function signature in the WDL functions reference"
+                                      ],
+                      "source":  {
+                                     "sourceId":  "ms-wdl-functions",
+                                     "type":  "Microsoft",
+                                     "name":  "Workflow expression functions reference",
+                                     "url":  "https://learn.microsoft.com/azure/logic-apps/workflow-definition-language-functions-reference"
+                                 },
+                      "documentation":  {
+                                            "owner":  "Automation Governance",
+                                            "status":  "Approved"
+                                        }
+                  },
+                  {
+                      "ruleId":  "EXP-004",
+                      "ruleKey":  "reference-to-missing-action",
+                      "ruleVersion":  "1.0.0",
+                      "name":  "Reference to missing action or parameter",
+                      "enabled":  true,
+                      "severity":  "High",
+                      "categories":  [
+                                         "Expression",
+                                         "Reliability"
+                                     ],
+                      "appliesTo":  [
+                                        "Expression"
+                                    ],
+                      "inspectionMode":  "Static",
+                      "editors":  "All",
+                      "detector":  {
+                                       "type":  "Expression",
+                                       "logic":  "Expr_EXP-004"
+                                   },
+                      "message":  "An expression refers to an action or parameter that does not exist.",
+                      "risk":  "The expression fails; often caused by renaming or deleting an action.",
+                      "remediation":  [
+                                          "Update the reference to an existing action name"
+                                      ],
+                      "source":  {
+                                     "sourceId":  "ms-wdl-schema",
+                                     "type":  "Microsoft",
+                                     "name":  "Workflow Definition Language schema reference",
+                                     "url":  "https://learn.microsoft.com/azure/logic-apps/logic-apps-workflow-definition-language"
+                                 },
+                      "documentation":  {
+                                            "owner":  "Automation Governance",
+                                            "status":  "Approved"
+                                        }
+                  },
+                  {
+                      "ruleId":  "EXP-005",
+                      "ruleKey":  "reference-not-upstream",
+                      "ruleVersion":  "1.0.0",
+                      "name":  "Reference to action that has not run yet",
+                      "enabled":  true,
+                      "severity":  "Warning",
+                      "categories":  [
+                                         "Expression",
+                                         "Reliability"
+                                     ],
+                      "appliesTo":  [
+                                        "Expression"
+                                    ],
+                      "inspectionMode":  "Static",
+                      "editors":  "All",
+                      "detector":  {
+                                       "type":  "Expression",
+                                       "logic":  "Expr_EXP-005"
+                                   },
+                      "message":  "An expression uses the output of an action that is not guaranteed to run before it.",
+                      "risk":  "The value is empty or the action fails.",
+                      "remediation":  [
+                                          "Reorder the actions or reference an upstream action"
+                                      ],
+                      "source":  {
+                                     "sourceId":  "ms-wdl-schema",
+                                     "type":  "Microsoft",
+                                     "name":  "Workflow Definition Language schema reference",
+                                     "url":  "https://learn.microsoft.com/azure/logic-apps/logic-apps-workflow-definition-language"
+                                 },
+                      "documentation":  {
+                                            "owner":  "Automation Governance",
+                                            "status":  "Approved"
+                                        }
+                  },
+                  {
+                      "ruleId":  "EXP-006",
+                      "ruleKey":  "null-unsafe-property-access",
+                      "ruleVersion":  "1.0.0",
+                      "name":  "Null-unsafe property access",
+                      "enabled":  true,
+                      "severity":  "Warning",
+                      "categories":  [
+                                         "Expression",
+                                         "Reliability"
+                                     ],
+                      "appliesTo":  [
+                                        "Expression"
+                                    ],
+                      "inspectionMode":  "Static",
+                      "editors":  "All",
+                      "detector":  {
+                                       "type":  "Expression",
+                                       "logic":  "Expr_EXP-006"
+                                   },
+                      "message":  "A property of an action output is read with [ ] instead of the null-safe ?[ ].",
+                      "risk":  "The action fails if the property is missing.",
+                      "remediation":  [
+                                          "Use ?[\u0027name\u0027] and wrap with coalesce() for a default"
+                                      ],
+                      "source":  {
+                                     "sourceId":  "ms-wdl-functions",
+                                     "type":  "Microsoft",
+                                     "name":  "Workflow expression functions reference",
+                                     "url":  "https://learn.microsoft.com/azure/logic-apps/workflow-definition-language-functions-reference"
+                                 },
+                      "documentation":  {
+                                            "owner":  "Automation Governance",
+                                            "status":  "Approved"
+                                        }
+                  },
+                  {
+                      "ruleId":  "EXP-007",
+                      "ruleKey":  "item-outside-loop",
+                      "ruleVersion":  "1.0.0",
+                      "name":  "item() / items() outside its loop",
+                      "enabled":  true,
+                      "severity":  "High",
+                      "categories":  [
+                                         "Expression",
+                                         "Looping"
+                                     ],
+                      "appliesTo":  [
+                                        "Expression"
+                                    ],
+                      "inspectionMode":  "Static",
+                      "editors":  "All",
+                      "detector":  {
+                                       "type":  "Expression",
+                                       "logic":  "Expr_EXP-007"
+                                   },
+                      "message":  "item() or items(\u0027X\u0027) is used where no matching Apply to each encloses the action.",
+                      "risk":  "The expression fails at run time.",
+                      "remediation":  [
+                                          "Move the action into the loop or reference the data another way"
+                                      ],
+                      "source":  {
+                                     "sourceId":  "ms-wdl-functions",
+                                     "type":  "Microsoft",
+                                     "name":  "Workflow expression functions reference",
+                                     "url":  "https://learn.microsoft.com/azure/logic-apps/workflow-definition-language-functions-reference"
+                                 },
+                      "documentation":  {
+                                            "owner":  "Automation Governance",
+                                            "status":  "Approved"
+                                        }
+                  },
+                  {
+                      "ruleId":  "EXP-008",
+                      "ruleKey":  "variable-not-initialized",
+                      "ruleVersion":  "1.0.0",
+                      "name":  "Variable not initialized before use",
+                      "enabled":  true,
+                      "severity":  "High",
+                      "categories":  [
+                                         "Expression",
+                                         "Reliability"
+                                     ],
+                      "appliesTo":  [
+                                        "Expression"
+                                    ],
+                      "inspectionMode":  "Static",
+                      "editors":  "All",
+                      "detector":  {
+                                       "type":  "Expression",
+                                       "logic":  "Expr_EXP-008"
+                                   },
+                      "message":  "variables(\u0027x\u0027) is used without a prior Initialize variable action.",
+                      "risk":  "The run fails with an undefined variable error.",
+                      "remediation":  [
+                                          "Add Initialize variable at the top level before first use"
+                                      ],
+                      "source":  {
+                                     "sourceId":  "ms-wdl-functions",
+                                     "type":  "Microsoft",
+                                     "name":  "Workflow expression functions reference",
+                                     "url":  "https://learn.microsoft.com/azure/logic-apps/workflow-definition-language-functions-reference"
+                                 },
+                      "documentation":  {
+                                            "owner":  "Automation Governance",
+                                            "status":  "Approved"
+                                        }
+                  },
+                  {
+                      "ruleId":  "EXP-009",
+                      "ruleKey":  "expression-too-complex",
+                      "ruleVersion":  "1.0.0",
+                      "name":  "Expression too complex",
+                      "enabled":  true,
+                      "severity":  "Warning",
+                      "categories":  [
+                                         "Expression",
+                                         "Maintainability"
+                                     ],
+                      "appliesTo":  [
+                                        "Expression"
+                                    ],
+                      "inspectionMode":  "Static",
+                      "editors":  "All",
+                      "detector":  {
+                                       "type":  "Expression",
+                                       "logic":  "Expr_EXP-009"
+                                   },
+                      "message":  "An expression is very long or deeply nested.",
+                      "risk":  "Hard to read, review and debug.",
+                      "remediation":  [
+                                          "Split into several Compose actions with meaningful names"
+                                      ],
+                      "source":  {
+                                     "sourceId":  "internal",
+                                     "type":  "Internal",
+                                     "name":  "Workflow Inspector rule catalog (Word document 2026-11-24)",
+                                     "url":  ""
+                                 },
+                      "documentation":  {
+                                            "owner":  "Automation Governance",
+                                            "status":  "Approved"
+                                        }
+                  }
+              ]
+}

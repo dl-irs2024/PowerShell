@@ -1,0 +1,14 @@
+{
+  "sources": [
+    { "id": "internal", "type": "Internal", "name": "Workflow Inspector rule catalog (Word document 2026-11-24)", "url": "", "description": "Rules defined by this project from the Workflow Inspector design discussion." },
+    { "id": "ms-pa-limits", "type": "Microsoft", "name": "Power Automate limits and configuration", "url": "https://learn.microsoft.com/power-automate/limits-and-config", "description": "Run duration, concurrency, loop, delay and throttling limits." },
+    { "id": "ms-pa-error", "type": "Microsoft", "name": "Power Automate - employ robust error handling", "url": "https://learn.microsoft.com/power-automate/guidance/coding-guidelines/error-handling", "description": "Scopes, run after, try/catch and terminate guidance." },
+    { "id": "ms-pa-guidelines", "type": "Microsoft", "name": "Power Automate coding guidelines", "url": "https://learn.microsoft.com/power-automate/guidance/coding-guidelines/", "description": "Performance, naming, trigger conditions, filtering and ALM guidance." },
+    { "id": "ms-la-limits", "type": "Microsoft", "name": "Azure Logic Apps limits and configuration", "url": "https://learn.microsoft.com/azure/logic-apps/logic-apps-limits-and-config", "description": "Concurrency, loop, retry and duration limits for Logic Apps." },
+    { "id": "ms-la-errors", "type": "Microsoft", "name": "Handle errors and exceptions in Azure Logic Apps", "url": "https://learn.microsoft.com/azure/logic-apps/error-exception-handling", "description": "Retry policies, run after, scopes." },
+    { "id": "ms-wdl-functions", "type": "Microsoft", "name": "Workflow expression functions reference", "url": "https://learn.microsoft.com/azure/logic-apps/workflow-definition-language-functions-reference", "description": "Official list of WDL functions used by Logic Apps and Power Automate." },
+    { "id": "ms-wdl-schema", "type": "Microsoft", "name": "Workflow Definition Language schema reference", "url": "https://learn.microsoft.com/azure/logic-apps/logic-apps-workflow-definition-language", "description": "Triggers, actions, runAfter and expression syntax." },
+    { "id": "ms-pa-security", "type": "Microsoft", "name": "Power Platform security and governance", "url": "https://learn.microsoft.com/power-platform/admin/security/", "description": "DLP, connection and secret handling." },
+    { "id": "community", "type": "Community", "name": "Community / field experience", "url": "", "description": "Practices not documented by Microsoft." }
+  ]
+}

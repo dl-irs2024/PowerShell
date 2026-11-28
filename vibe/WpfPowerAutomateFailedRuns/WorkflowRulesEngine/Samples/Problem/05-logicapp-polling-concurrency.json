@@ -1,0 +1,42 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "resources": [
+    {
+      "type": "Microsoft.Logic/workflows",
+      "apiVersion": "2019-05-01",
+      "name": "problem-logicapp-05",
+      "location": "eastus",
+      "properties": {
+        "state": "Enabled",
+        "definition": {
+          "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+          "contentVersion": "1.0.0.0",
+          "triggers": {
+            "Recurrence": { "type": "Recurrence", "recurrence": { "frequency": "Minute", "interval": 1 } }
+          },
+          "actions": {
+            "Poll_until_ready": {
+              "runAfter": {},
+              "type": "Until",
+              "expression": "@equals(body('Check_status')?['state'], 'Done')",
+              "limit": { "count": 5000, "timeout": "P30D" },
+              "actions": {
+                "Check_status": { "runAfter": {}, "type": "Http", "inputs": { "method": "GET", "uri": "https://api.contoso.com/job/1" } }
+              }
+            },
+            "For_each_row": {
+              "runAfter": { "Poll_until_ready": [ "Succeeded" ] },
+              "type": "Foreach",
+              "foreach": "@body('Check_status')?['rows']",
+              "runtimeConfiguration": { "concurrency": { "repetitions": 50 } },
+              "actions": {
+                "Post_row": { "runAfter": {}, "type": "Http", "inputs": { "method": "POST", "uri": "https://api.contoso.com/rows", "body": "@items('For_each_row')", "retryPolicy": { "type": "fixed", "count": 90, "interval": "PT1S" } } }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

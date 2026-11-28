@@ -1,0 +1,45 @@
+{
+  "name": "p01",
+  "properties": {
+    "displayName": "PROBLEM 01 - Connector calls and delay inside nested Apply to each",
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "triggers": {
+        "Recurrence": { "type": "Recurrence", "recurrence": { "frequency": "Day", "interval": 1 } }
+      },
+      "actions": {
+        "Get_items": {
+          "runAfter": {},
+          "type": "OpenApiConnection",
+          "inputs": { "host": { "connectionName": "shared_sharepointonline", "operationId": "GetItems", "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline" }, "parameters": { "dataset": "https://contoso.sharepoint.com/sites/hr", "table": "Employees" } }
+        },
+        "Apply_to_each": {
+          "runAfter": { "Get_items": [ "Succeeded" ] },
+          "type": "Foreach",
+          "foreach": "@outputs('Get_items')?['body/value']",
+          "actions": {
+            "Get_manager": {
+              "runAfter": {},
+              "type": "OpenApiConnection",
+              "inputs": { "host": { "connectionName": "shared_office365users", "operationId": "Manager", "apiId": "/providers/Microsoft.PowerApps/apis/shared_office365users" }, "parameters": { "id": "@items('Apply_to_each')?['Email']" } }
+            },
+            "Inner_loop": {
+              "runAfter": { "Get_manager": [ "Succeeded" ] },
+              "type": "Foreach",
+              "foreach": "@items('Apply_to_each')?['Skills']",
+              "actions": {
+                "Pause": { "runAfter": {}, "type": "Wait", "inputs": { "interval": { "count": 30, "unit": "Second" } } },
+                "Send_mail": {
+                  "runAfter": { "Pause": [ "Succeeded" ] },
+                  "type": "OpenApiConnection",
+                  "inputs": { "host": { "connectionName": "shared_office365", "operationId": "SendEmailV2", "apiId": "/providers/Microsoft.PowerApps/apis/shared_office365" }, "parameters": { "emailMessage/To": "@items('Apply_to_each')?['Email']", "emailMessage/Subject": "Skill review", "emailMessage/Body": "@items('Inner_loop')" } }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

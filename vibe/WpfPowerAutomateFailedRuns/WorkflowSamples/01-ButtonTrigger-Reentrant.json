@@ -1,0 +1,61 @@
+{
+  "name": "11111111-0001-4000-8000-000000000001",
+  "id": "/providers/Microsoft.ProcessSimple/environments/Default-sample/flows/11111111-0001-4000-8000-000000000001",
+  "type": "Microsoft.ProcessSimple/environments/flows",
+  "properties": {
+    "apiId": "/providers/Microsoft.PowerApps/apis/shared_logicflows",
+    "displayName": "Sample 01 - Button trigger, re-entrant (25 parallel runs)",
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": { "$connections": { "defaultValue": {}, "type": "Object" } },
+      "triggers": {
+        "manual": {
+          "metadata": { "operationMetadataId": "a1" },
+          "type": "Request",
+          "kind": "Button",
+          "inputs": { "schema": { "type": "object", "properties": { "text": { "title": "Item id", "type": "string", "x-ms-dynamically-added": true } }, "required": [ "text" ] } },
+          "runtimeConfiguration": { "concurrency": { "runs": 25 } }
+        }
+      },
+      "actions": {
+        "Initialize_counter": {
+          "runAfter": {},
+          "type": "InitializeVariable",
+          "inputs": { "variables": [ { "name": "counter", "type": "integer", "value": 0 } ] }
+        },
+        "Get_items": {
+          "runAfter": { "Initialize_counter": [ "Succeeded" ] },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": { "connectionName": "shared_sharepointonline", "operationId": "GetItems", "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline" },
+            "parameters": { "dataset": "https://contoso.sharepoint.com/sites/ops", "table": "Orders", "$top": 500 }
+          }
+        },
+        "Apply_to_each": {
+          "foreach": "@outputs('Get_items')?['body/value']",
+          "runAfter": { "Get_items": [ "Succeeded" ] },
+          "type": "Foreach",
+          "actions": {
+            "Increment_counter": {
+              "runAfter": {},
+              "type": "IncrementVariable",
+              "inputs": { "name": "counter", "value": 1 }
+            },
+            "Update_item": {
+              "runAfter": { "Increment_counter": [ "Succeeded" ] },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": { "connectionName": "shared_sharepointonline", "operationId": "PatchItem", "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline" },
+                "parameters": { "dataset": "https://contoso.sharepoint.com/sites/ops", "table": "Orders", "id": "@items('Apply_to_each')?['ID']", "item/Status": "Processed", "item/Seq": "@variables('counter')" }
+              }
+            }
+          },
+          "runtimeConfiguration": { "concurrency": { "repetitions": 20 } }
+        }
+      }
+    },
+    "connectionReferences": { "shared_sharepointonline": { "connectionName": "shared-sharepointonl-0000", "source": "Invoker", "id": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline" } },
+    "state": "Started"
+  }
+}

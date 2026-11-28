@@ -1,0 +1,47 @@
+{
+  "name": "11111111-0002-4000-8000-000000000002",
+  "properties": {
+    "apiId": "/providers/Microsoft.PowerApps/apis/shared_logicflows",
+    "displayName": "Sample 02 - Scheduled, single instance, sequential loop",
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": { "$connections": { "defaultValue": {}, "type": "Object" } },
+      "triggers": {
+        "Recurrence": {
+          "recurrence": { "frequency": "Hour", "interval": 1 },
+          "type": "Recurrence",
+          "runtimeConfiguration": { "concurrency": { "runs": 1 } }
+        }
+      },
+      "actions": {
+        "Get_rows": {
+          "runAfter": {},
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": { "connectionName": "shared_sql", "operationId": "GetItems", "apiId": "/providers/Microsoft.PowerApps/apis/shared_sql" },
+            "parameters": { "server": "sql.contoso.com", "database": "ops", "table": "[dbo].[Queue]", "$top": 100 }
+          }
+        },
+        "Apply_to_each": {
+          "foreach": "@body('Get_rows')?['value']",
+          "runAfter": { "Get_rows": [ "Succeeded" ] },
+          "type": "Foreach",
+          "actions": {
+            "Send_email": {
+              "runAfter": {},
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": { "connectionName": "shared_office365", "operationId": "SendEmailV2", "apiId": "/providers/Microsoft.PowerApps/apis/shared_office365" },
+                "parameters": { "emailMessage/To": "@items('Apply_to_each')?['Email']", "emailMessage/Subject": "Queue item @{items('Apply_to_each')?['Id']}", "emailMessage/Body": "<p>Hello @{items('Apply_to_each')?['Name']}</p>" },
+                "retryPolicy": { "type": "exponential", "count": 4, "interval": "PT20S", "minimumInterval": "PT5S", "maximumInterval": "PT1H" }
+              }
+            }
+          },
+          "runtimeConfiguration": { "concurrency": { "repetitions": 1 } }
+        }
+      }
+    },
+    "state": "Started"
+  }
+}

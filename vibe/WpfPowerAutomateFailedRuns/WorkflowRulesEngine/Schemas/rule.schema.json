@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "workflow-rule.schema.json",
+  "title": "Workflow Inspector rule",
+  "description": "Rule format from Workflow_Inspector_Rules_Engine_ChatGPT_2026-11-24.v1.docx section 7, plus editors[] and source{}.",
+  "type": "object",
+  "required": ["ruleId", "name", "severity", "categories", "appliesTo", "detector", "message"],
+  "properties": {
+    "ruleId": { "type": "string", "pattern": "^[A-Z]{2,5}(-[A-Z]{2,8})?-\\d{3}$", "description": "Stable ID, e.g. PA-LOOP-001" },
+    "ruleKey": { "type": "string" },
+    "ruleVersion": { "type": "string" },
+    "name": { "type": "string" },
+    "enabled": { "type": "boolean" },
+    "severity": { "enum": ["Info", "Warning", "High", "Critical"] },
+    "categories": { "type": "array", "items": { "type": "string" }, "description": "Ids from Rules/categories.json" },
+    "appliesTo": { "type": "array", "items": { "enum": ["Flow", "Trigger", "Action", "Condition", "Loop", "Scope", "Connector", "Connection", "Expression", "ErrorHandling", "Run", "Runtime", "Environment", "Solution", "DataSource"] } },
+    "inspectionMode": { "enum": ["Static", "Hybrid", "Runtime", "Metadata"] },
+    "editors": { "type": "array", "items": { "type": "string" }, "description": "Workflow editors the rule belongs to (ids from Rules/editors.json: PowerAutomate, AgentFlows, LogicApps, ...). Empty = all." },
+    "detector": {
+      "type": "object",
+      "required": ["type", "logic"],
+      "properties": { "type": { "type": "string" }, "logic": { "type": "string", "description": "Name registered with Register-RuleLogic. Unregistered = Planned." }, "params": { "type": "object" } }
+    },
+    "message": { "type": "string" },
+    "risk": { "type": "string" },
+    "likelihood": { "type": "integer", "minimum": 1, "maximum": 5 },
+    "impact": { "type": "integer", "minimum": 1, "maximum": 5 },
+    "remediation": { "type": "array", "items": { "type": "string" } },
+    "source": {
+      "type": "object",
+      "properties": { "sourceId": { "type": "string" }, "type": { "type": "string" }, "name": { "type": "string" }, "url": { "type": "string" } }
+    },
+    "documentation": { "type": "object" }
+  }
+}

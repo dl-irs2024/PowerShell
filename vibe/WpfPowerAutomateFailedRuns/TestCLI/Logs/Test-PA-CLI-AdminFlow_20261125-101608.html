@@ -1,0 +1,91 @@
+﻿<!DOCTYPE html><html><head><meta charset='utf-8'><title>Test-PA-CLI-AdminFlow</title></head>
+<body style='background:#1e1e1e;color:#ccc;font-family:Consolas,monospace;font-size:13px'><pre>
+<span style='color:#ffffff'> [HEAD] ====================  Environment / proxy setup  ====================</span>
+<span style='color:#00bcd4'>10:15:54.052 [INFO] PowerShell 5.1.26100.9818 (Desktop), CLR 4.0.30319.42000</span>
+<span style='color:#00bcd4'>10:15:54.055 [INFO] User: DS\YMJNB  Machine: MTB012VP0030367</span>
+<span style='color:#00bcd4'>10:15:54.078 [INFO] SecurityProtocol: Tls12</span>
+<span style='color:#00bcd4'>10:15:54.083 [INFO] Default proxy credentials: DefaultNetworkCredentials (current Windows user)</span>
+<span style='color:#00bcd4'>10:15:54.094 [INFO] IE proxy: ProxyEnable=1 ProxyServer=proxy.web.irs.gov:8080 AutoConfigURL=http://autoproxy.web.irs.gov/proxy.pac ProxyOverride=10.*;192.168.*;*.irsnet.gov;*.enterprise.irs.gov;*.web.irs.gov;*.tcc.irs.gov;*.mcc.irs.gov;sip.irs.gov;taps.irs.gov;irweb.irs.gov;*.csirc.irs.gov;*.irscounsel.treas.gov;*.treasuryecm.gov;127.*;*.autodiscover.irs.gov;*.learning.irs.gov;localhost;*.broadcast.skype.com;*.compliance.microsoft.com;*.lync.com;*.mail.protection.outlook.com;*.officeapps.live.com;*.online.office.com;*.outlook.office.com;*.protection.office.com;*.protection.outlook.com;*.security.microsoft.com;*.skypeforbusiness.com;*.teams.microsoft.com;account.office.net;broadcast.skype.com;compliance.microsoft.com;irsgov.sharepoint.com;irsgov-my.sharepoint.com;office.live.com;outlook.office.com;outlook.office365.com;protection.office.com;security.microsoft.com;teams.microsoft.com;*.sts.irs.gov;ustrs.fed.prismaaccess.com;3.223.51.18;44.195.149.3;44.231.177.9;52.89.153.199;[2606:f4c0:8c01:129:2::];[2606:f4c0:8c11:129:2::];*.gp25yyncn2g.gw.fed.prismaaccess.com;crl.godaddy.com;ocsp.godaddy.com;pki.treas.gov;pki.treasury.gov;ocsp.treasury.gov;prod-ocsp.gtm.irs.gov;crl.paloaltonetworks.com;ocsp.paloaltonetworks.com;&lt;local&gt;</span>
+<span style='color:#00bcd4'>10:15:54.524 [INFO] winhttp: Current WinHTTP proxy settings:</span>
+<span style='color:#00bcd4'>10:15:54.542 [INFO] winhttp:     Proxy Server(s) :  proxy.web.irs.gov:8080</span>
+<span style='color:#00bcd4'>10:15:54.569 [INFO] winhttp:     Bypass List     :  10.*;192.168.*;*.irsnet.gov;*.enterprise.irs.gov;*.web.irs.gov;tcc.irs.gov;*.mcc.irs.gov;sip.irs.gov;taps.irs.gov;irweb.irs.gov;*.csirc.irs.gov;*.irscounsel.treas.gov;*.treasuryecm.gov;*.irs.gov;127.*;*.autodiscover.irs.gov;*.learning.irs.gov;localhost;*.broadcast.skype.com;*.compliance.microsoft.com;*.lync.com;*.mail.protection.outlook.com;*.officeapps.live.com;*.online.office.com;*.outlook.office.com;*.protection.office.com;*.protection.outlook.com;*.security.microsoft.com;*.skypeforbusiness.com;*.teams.microsoft.com;account.office.net;broadcast.skype.com;compliance.microsoft.com;irsgov.sharepoint.com;irsgov-my.sharepoint.com;office.live.com;outlook.office.com;outlook.office365.com;protection.office.com;security.microsoft.com;teams.microsoft.com;*.sts.irs.gov;ustrs.fed.prismaaccess.com;3.223.51.18;44.195.149.3;44.231.177.9;52.89.153.199;[2606:f4c0:8c01:129:2::];[2606:f4c0:8c11:129:2::];*.gp25yyncn2g.gw.fed.prismaaccess.com;crl.godaddy.com;ocsp.godaddy.com;pki.treas.gov;pki.treasury.gov;ocsp.treasury.gov;prod-ocsp.gtm.irs.gov;crl.paloaltonetworks.com;ocsp.paloaltonetworks.com;*.dem.prismaaccess.com;*.api.prismaaccess.com;&lt;local&gt;</span>
+<span style='color:#4caf50'>10:15:54.580 [OK  ] HTTP trace installed (Invoke-WebRequest, Invoke-RestMethod, ConvertFrom-Json are wrapped for this session).</span>
+<span style='color:#ffffff'> [HEAD] ====================  Network diagnostics (DNS / TCP / HTTPS via proxy)  ====================</span>
+<span style='color:#00bcd4'>10:15:54.853 [INFO] login.microsoftonline.com DNS -&gt; 40.126.29.6, 20.190.157.1, 20.190.157.11, 40.126.29.9, 20.190.157.2, 40.126.29.15, 20.190.157.3, 20.190.157.13, 2603:1037:1:148::c, 2603:1037:1:148::13, 2603:1037:1:148::f, 2603:1037:1:148::d, 2603:1036:3000:148::c, 2603:1037:1:148::9, 2603:1037:1:148::11, 2603:1036:3000:148::8 (via proxy.web.irs.gov:8080)</span>
+<span style='color:#4caf50'>10:15:55.270 [OK  ] login.microsoftonline.com HTTPS HEAD -&gt; HTTP 200 OK (via proxy.web.irs.gov:8080) Server= ContentType=text/html; charset=utf-8</span>
+<span style='color:#00bcd4'>10:15:55.329 [INFO] api.bap.microsoft.com DNS -&gt; 57.154.136.32, 2603:1061:2002:178::76 (via proxy.web.irs.gov:8080)</span>
+<span style='color:#ffc107'>10:15:55.861 [WARN] api.bap.microsoft.com HTTPS HEAD -&gt; HTTP 502 Bad Gateway (via proxy.web.irs.gov:8080) Server= ContentType=</span>
+<span style='color:#00bcd4'>10:15:56.391 [INFO] api.flow.microsoft.com DNS -&gt; 57.154.136.32, 2603:1061:2002:178::76 (via proxy.web.irs.gov:8080)</span>
+<span style='color:#4caf50'>10:15:57.470 [OK  ] api.flow.microsoft.com HTTPS HEAD -&gt; HTTP 405 Method Not Allowed (via proxy.web.irs.gov:8080) Server= ContentType=</span>
+<span style='color:#00bcd4'>10:15:57.647 [INFO] api.powerapps.com DNS -&gt; 48.211.10.65, 2603:1061:2002:78::13 (via proxy.web.irs.gov:8080)</span>
+<span style='color:#4caf50'>10:15:57.910 [OK  ] api.powerapps.com HTTPS HEAD -&gt; HTTP 400 Bad Request (via proxy.web.irs.gov:8080) Server= ContentType=application/json; charset=utf-8</span>
+<span style='color:#ffffff'> [HEAD] ====================  Import Microsoft.PowerApps.Administration.PowerShell  ====================</span>
+<span style='color:#00bcd4'>10:15:58.127 [INFO] loaded Microsoft.PowerApps.Administration.PowerShell 2.0.198</span>
+<span style='color:#ffffff'> [HEAD] ====================  Sign-in (Add-PowerAppsAccount)  ====================</span>
+<span style='color:#4caf50'>10:16:03.401 [OK  ] PASS: Sign-in (Add-PowerAppsAccount) - ok (5258 ms)</span>
+<span style='color:#ffffff'> [HEAD] ====================  Token / session diagnostics  ====================</span>
+<span style='color:#4caf50'>10:16:03.420 [OK  ] token aud=https://service.powerapps.com/ upn=YMJNBoad@irsgov.onmicrosoft.com tid=f2372b85-8802-490c-b196-7b96c73fee3b appid=1950a258-227b-4e31-a9cf-717495945fc2 exp=11/25/2026 11:16:10 AM</span>
+<span style='color:#00bcd4'>10:16:03.422 [INFO]     scopes: user_impersonation</span>
+<span style='color:#4caf50'>10:16:07.225 [OK  ] token aud=https://api.bap.microsoft.com/ upn=YMJNBoad@irsgov.onmicrosoft.com tid=f2372b85-8802-490c-b196-7b96c73fee3b appid=1950a258-227b-4e31-a9cf-717495945fc2 exp=11/25/2026 11:39:07 AM</span>
+<span style='color:#00bcd4'>10:16:07.227 [INFO]     scopes: user_impersonation</span>
+<span style='color:#ffffff'> [HEAD] ====================  Get-AdminPowerAppEnvironment  ====================</span>
+<span style='color:#e040fb'>10:16:07.253 [HTTP] --&gt; Invoke-WebRequest GET https://api.bap.microsoft.com/providers/Microsoft.BusinessAppPlatform/scopes/admin/environments?$expand=permissions&amp;api-version=2016-11-01</span>
+<span style='color:#c0a040'>10:16:07.265 [HDR ]     req header  User-Agent : PowerShell cmdlets 1.0</span>
+<span style='color:#c0a040'>10:16:07.267 [HDR ]     req header  Authorization : Bearer eyJ0eXAi...&lt;redacted&gt;</span>
+<span style='color:#e040fb'>10:16:08.199 [HTTP] &lt;-- HTTP 200 OK (929 ms)</span>
+<span style='color:#c0a040'>10:16:08.199 [HDR ]     resp header Connection : Keep-Alive</span>
+<span style='color:#c0a040'>10:16:08.201 [HDR ]     resp header Server-Timing : x-ms-igw-upstream-headers;dur=472.2,x-ms-igw-req-overhead;dur=0.6</span>
+<span style='color:#c0a040'>10:16:08.202 [HDR ]     resp header x-ms-request-id : westus:99071f24-d3a6-4951-8bbc-ac42865290a9</span>
+<span style='color:#c0a040'>10:16:08.205 [HDR ]     resp header x-ms-islandgateway : _prdcm001wusgb0_0</span>
+<span style='color:#c0a040'>10:16:08.206 [HDR ]     resp header x-ms-correlation-id : 23d09389-f555-4f33-9c83-66ac30710655</span>
+<span style='color:#c0a040'>10:16:08.207 [HDR ]     resp header x-ms-activity-vector : 00</span>
+<span style='color:#c0a040'>10:16:08.209 [HDR ]     resp header x-ms-igw-tracking-id : 35c4e58a-bd2a-4b0d-aa13-08bfb2b9933620261125151607_prdcm001wusgb0_0</span>
+<span style='color:#c0a040'>10:16:08.210 [HDR ]     resp header X-Content-Type-Options : nosniff</span>
+<span style='color:#c0a040'>10:16:08.211 [HDR ]     resp header x-ms-service-request-id : 35c4e58a-bd2a-4b0d-aa13-08bfb2b99336</span>
+<span style='color:#c0a040'>10:16:08.212 [HDR ]     resp header Strict-Transport-Security : max-age=31536000; includeSubDomains</span>
+<span style='color:#c0a040'>10:16:08.214 [HDR ]     resp header x-ms-correlation-request-id : 23d09389-f555-4f33-9c83-66ac30710655</span>
+<span style='color:#c0a040'>10:16:08.215 [HDR ]     resp header Content-Length : 12</span>
+<span style='color:#c0a040'>10:16:08.220 [HDR ]     resp header Cache-Control : no-cache, no-store</span>
+<span style='color:#c0a040'>10:16:08.224 [HDR ]     resp header Content-Type : application/json; charset=utf-8</span>
+<span style='color:#c0a040'>10:16:08.226 [HDR ]     resp header Date : Wed, 25 Nov 2026 15:16:08 GMT</span>
+<span style='color:#4db6ac'>10:16:08.228 [BODY]     resp body (12 chars):</span>
+<span style='color:#4db6ac'>10:16:08.229 [BODY] {</span>
+<span style='color:#4db6ac'>10:16:08.230 [BODY]     &quot;value&quot;:  [</span>
+<span style='color:#4db6ac'>10:16:08.232 [BODY] </span>
+<span style='color:#4db6ac'>10:16:08.232 [BODY]               ]</span>
+<span style='color:#4db6ac'>10:16:08.235 [BODY] }</span>
+<span style='color:#ff5252'>10:16:08.242 [ERR ] !!! Get-AdminPowerAppEnvironment failed: System.Management.Automation.RuntimeException: No environments returned (need Power Platform admin account).</span>
+<span style='color:#888888'>10:16:08.245 [DIM ]     at: At C:\PAWS\PowerShell\WpfPowerAutomateFailedRuns\TestCLI\PA-CLI-Debug.ps1:462 char:31 | + ... nt -eq 0) { throw &#39;No environments returned (need Power Platform admi ... | +                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</span>
+<span style='color:#888888'>10:16:08.246 [DIM ]     stack: at &lt;ScriptBlock&gt;, C:\PAWS\PowerShell\WpfPowerAutomateFailedRuns\TestCLI\PA-CLI-Debug.ps1: line 462 | at global:Invoke-Step, C:\PAWS\PowerShell\WpfPowerAutomateFailedRuns\TestCLI\PA-CLI-Debug.ps1: line 421 | at global:Start-PATestSession, C:\PAWS\PowerShell\WpfPowerAutomateFailedRuns\TestCLI\PA-CLI-Debug.ps1: line 460 | at &lt;ScriptBlock&gt;, C:\PAWS\PowerShell\WpfPowerAutomateFailedRuns\TestCLI\Test-PA-CLI-AdminFlow.ps1: line 50 | at &lt;ScriptBlock&gt;, &lt;No file&gt;: line 1</span>
+<span style='color:#ff5252'>10:16:08.250 [ERR ] FAIL: Get-AdminPowerAppEnvironment - No environments returned (need Power Platform admin account).</span>
+<span style='color:#ffffff'> [HEAD] ====================  Direct API call (module token, raw response)  ====================</span>
+<span style='color:#e040fb'>10:16:08.265 [HTTP] --&gt; GET https://api.bap.microsoft.com/providers/Microsoft.BusinessAppPlatform/scopes/admin/environments?api-version=2016-11-01</span>
+<span style='color:#e040fb'>10:16:08.587 [HTTP] &lt;-- HTTP 200 OK ContentType=application/json; charset=utf-8 (via proxy.web.irs.gov:8080)</span>
+<span style='color:#c0a040'>10:16:08.589 [HDR ]     resp header X-Content-Type-Options : nosniff</span>
+<span style='color:#c0a040'>10:16:08.599 [HDR ]     resp header Content-Length : 12</span>
+<span style='color:#c0a040'>10:16:08.601 [HDR ]     resp header x-ms-correlation-id : f39b9546-6207-4d20-a3bd-a9206c3c1ced</span>
+<span style='color:#c0a040'>10:16:08.602 [HDR ]     resp header x-ms-service-request-id : e2af60de-1bdd-47ac-8e79-304fa2f4faa8</span>
+<span style='color:#c0a040'>10:16:08.603 [HDR ]     resp header Strict-Transport-Security : max-age=31536000; includeSubDomains</span>
+<span style='color:#c0a040'>10:16:08.604 [HDR ]     resp header x-ms-activity-vector : 00</span>
+<span style='color:#c0a040'>10:16:08.606 [HDR ]     resp header x-ms-igw-tracking-id : e2af60de-1bdd-47ac-8e79-304fa2f4faa820261125151608_prdcm001wusgb0_0</span>
+<span style='color:#c0a040'>10:16:08.607 [HDR ]     resp header Cache-Control : no-cache, no-store</span>
+<span style='color:#c0a040'>10:16:08.608 [HDR ]     resp header Content-Type : application/json; charset=utf-8</span>
+<span style='color:#c0a040'>10:16:08.609 [HDR ]     resp header x-ms-islandgateway : _prdcm001wusgb0_0</span>
+<span style='color:#c0a040'>10:16:08.610 [HDR ]     resp header Connection : Keep-Alive</span>
+<span style='color:#c0a040'>10:16:08.613 [HDR ]     resp header Server-Timing : x-ms-igw-upstream-headers;dur=110.0,x-ms-igw-req-overhead;dur=0.7</span>
+<span style='color:#c0a040'>10:16:08.614 [HDR ]     resp header x-ms-correlation-request-id : f39b9546-6207-4d20-a3bd-a9206c3c1ced</span>
+<span style='color:#c0a040'>10:16:08.615 [HDR ]     resp header Date : Wed, 25 Nov 2026 15:16:08 GMT</span>
+<span style='color:#c0a040'>10:16:08.617 [HDR ]     resp header x-ms-request-id : westus:0f9a4e99-bbb5-4dd9-b894-e7c4a9b40ced</span>
+<span style='color:#4caf50'>10:16:08.620 [OK  ] body (12 chars):</span>
+<span style='color:#4caf50'>10:16:08.621 [OK  ] {</span>
+<span style='color:#4caf50'>10:16:08.627 [OK  ]     &quot;value&quot;:  [</span>
+<span style='color:#4caf50'>10:16:08.629 [OK  ] </span>
+<span style='color:#4caf50'>10:16:08.630 [OK  ]               ]</span>
+<span style='color:#4caf50'>10:16:08.630 [OK  ] }</span>
+<span style='color:#4caf50'>10:16:08.635 [OK  ] Body is valid JSON; environments: 0</span>
+<span style='color:#ffc107'>10:16:08.636 [WARN] Re-run with -EnvironmentName &lt;name&gt; to skip the BAP listing, or run Test-PA-CLI-EnvironmentSources.ps1 to find another way to list environments. See API.BAP.microsoft.com.Workaround.md.</span>
+<span style='color:#ffffff'> [HEAD] ====================  Summary  ====================</span>
+<span style='color:#4caf50'>10:16:08.653 [OK  ] PASS  Sign-in (Add-PowerAppsAccount)  ok (5258 ms)</span>
+<span style='color:#ff5252'>10:16:08.660 [ERR ] FAIL  Get-AdminPowerAppEnvironment  No environments returned (need Power Platform admin account).</span>
+<span style='color:#ff5252'>10:16:08.665 [ERR ] Done: 1 passed, 1 failed</span>
+</pre></body></html>

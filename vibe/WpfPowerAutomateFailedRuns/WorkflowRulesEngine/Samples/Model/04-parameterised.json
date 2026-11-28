@@ -1,0 +1,44 @@
+{
+  "name": "m04",
+  "properties": {
+    "displayName": "MODEL 04 - Secrets and environment values come from parameters / Key Vault",
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "DataverseUrl": { "type": "String", "defaultValue": "" },
+        "OwnerId": { "type": "String", "defaultValue": "" },
+        "ApiToken": { "type": "SecureString" }
+      },
+      "triggers": {
+        "Recurrence": { "type": "Recurrence", "recurrence": { "frequency": "Hour", "interval": 1 }, "runtimeConfiguration": { "concurrency": { "runs": 1 } } }
+      },
+      "actions": {
+        "Try": {
+          "runAfter": {},
+          "type": "Scope",
+          "actions": {
+            "Call_api": {
+              "runAfter": {},
+              "type": "Http",
+              "inputs": {
+                "method": "GET",
+                "uri": "@concat(parameters('DataverseUrl'), '/api/data/v9.2/accounts?$filter=_ownerid_value eq ', parameters('OwnerId'))",
+                "headers": { "Authorization": "@concat('Bearer ', parameters('ApiToken'))" },
+                "retryPolicy": { "type": "none" }
+              },
+              "runtimeConfiguration": { "secureData": { "properties": [ "inputs", "outputs" ] } }
+            }
+          }
+        },
+        "Catch": {
+          "runAfter": { "Try": [ "Failed", "TimedOut" ] },
+          "type": "Scope",
+          "actions": {
+            "Fail_run": { "runAfter": {}, "type": "Terminate", "inputs": { "runStatus": "Failed", "runError": { "code": "ApiFailed", "message": "See Try scope result" } } }
+          }
+        }
+      }
+    }
+  }
+}

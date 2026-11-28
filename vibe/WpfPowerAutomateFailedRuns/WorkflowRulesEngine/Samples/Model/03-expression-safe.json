@@ -1,0 +1,40 @@
+{
+  "name": "m03",
+  "properties": {
+    "displayName": "MODEL 03 - Null-safe expressions, valid functions, references only to upstream actions",
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "triggers": {
+        "manual": { "type": "Request", "kind": "Button", "inputs": { "schema": { "type": "object" } } }
+      },
+      "actions": {
+        "Init_counter": { "runAfter": {}, "type": "InitializeVariable", "inputs": { "variables": [ { "name": "counter", "type": "integer", "value": 0 } ] } },
+        "Try": {
+          "runAfter": { "Init_counter": [ "Succeeded" ] },
+          "type": "Scope",
+          "actions": {
+            "Get_user": { "runAfter": {}, "type": "Http", "inputs": { "method": "GET", "uri": "https://api.contoso.com/user", "retryPolicy": { "type": "none" } } },
+            "Shout": { "runAfter": { "Get_user": [ "Succeeded" ] }, "type": "Compose", "inputs": "@toUpper(coalesce(body('Get_user')?['name'], ''))" },
+            "Today": { "runAfter": { "Shout": [ "Succeeded" ] }, "type": "Compose", "inputs": "@formatDateTime(utcNow(), 'yyyy-MM-dd')" },
+            "Counter_value": { "runAfter": { "Today": [ "Succeeded" ] }, "type": "Compose", "inputs": "@variables('counter')" },
+            "Check": {
+              "runAfter": { "Counter_value": [ "Succeeded" ] },
+              "type": "If",
+              "expression": { "greater": [ "@coalesce(body('Get_user')?['age'], 0)", 18 ] },
+              "actions": { "Adult": { "runAfter": {}, "type": "Compose", "inputs": "adult" } },
+              "else": { "actions": {} }
+            }
+          }
+        },
+        "Catch": {
+          "runAfter": { "Try": [ "Failed", "TimedOut" ] },
+          "type": "Scope",
+          "actions": {
+            "Fail_run": { "runAfter": {}, "type": "Terminate", "inputs": { "runStatus": "Failed", "runError": { "code": "UserLookupFailed", "message": "See Try scope result" } } }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "editors": [
+    { "id": "PowerAutomate", "name": "Power Automate", "description": "Cloud flows in the Power Automate maker portal (OpenApiConnection actions, solution-aware flows).", "detect": "properties.apiId shared_logicflows, connectionReferences or OpenApiConnection actions" },
+    { "id": "AgentFlows", "name": "Agent Flows", "description": "Copilot Studio / Agent Builder agent flows (Power Automate engine with an agent-invoked trigger).", "detect": "Request trigger with kind Skills/Agent, or properties.flowType = agent" },
+    { "id": "LogicApps", "name": "Azure Logic Apps", "description": "Consumption and Standard Logic Apps (ARM template or workflow.json).", "detect": "ARM resources[] of type Microsoft.Logic/workflows, kind Stateful/Stateless, ApiConnection / ServiceProvider actions" },
+    { "id": "All", "name": "All editors", "description": "Rule applies to every workflow editor (also used for the WDL expression rules).", "detect": "" }
+  ]
+}

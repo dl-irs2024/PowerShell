@@ -1,0 +1,28 @@
+{
+  "name": "p03",
+  "properties": {
+    "displayName": "PROBLEM 03 - Expression defects: unknown function, bad syntax, null-unsafe access, missing references",
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "triggers": {
+        "manual": { "type": "Request", "kind": "Button", "inputs": { "schema": { "type": "object" } }, "runtimeConfiguration": { "concurrency": { "runs": 1 } } }
+      },
+      "actions": {
+        "Get_user": { "runAfter": {}, "type": "Http", "inputs": { "method": "GET", "uri": "https://api.contoso.com/user", "retryPolicy": { "type": "none" } } },
+        "Shout": { "runAfter": { "Get_user": [ "Succeeded" ] }, "type": "Compose", "inputs": "@toUpperCase(body('Get_user')['name'])" },
+        "Bad_syntax": { "runAfter": { "Shout": [ "Succeeded" ] }, "type": "Compose", "inputs": "@formatDateTime(utcNow(), 'yyyy-MM-dd'" },
+        "Missing_ref": { "runAfter": { "Bad_syntax": [ "Succeeded" ] }, "type": "Compose", "inputs": "@outputs('Not_an_action')" },
+        "Item_outside_loop": { "runAfter": { "Missing_ref": [ "Succeeded" ] }, "type": "Compose", "inputs": "@item()" },
+        "Undefined_var": { "runAfter": { "Item_outside_loop": [ "Succeeded" ] }, "type": "Compose", "inputs": "@variables('counter')" },
+        "Check": {
+          "runAfter": { "Undefined_var": [ "Succeeded" ] },
+          "type": "If",
+          "expression": { "greater": [ "@body('Get_user')['age']", 18 ] },
+          "actions": { "Adult": { "runAfter": {}, "type": "Compose", "inputs": "adult" } },
+          "else": { "actions": {} }
+        }
+      }
+    }
+  }
+}

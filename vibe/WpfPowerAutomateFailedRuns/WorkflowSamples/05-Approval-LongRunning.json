@@ -1,0 +1,48 @@
+{
+  "name": "11111111-0005-4000-8000-000000000005",
+  "properties": {
+    "apiId": "/providers/Microsoft.PowerApps/apis/shared_logicflows",
+    "displayName": "Sample 05 - Approval with 30-day wait, no error handling",
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": { "$connections": { "defaultValue": {}, "type": "Object" } },
+      "triggers": {
+        "When_a_file_is_created": {
+          "recurrence": { "frequency": "Minute", "interval": 5 },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": { "connectionName": "shared_onedriveforbusiness", "operationId": "OnNewFileV2", "apiId": "/providers/Microsoft.PowerApps/apis/shared_onedriveforbusiness" },
+            "parameters": { "folderId": "b!abc" }
+          }
+        }
+      },
+      "actions": {
+        "Start_and_wait_for_an_approval": {
+          "runAfter": {},
+          "type": "OpenApiConnectionWebhook",
+          "inputs": {
+            "host": { "connectionName": "shared_approvals", "operationId": "StartAndWaitForAnApproval", "apiId": "/providers/Microsoft.PowerApps/apis/shared_approvals" },
+            "parameters": { "approvalType": "Basic", "ApprovalCreationInput/title": "Review @{triggerOutputs()?['body/Name']}", "ApprovalCreationInput/assignedTo": "boss@contoso.com" }
+          }
+        },
+        "Condition": {
+          "actions": {
+            "Copy_file": {
+              "runAfter": {},
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": { "connectionName": "shared_onedriveforbusiness", "operationId": "CopyFile", "apiId": "/providers/Microsoft.PowerApps/apis/shared_onedriveforbusiness" },
+                "parameters": { "id": "@triggerOutputs()?['body/Id']", "destination": "/Approved" }
+              }
+            }
+          },
+          "runAfter": { "Start_and_wait_for_an_approval": [ "Succeeded" ] },
+          "expression": { "equals": [ "@outputs('Start_and_wait_for_an_approval')?['body/outcome']", "Approve" ] },
+          "type": "If"
+        }
+      }
+    },
+    "state": "Started"
+  }
+}

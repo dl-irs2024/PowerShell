@@ -1,0 +1,57 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "resources": [
+    {
+      "type": "Microsoft.Logic/workflows",
+      "apiVersion": "2019-05-01",
+      "name": "model-logicapp-05",
+      "location": "eastus",
+      "properties": {
+        "state": "Enabled",
+        "definition": {
+          "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+          "contentVersion": "1.0.0.0",
+          "parameters": { "ApiBase": { "type": "String", "defaultValue": "" } },
+          "triggers": {
+            "Recurrence": { "type": "Recurrence", "recurrence": { "frequency": "Hour", "interval": 1 }, "runtimeConfiguration": { "concurrency": { "runs": 1 } } }
+          },
+          "actions": {
+            "Try": {
+              "runAfter": {},
+              "type": "Scope",
+              "actions": {
+                "Poll_until_ready": {
+                  "runAfter": {},
+                  "type": "Until",
+                  "expression": "@equals(body('Check_status')?['state'], 'Done')",
+                  "limit": { "count": 6, "timeout": "PT30M" },
+                  "actions": {
+                    "Check_status": { "runAfter": {}, "type": "Http", "inputs": { "method": "GET", "uri": "@concat(parameters('ApiBase'), '/job/1')", "retryPolicy": { "type": "none" } } },
+                    "Back_off": { "runAfter": { "Check_status": [ "Succeeded" ] }, "type": "Wait", "inputs": { "interval": { "count": 5, "unit": "Minute" } } }
+                  }
+                },
+                "For_each_row": {
+                  "runAfter": { "Poll_until_ready": [ "Succeeded" ] },
+                  "type": "Foreach",
+                  "foreach": "@coalesce(body('Check_status')?['rows'], json('[]'))",
+                  "runtimeConfiguration": { "concurrency": { "repetitions": 5 } },
+                  "actions": {
+                    "Post_row": { "runAfter": {}, "type": "Http", "inputs": { "method": "POST", "uri": "@concat(parameters('ApiBase'), '/rows')", "headers": { "Idempotency-Key": "@{items('For_each_row')?['id']}" }, "body": "@items('For_each_row')", "retryPolicy": { "type": "fixed", "count": 2, "interval": "PT10S" } } }
+                  }
+                }
+              }
+            },
+            "Catch": {
+              "runAfter": { "Try": [ "Failed", "TimedOut" ] },
+              "type": "Scope",
+              "actions": {
+                "Fail_run": { "runAfter": {}, "type": "Terminate", "inputs": { "runStatus": "Failed", "runError": { "code": "SyncFailed", "message": "See Try scope result" } } }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

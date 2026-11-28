@@ -1,0 +1,54 @@
+{
+  "name": "m01",
+  "properties": {
+    "displayName": "MODEL 01 - Filter server-side, select once, one batch notification",
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "triggers": {
+        "Recurrence": { "type": "Recurrence", "recurrence": { "frequency": "Day", "interval": 1 }, "runtimeConfiguration": { "concurrency": { "runs": 1 } } }
+      },
+      "actions": {
+        "Try": {
+          "runAfter": {},
+          "type": "Scope",
+          "actions": {
+            "Get_items": {
+              "runAfter": {},
+              "type": "OpenApiConnection",
+              "inputs": { "host": { "connectionName": "shared_sharepointonline", "operationId": "GetItems", "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline" }, "parameters": { "dataset": "@parameters('SiteUrl')", "table": "@parameters('ListName')", "$filter": "NeedsReview eq 1", "$top": 100 } }
+            },
+            "Select_emails": {
+              "runAfter": { "Get_items": [ "Succeeded" ] },
+              "type": "Select",
+              "inputs": { "from": "@coalesce(outputs('Get_items')?['body/value'], json('[]'))", "select": "@item()?['Email']" }
+            },
+            "Send_digest": {
+              "runAfter": { "Select_emails": [ "Succeeded" ] },
+              "type": "OpenApiConnection",
+              "inputs": { "host": { "connectionName": "shared_office365", "operationId": "SendEmailV2", "apiId": "/providers/Microsoft.PowerApps/apis/shared_office365" }, "retryPolicy": { "type": "none" }, "parameters": { "emailMessage/To": "@parameters('OwnerEmail')", "emailMessage/Subject": "Skill review digest", "emailMessage/Body": "@{join(body('Select_emails'), ', ')}" } }
+            }
+          }
+        },
+        "Catch": {
+          "runAfter": { "Try": [ "Failed", "TimedOut" ] },
+          "type": "Scope",
+          "actions": {
+            "Notify_owner": {
+              "runAfter": {},
+              "type": "OpenApiConnection",
+              "inputs": { "host": { "connectionName": "shared_office365", "operationId": "SendEmailV2", "apiId": "/providers/Microsoft.PowerApps/apis/shared_office365" }, "retryPolicy": { "type": "none" }, "parameters": { "emailMessage/To": "@parameters('OwnerEmail')", "emailMessage/Subject": "Review flow failed", "emailMessage/Body": "@{result('Try')}" } }
+            },
+            "Fail_run": { "runAfter": { "Notify_owner": [ "Succeeded" ] }, "type": "Terminate", "inputs": { "runStatus": "Failed", "runError": { "code": "ReviewFailed", "message": "See Try scope result" } } }
+          }
+        }
+      },
+      "parameters": {
+        "SiteUrl": { "type": "String", "defaultValue": "" },
+        "ListName": { "type": "String", "defaultValue": "" },
+        "OwnerEmail": { "type": "String", "defaultValue": "" }
+      }
+    }
+  }
+}
+

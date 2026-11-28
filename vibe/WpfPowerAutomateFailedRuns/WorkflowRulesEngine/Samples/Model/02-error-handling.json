@@ -1,0 +1,51 @@
+{
+  "name": "m02",
+  "properties": {
+    "displayName": "MODEL 02 - Try/Catch, bounded retries, idempotency key, terminal failure state",
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": { "ApiBase": { "type": "String", "defaultValue": "" }, "OwnerEmail": { "type": "String", "defaultValue": "" } },
+      "triggers": {
+        "When_a_HTTP_request_is_received": { "type": "Request", "kind": "Http", "inputs": { "schema": { "type": "object" } }, "runtimeConfiguration": { "concurrency": { "runs": 5 } } }
+      },
+      "actions": {
+        "Try": {
+          "runAfter": {},
+          "type": "Scope",
+          "actions": {
+            "Create_order": {
+              "runAfter": {},
+              "type": "Http",
+              "inputs": { "method": "POST", "uri": "@concat(parameters('ApiBase'), '/orders')", "headers": { "Idempotency-Key": "@{workflow()['run']['name']}" }, "body": "@triggerBody()", "retryPolicy": { "type": "fixed", "count": 2, "interval": "PT20S" } }
+            },
+            "Create_invoice": {
+              "runAfter": { "Create_order": [ "Succeeded" ] },
+              "type": "Http",
+              "inputs": { "method": "POST", "uri": "@concat(parameters('ApiBase'), '/invoices')", "headers": { "Idempotency-Key": "@{workflow()['run']['name']}" }, "body": "@body('Create_order')", "retryPolicy": { "type": "fixed", "count": 2, "interval": "PT20S" } }
+            }
+          }
+        },
+        "Catch": {
+          "runAfter": { "Try": [ "Failed", "TimedOut" ] },
+          "type": "Scope",
+          "actions": {
+            "Notify_owner": {
+              "runAfter": {},
+              "type": "OpenApiConnection",
+              "inputs": { "host": { "connectionName": "shared_office365", "operationId": "SendEmailV2", "apiId": "/providers/Microsoft.PowerApps/apis/shared_office365" }, "retryPolicy": { "type": "none" }, "parameters": { "emailMessage/To": "@parameters('OwnerEmail')", "emailMessage/Subject": "Order flow failed", "emailMessage/Body": "@{result('Try')}" } }
+            },
+            "Respond_error": { "runAfter": { "Notify_owner": [ "Succeeded", "Failed" ] }, "type": "Response", "kind": "Http", "inputs": { "statusCode": 500, "body": { "error": "Order failed" } } },
+            "Fail_run": { "runAfter": { "Respond_error": [ "Succeeded", "Failed" ] }, "type": "Terminate", "inputs": { "runStatus": "Failed", "runError": { "code": "OrderFailed", "message": "See Try scope result" } } }
+          }
+        },
+        "Respond": {
+          "runAfter": { "Try": [ "Succeeded" ] },
+          "type": "Response",
+          "kind": "Http",
+          "inputs": { "statusCode": 200, "body": "@body('Create_invoice')" }
+        }
+      }
+    }
+  }
+}

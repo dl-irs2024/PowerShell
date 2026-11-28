@@ -1,0 +1,31 @@
+{
+  "categories": [
+    { "id": "Looping", "group": "Flow shape", "description": "Apply to each, Do until and nested iteration." },
+    { "id": "Wait States", "group": "Flow shape", "description": "Delay, Delay until, polling and long-running waits." },
+    { "id": "Performance", "group": "Efficiency", "description": "Throughput, latency and unnecessary work." },
+    { "id": "Concurrency", "group": "Enterprise scale", "description": "Parallel runs, parallel branches and loop concurrency." },
+    { "id": "Re-entrant", "group": "Enterprise scale", "description": "Duplicate or recursive triggering and idempotency." },
+    { "id": "Data Source Concurrency", "group": "Enterprise scale", "description": "Overlapping updates to the same record." },
+    { "id": "Shared Data", "group": "Enterprise scale", "description": "State shared between runs, branches or iterations." },
+    { "id": "Connector", "group": "Integration", "description": "Connector-specific behavior and limits." },
+    { "id": "Data Source", "group": "Integration", "description": "Queries and writes against SharePoint, Dataverse, Excel, SQL." },
+    { "id": "SharePoint", "group": "Integration", "description": "SharePoint specific guidance." },
+    { "id": "Data", "group": "Integration", "description": "Business data integrity (duplicates, consistency)." },
+    { "id": "Complexity", "group": "Quality", "description": "Hard-to-understand structure." },
+    { "id": "Maintainability", "group": "Quality", "description": "Readability and change-safety." },
+    { "id": "Reliability", "group": "Quality", "description": "Behavior when things go wrong." },
+    { "id": "Error Handling", "group": "Quality", "description": "Scopes, run-after, terminal state." },
+    { "id": "Observability", "group": "Quality", "description": "Logging, alerts and monitoring signals." },
+    { "id": "Retry", "group": "Quality", "description": "Retry policies and their side effects." },
+    { "id": "Throttling", "group": "Quality", "description": "Rate-limit exposure (HTTP 429)." },
+    { "id": "Trigger", "group": "Flow shape", "description": "Trigger configuration and conditions." },
+    { "id": "Capacity", "group": "Efficiency", "description": "Run, API and licensing capacity consumption." },
+    { "id": "Condition", "group": "Flow shape", "description": "If / Switch / filter conditions." },
+    { "id": "Expression", "group": "Language", "description": "WDL expressions and dynamic content." },
+    { "id": "Runtime", "group": "Evidence", "description": "Needs run-history evidence." },
+    { "id": "Governance", "group": "Governance", "description": "Ownership, approved connectors, policy." },
+    { "id": "Continuity", "group": "Governance", "description": "Owner / connection dependencies that break flows." },
+    { "id": "Security", "group": "Governance", "description": "Secrets, authentication, DLP exposure." },
+    { "id": "ALM", "group": "Governance", "description": "Solutions, environments and promotion." }
+  ]
+}

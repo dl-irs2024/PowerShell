@@ -1,0 +1,61 @@
+{
+  "name": "11111111-0004-4000-8000-000000000004",
+  "properties": {
+    "apiId": "/providers/Microsoft.PowerApps/apis/shared_logicflows",
+    "displayName": "Sample 04 - HTTP request trigger, many waits and polling (timeout risk)",
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": { "$connections": { "defaultValue": {}, "type": "Object" } },
+      "triggers": {
+        "manual": {
+          "type": "Request",
+          "kind": "Http",
+          "inputs": { "schema": { "type": "object", "properties": { "jobId": { "type": "string" } } } }
+        }
+      },
+      "actions": {
+        "Delay": {
+          "runAfter": {},
+          "type": "Wait",
+          "inputs": { "interval": { "count": 10, "unit": "Minute" } }
+        },
+        "Start_job": {
+          "runAfter": { "Delay": [ "Succeeded" ] },
+          "type": "Http",
+          "inputs": { "method": "POST", "uri": "https://api.contoso.com/jobs/@{triggerBody()?['jobId']}/start" }
+        },
+        "Do_until_job_done": {
+          "actions": {
+            "Check_job": {
+              "runAfter": {},
+              "type": "Http",
+              "inputs": { "method": "GET", "uri": "https://api.contoso.com/jobs/@{triggerBody()?['jobId']}" }
+            },
+            "Delay_between_checks": {
+              "runAfter": { "Check_job": [ "Succeeded" ] },
+              "type": "Wait",
+              "inputs": { "interval": { "count": 5, "unit": "Minute" } }
+            }
+          },
+          "runAfter": { "Start_job": [ "Succeeded" ] },
+          "expression": "@equals(body('Check_job')?['status'], 'Done')",
+          "limit": { "count": 60, "timeout": "PT24H" },
+          "type": "Until"
+        },
+        "Delay_until": {
+          "runAfter": { "Do_until_job_done": [ "Succeeded" ] },
+          "type": "Wait",
+          "inputs": { "until": { "timestamp": "@addDays(utcNow(), 2)" } }
+        },
+        "Response": {
+          "runAfter": { "Delay_until": [ "Succeeded" ] },
+          "type": "Response",
+          "kind": "Http",
+          "inputs": { "statusCode": 200, "body": { "done": true } }
+        }
+      }
+    },
+    "state": "Started"
+  }
+}
